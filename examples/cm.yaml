@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: game-config-env-file
+  namespace: default
+  ownerReferences:
+  - apiVersion: batch/v1
+    uid: c8931275-9f3c-4d1a-af83-31d91b69b9a2
+    kind: Job
+    name: pi
+data:
+  allowed: '"true"'
+  enemies: aliens
+  lives: "3"
