@@ -55,15 +55,19 @@ def schedule_get():
         handler = JobHandler(job_token)
         result = handler.get_result()
     except ApiException as e:
-        print(e)
+        if e.status == 404:
+            return job_not_found()
         return error_getting_job_result()
 
     return result
 
-
 @app.errorhandler(500)
 def error_registering_job(error):
     return 'Error registering algorithm job', 500
+
+@app.errorhandler(404)
+def job_not_found(error):
+    return 'Job Not Found', 404
 
 
 @app.errorhandler(500)

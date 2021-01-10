@@ -56,7 +56,7 @@ class JobHandler:
         job = self.batch_client.read_namespaced_job(
             name=self.resources_identifier, namespace=NAMESPACE)
 
-        if job.status.completionTime is None:
+        if job.status.completion_time is None:
             return {"status": STATUS_RUNNING}
 
         if job.status.succeeded is None or job.status.succeeded == 0:
@@ -111,11 +111,11 @@ class JobHandler:
         template = client.V1PodTemplate()
         template.template = client.V1PodTemplateSpec()
 
-        volume_mounts = client.V1VolumeMount(
-            name=VOLUME_NAME_ALGORITHM_INPUT, mount_path="/etc/config")
+        volume_mounts = [client.V1VolumeMount(
+            name=VOLUME_NAME_ALGORITHM_INPUT, mount_path="/etc/config")]
         container = client.V1Container(
             name="algorithm", image=algorithm, volume_mounts=volume_mounts,
-            command=["sleep", "500"])
+            command=["sleep", "5"])
 
         cm_mount = client.V1ConfigMapVolumeSource(
             name=self.resources_identifier)
@@ -154,8 +154,3 @@ class JobHandler:
             name=cm_name, namespace=NAMESPACE)
 
         return cm.data["result"]
-
-
-job_handler = JobHandler()
-
-job_handler.register({}, {}, "ubuntu")
