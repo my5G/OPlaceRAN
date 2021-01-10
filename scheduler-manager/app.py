@@ -69,6 +69,7 @@ def schedule_get():
         handler = JobHandler(job_token)
         result = handler.get_result()
     except ApiException as e:
+        print(e)
         return f"Error getting job result: {e.reason}", e.status
 
     return result
