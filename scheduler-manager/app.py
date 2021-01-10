@@ -1,6 +1,6 @@
 import flask
-from flask import request
-from flask_json_schema import JsonSchema
+from flask import request, jsonify
+from flask_json_schema import JsonSchema, JsonValidationError
 from k8s_handler import JobHandler
 
 from kubernetes.client.rest import ApiException
@@ -8,7 +8,7 @@ from kubernetes.client.rest import ApiException
 import json
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+# app.config["DEBUG"] = True
 schema = JsonSchema(app)
 
 schedule_schema = {
@@ -20,8 +20,18 @@ schedule_schema = {
         'nodes': {
             'type': 'object',
         },
+        'algorithm': {
+            'type': 'string'
+        },
+        'rus': {
+            'type': 'object'
+        }
     },
-    'required': ['topology', 'nodes']
+    'required': ['topology', 'nodes', 'algorithm', 'rus']
+}
+
+algorithm_allow_list = {
+    "ubuntu": None
 }
 
 
@@ -35,12 +45,16 @@ def schedule_post():
     if data is None or data == []:
         return bad_request()
 
+    if data["algorithm"] not in algorithm_allow_list:
+        return f"Algorithm " + data["algorithm"] + " is not allowed", 400
+
     try:
         handler = JobHandler()
-        job_token = register_job(nodes, topology)
+        job_token = handler.register(
+            data["nodes"], data["topology"], data["algorithm"], data["rus"])
     except ApiException as e:
         print(e)
-        return error_registering_job()
+        return f"Error registering job: {e.reason}", e.status
 
     return {"job_token": job_token}
 
@@ -55,28 +69,24 @@ def schedule_get():
         handler = JobHandler(job_token)
         result = handler.get_result()
     except ApiException as e:
-        if e.status == 404:
-            return job_not_found()
-        return error_getting_job_result()
+        return f"Error getting job result: {e.reason}", e.status
 
     return result
 
+
 @app.errorhandler(500)
 def error_registering_job(error):
-    return 'Error registering algorithm job', 500
-
-@app.errorhandler(404)
-def job_not_found(error):
-    return 'Job Not Found', 404
-
-
-@app.errorhandler(500)
-def error_getting_job_result(error):
-    return 'Error getting job result', 500
+    return error, 500
 
 
 @app.errorhandler(400)
 def bad_request(error):
-    return 'Bad Request', 400
+    return f"Bad Request: {error}", 400
+
+
+@app.errorhandler(JsonValidationError)
+def error_validating_schema(error):
+    return jsonify({'error': error.message, 'errors': [validation_error.message for validation_error in error.errors]})
+
 
 app.run()

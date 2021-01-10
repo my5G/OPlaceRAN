@@ -4,9 +4,12 @@ from kubernetes import client, config
 from kubernetes.client.rest import ApiException
 
 VOLUME_NAME_ALGORITHM_INPUT = "algorithm-input"
+
+NAMESPACE = "default"
+
 CONFIG_MAP_KEY_NODES = "nodes.json"
 CONFIG_MAP_KEY_TOPOLOGY = "topology.json"
-NAMESPACE = "default"
+CONFIG_MAP_KEY_RUS = "rus.json"
 
 ROLLBACK_CONFIG_MAP_KEY = "config_map"
 ROLLBACK_JOB_KEY = "job"
@@ -34,11 +37,11 @@ class JobHandler:
         # Resources to rollback in case of issues during processing
         self.rollback_resources = []
 
-    def register(self, nodes, topology, algorithm):
+    def register(self, nodes, topology, algorithm, rus):
 
         try:
             # Register Job Config Map
-            self._register_job_configmap(nodes, topology)
+            self._register_job_configmap(nodes, topology, rus)
 
             # Register Job
             self._register_job(algorithm)
@@ -70,7 +73,7 @@ class JobHandler:
 
         self.rollback_resources.append(ROLLBACK_JOB_KEY)
 
-    def _register_job_configmap(self, nodes, topology):
+    def _register_job_configmap(self, nodes, topology, rus):
         cm = client.V1ConfigMap()
 
         cm.metadata = client.V1ObjectMeta(
@@ -79,6 +82,7 @@ class JobHandler:
         cm.data = dict()
         cm.data[CONFIG_MAP_KEY_NODES] = str(nodes)
         cm.data[CONFIG_MAP_KEY_TOPOLOGY] = str(topology)
+        cm.data[CONFIG_MAP_KEY_RUS] = str(rus)
 
         self.v1_client.create_namespaced_config_map(
             namespace=NAMESPACE, body=cm)
