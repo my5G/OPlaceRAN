@@ -4,7 +4,7 @@ from kubernetes import client, config
 
 ENV_VAR_JOB_NAME = "JOB_NAME"
 
-CONFIG_MAP_KEY_RESULT = "result.yaml"
+CONFIG_MAP_KEY_RESULT = "result"
 
 required_files = ["/etc/config/nodes.json",
                   "/etc/config/topology.json", "/etc/config/rus.json"]
