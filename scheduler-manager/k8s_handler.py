@@ -18,6 +18,8 @@ STATUS_COMPLETED = "completed"
 STATUS_FAILED = "failed"
 STATUS_RUNNING = "running"
 
+ENV_VAR_JOB_NAME = "JOB_NAME"
+
 
 class JobHandler:
 
@@ -115,11 +117,16 @@ class JobHandler:
         template = client.V1PodTemplate()
         template.template = client.V1PodTemplateSpec()
 
+        env_list = []
+        env_list.append(client.V1EnvVar(name=ENV_VAR_JOB_NAME,
+                                        value=self.resources_identifier))
+
+        image_name = algorithm + ":latest"
         volume_mounts = [client.V1VolumeMount(
             name=VOLUME_NAME_ALGORITHM_INPUT, mount_path="/etc/config")]
         container = client.V1Container(
-            name="algorithm", image=algorithm, volume_mounts=volume_mounts,
-            command=["sleep", "5"])
+            name="algorithm", image=image_name, volume_mounts=volume_mounts, env=env_list, image_pull_policy="Never")
+        # command=["sleep", "5"])
 
         cm_mount = client.V1ConfigMapVolumeSource(
             name=self.resources_identifier)

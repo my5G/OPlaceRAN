@@ -30,8 +30,10 @@ schedule_schema = {
     'required': ['topology', 'nodes', 'algorithm', 'rus']
 }
 
+# List of allowed algorithm names
 algorithm_allow_list = {
-    "ubuntu": None
+    "ubuntu": None,
+    "example": None
 }
 
 
