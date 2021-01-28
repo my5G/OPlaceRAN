@@ -1,0 +1,20 @@
+# permissions for end users to view randeployers.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: randeployer-viewer-role
+rules:
+- apiGroups:
+  - ran.unisinos
+  resources:
+  - randeployers
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ran.unisinos
+  resources:
+  - randeployers/status
+  verbs:
+  - get

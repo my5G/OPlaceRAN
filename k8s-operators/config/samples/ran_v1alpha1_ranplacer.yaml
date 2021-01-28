@@ -1,0 +1,7 @@
+apiVersion: ran.unisinos/v1alpha1
+kind: RANPlacer
+metadata:
+  name: ranplacer-sample
+spec:
+  # Add fields here
+  foo: bar

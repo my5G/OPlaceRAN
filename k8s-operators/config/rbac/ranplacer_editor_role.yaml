@@ -1,0 +1,24 @@
+# permissions for end users to edit ranplacers.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ranplacer-editor-role
+rules:
+- apiGroups:
+  - ran.unisinos
+  resources:
+  - ranplacers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ran.unisinos
+  resources:
+  - ranplacers/status
+  verbs:
+  - get

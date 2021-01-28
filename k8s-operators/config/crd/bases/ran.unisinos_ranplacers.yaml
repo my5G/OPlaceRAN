@@ -1,0 +1,113 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.5
+  creationTimestamp: null
+  name: ranplacers.ran.unisinos
+spec:
+  group: ran.unisinos
+  names:
+    kind: RANPlacer
+    listKind: RANPlacerList
+    plural: ranplacers
+    singular: ranplacer
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      description: RANPlacer is the Schema for the ranplacers API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: RANPlacerSpec defines the desired state of RANPlacer
+          properties:
+            algorithm:
+              description: Algorithm holds the algorithm key used to define the placement
+              type: string
+            nodesConfigMap:
+              description: NodesConfigMap points to the config map that holds the
+                nodes metadata information
+              type: string
+            rus:
+              description: RUs holds the number of RUs and the nodes where they should
+                be positioned, for each RU a chain will be created, and placed according
+                to the algorithm disaggregation options.
+              items:
+                description: RUs describe the position where N RUs should be placed
+                properties:
+                  count:
+                    description: Count defines the number of RUs that should be placed
+                    format: int32
+                    type: integer
+                  nodeName:
+                    description: NodeName defines the nodes where the RUs should be
+                      placed
+                    type: string
+                type: object
+              type: array
+            topologyConfigMap:
+              description: TopologyConfigMap points to the config map that holds the
+                topology information
+              type: string
+          required:
+          - algorithm
+          - nodesConfigMap
+          - rus
+          - topologyConfigMap
+          type: object
+        status:
+          description: RANPlacerStatus defines the observed state of RANPlacer
+          properties:
+            algorithm:
+              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                of cluster Important: Run "make" to regenerate code after modifying
+                this file'
+              properties:
+                durationInSeconds:
+                  description: DurationInSeconds is the seconds from EndTimestamp
+                    - StartTimestamp
+                  type: string
+                endTimestamp:
+                  description: EndTimestamp represents the time that the RANPlacer
+                    noticed that the algorithm finished
+                  format: date-time
+                  type: string
+                startTimestamp:
+                  description: 'TODO: retrieve start and end time from algorithm StartTimestamp
+                    represents the time that the algorithm execution was triggered
+                    by the RANPlacer'
+                  format: date-time
+                  type: string
+              type: object
+            lastErrorMessage:
+              type: string
+            state:
+              type: string
+            token:
+              type: string
+          type: object
+      type: object
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
