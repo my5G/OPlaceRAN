@@ -104,6 +104,8 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 		return fmt.Errorf("error updating RanPlacer status: %w", err)
 	}
 
+	h.log.Info("result", "result", fmt.Sprintf("%v", output.Result))
+
 	err = h.place(output)
 	if err != nil {
 		return err

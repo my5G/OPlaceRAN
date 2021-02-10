@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: algorithm-scheduler
+  labels:
+    app: algorithm-scheduler
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5000
+      targetPort: 5000
+      protocol: TCP
+      name: http
+  selector:
+    app: algorithm-scheduler
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: algorithm-scheduler
+  labels:
+    app: algorithm-scheduler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: algorithm-scheduler
+  template:
+    metadata:
+      labels:
+        app: algorithm-scheduler
+    spec:
+      containers:
+        - name: algorithm-scheduler
+          image: algorithm-scheduler:1
+          ports:
+            - containerPort: 5000

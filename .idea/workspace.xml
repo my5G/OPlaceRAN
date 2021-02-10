@@ -2,22 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="27654a13-83f1-4e35-8a8b-2fd4d216b729" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/k8s-operators/pkg/common/constants.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/api/v1alpha1/ranplacer_types.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/api/v1alpha1/ranplacer_types.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/api/v1alpha1/zz_generated.deepcopy.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/api/v1alpha1/zz_generated.deepcopy.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/config/crd/bases/ran.unisinos_ranplacers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/crd/bases/ran.unisinos_ranplacers.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/controllers/randeployer_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/controllers/randeployer_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/controllers/suite_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/controllers/suite_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/algorithm.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/algorithm.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/types.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scheduler-manager/deploy.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scheduler-manager/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/config/manager/manager.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/manager/manager.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/nodes.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/nodes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/nodes_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/nodes_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/vendor/modules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/vendor/modules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scheduler-manager/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler-manager/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scheduler-manager/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler-manager/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +48,11 @@
     <property name="go.vendoring.notification.had.been.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="watcher.settings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/scheduler-manager" />
+    </key>
   </component>
   <component name="RunManager" selected="Go Test.TestGetNodesResources/empty_cluster in github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/utils/k8s">
     <configuration name="TestGetNodesResources/empty_cluster in github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/utils/k8s" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
