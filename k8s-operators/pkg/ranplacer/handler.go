@@ -55,6 +55,9 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 		ranPlacer.Status.Algorithm.StartTimestamp = utils.GetTimePnt(metav1.NewTime(time.Now()))
 
 		// update status
+		if err := h.client.Status().Update(context.Background(), ranPlacer); err != nil {
+			return fmt.Errorf("error updating RanPlacer status: %w", err)
+		}
 
 		return nil
 	}
@@ -72,6 +75,11 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 		if output.Status == algorithm.Failed {
 			ranPlacer.Status.State = v1alpha1.ErrorState
 			ranPlacer.Status.LastErrorMessage = "algorithm execution failed"
+
+			if err := h.client.Status().Update(context.Background(), ranPlacer); err != nil {
+				return fmt.Errorf("error updating RanPlacer status: %w", err)
+			}
+
 			return errors.NewDoNotRequeueError("algorithm execution failed")
 		}
 	}
@@ -82,7 +90,18 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 		ranPlacer.Status.State = v1alpha1.AlgorithmRunningState
 		ranPlacer.Status.Algorithm.DurationInSeconds = algorithm.GetDurationInSeconds(ranPlacer)
 
+		if err := h.client.Status().Update(context.Background(), ranPlacer); err != nil {
+			return fmt.Errorf("error updating RanPlacer status: %w", err)
+		}
+
 		return nil
+	}
+
+	ranPlacer.Status.State = v1alpha1.FinishedState
+	ranPlacer.Status.Algorithm.DurationInSeconds = algorithm.GetDurationInSeconds(ranPlacer)
+
+	if err := h.client.Status().Update(context.Background(), ranPlacer); err != nil {
+		return fmt.Errorf("error updating RanPlacer status: %w", err)
 	}
 
 	err = h.place(output)

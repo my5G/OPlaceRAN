@@ -58,7 +58,7 @@ def schedule_post():
         print(e)
         return f"Error registering job: {e.reason}", e.status
 
-    return {"job_token": job_token}
+    return {"token": job_token}
 
 
 @app.route('/schedule', methods=['GET'])

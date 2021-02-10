@@ -20,6 +20,8 @@ import (
 	"flag"
 	"os"
 
+	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/common"
+	"github.com/sirupsen/logrus"
 	"k8s.io/apimachinery/pkg/runtime"
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
@@ -51,6 +53,8 @@ func main() {
 		"Enable leader election for controller manager. "+
 			"Enabling this will ensure there is only one active controller manager.")
 	flag.Parse()
+
+	checkRequiredEnvVars()
 
 	ctrl.SetLogger(zap.New(zap.UseDevMode(true)))
 
@@ -88,5 +92,12 @@ func main() {
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
 		setupLog.Error(err, "problem running manager")
 		os.Exit(1)
+	}
+}
+
+func checkRequiredEnvVars() {
+	algorithmSchedulerUrl := os.Getenv(common.EnvAlgorithmSchedulerURL)
+	if algorithmSchedulerUrl == "" {
+		logrus.Fatalf("Required env var %s not defined", common.EnvAlgorithmSchedulerURL)
 	}
 }

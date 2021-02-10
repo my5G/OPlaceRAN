@@ -17,6 +17,7 @@ limitations under the License.
 package v1alpha1
 
 import (
+	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -37,20 +38,32 @@ type RANPlacerSpec struct {
 	NodesConfigMap string `json:"nodesConfigMap"`
 	// TopologyConfigMap points to the config map that holds the topology information
 	TopologyConfigMap string `json:"topologyConfigMap"`
+	// RUConfigMap holds the name of the config map which has the RU mapping
+	RUConfigMap string `json:"ruConfigMap"`
 	// Algorithm holds the algorithm key used to define the placement
 	Algorithm string `json:"algorithm"`
 	// RUs holds the number of RUs and the nodes where they should be positioned, for each RU a chain will
 	// be created, and placed according to the algorithm disaggregation options.
-	RUs []*RUs `json:"rus"`
+	//RUs []*RUs `json:"rus"`
+	// Resources defines the requested amount for the CU, DU and RU
+	Resources ResourcesRequest `json:"resources"`
 }
 
-// RUs describe the position where N RUs should be placed
-type RUs struct {
-	// NodeName defines the nodes where the RUs should be placed
-	NodeName string `json:"nodeName,omitempty"`
-	// Count defines the number of RUs that should be placed
-	Count int32 `json:"count,omitempty"`
+// ResourcesRequest defines the requested resource for a CU, DU and RU
+type ResourcesRequest struct {
+	CU v1.ResourceList `json:"cu"`
+	DU v1.ResourceList `json:"du"`
+	RU v1.ResourceList `json:"ru"`
 }
+
+// RUs for now will be provided through config map
+// RUs describe the position where N RUs should be placed
+//type RUs struct {
+//	// NodeName defines the nodes where the RUs should be placed
+//	NodeName string `json:"nodeName,omitempty"`
+//	// Count defines the number of RUs that should be placed
+//	Count int32 `json:"count,omitempty"`
+//}
 
 type RANPlacerState string
 

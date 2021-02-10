@@ -37,8 +37,7 @@ type RANDeployerReconciler struct {
 // +kubebuilder:rbac:groups=ran.unisinos,resources=randeployers,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=ran.unisinos,resources=randeployers/status,verbs=get;update;patch
 
-func (r *RANDeployerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	_ = context.Background()
+func (r *RANDeployerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	_ = r.Log.WithValues("randeployer", req.NamespacedName)
 
 	// your logic here

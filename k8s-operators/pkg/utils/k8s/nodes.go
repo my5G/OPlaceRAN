@@ -11,18 +11,17 @@ import (
 )
 
 type Node struct {
-	Name            string
 	MemoryAvailable float64
 	CPUAvailable    float64
 }
 
-func GetNodesResources(k8sClient client.Client) ([]*Node, error) {
+func GetNodesResources(k8sClient client.Client) (map[string]*Node, error) {
 	nodeList := &corev1.NodeList{}
 	if err := ListNodes(k8sClient, nodeList); err != nil {
 		return nil, fmt.Errorf("error listing nodes: %w", err)
 	}
 
-	var nodesResources []*Node
+	nodesResources := make(map[string]*Node)
 	for _, node := range nodeList.Items {
 		fieldSelector, err := fields.ParseSelector("spec.nodeName=" + node.Name + "," +
 			"status.phase!=" + string(corev1.PodSucceeded) + ",status.phase!=" + string(corev1.PodFailed))
@@ -62,8 +61,8 @@ func GetNodesResources(k8sClient client.Client) ([]*Node, error) {
 		cpuMilli := float64(availableCpu.MilliValue())
 		mem := float64(availableMem.ScaledValue(resource.Mega))
 
-		nodesResources = append(nodesResources, &Node{Name: node.Name, MemoryAvailable: mem,
-			CPUAvailable: cpuMilli})
+		nodesResources[node.Name] = &Node{MemoryAvailable: mem,
+			CPUAvailable: cpuMilli}
 	}
 
 	return nodesResources, nil

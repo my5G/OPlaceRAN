@@ -15,22 +15,36 @@ const (
 	Running   State = "running"
 
 	topologyKey string = "topology"
+	rusKey      string = "rus"
 )
 
 type Topology struct {
 }
 
+type RUsPosition struct {
+	RU int `json:"ru,omitempty"`
+}
+
 type Input struct {
-	Nodes     []*k8s.Node     `json:"nodes,omitempty"`
-	Algorithm string          `json:"algorithm,omitempty"`
-	Topology  *Topology       `json:"topology,omitempty"`
-	RUs       []*v1alpha1.RUs `json:"rus,omitempty"`
+	Nodes           map[string]*k8s.Node      `json:"nodes,omitempty"`
+	Algorithm       string                    `json:"algorithm,omitempty"`
+	Topology        *Topology                 `json:"topology,omitempty"`
+	ResourceRequest v1alpha1.ResourcesRequest `json:"resources"`
+	RUs             map[string]RUsPosition    `json:"rus,omitempty"`
 }
 
 type Output struct {
-	Status State `json:"status"`
-	// TODO: create proper structure
-	Result string `json:"result"`
+	Status State           `json:"status"`
+	Result []ChainPosition `json:"result,omitempty"`
+}
+
+type ChainPosition struct {
+	ID   string  `json:"id,omitempty"`
+	Drc  string  `json:"drc,omitempty"`
+	RU   string  `json:"ru,omitempty"`
+	DU   string  `json:"du,omitempty"`
+	CU   string  `json:"cu,omitempty"`
+	Path [][]int `json:"path,omitempty"`
 }
 
 type Handler struct {

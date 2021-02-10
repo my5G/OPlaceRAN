@@ -41,23 +41,51 @@ spec:
               description: NodesConfigMap points to the config map that holds the
                 nodes metadata information
               type: string
-            rus:
+            resources:
               description: RUs holds the number of RUs and the nodes where they should
                 be positioned, for each RU a chain will be created, and placed according
-                to the algorithm disaggregation options.
-              items:
-                description: RUs describe the position where N RUs should be placed
-                properties:
-                  count:
-                    description: Count defines the number of RUs that should be placed
-                    format: int32
-                    type: integer
-                  nodeName:
-                    description: NodeName defines the nodes where the RUs should be
-                      placed
-                    type: string
-                type: object
-              type: array
+                to the algorithm disaggregation options. RUs []*RUs `json:"rus"` Resources
+                defines the requested amount for the CU, DU and RU
+              properties:
+                cu:
+                  additionalProperties:
+                    anyOf:
+                    - type: integer
+                    - type: string
+                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    x-kubernetes-int-or-string: true
+                  description: ResourceList is a set of (resource name, quantity)
+                    pairs.
+                  type: object
+                du:
+                  additionalProperties:
+                    anyOf:
+                    - type: integer
+                    - type: string
+                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    x-kubernetes-int-or-string: true
+                  description: ResourceList is a set of (resource name, quantity)
+                    pairs.
+                  type: object
+                ru:
+                  additionalProperties:
+                    anyOf:
+                    - type: integer
+                    - type: string
+                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    x-kubernetes-int-or-string: true
+                  description: ResourceList is a set of (resource name, quantity)
+                    pairs.
+                  type: object
+              required:
+              - cu
+              - du
+              - ru
+              type: object
+            ruConfigMap:
+              description: RUConfigMap holds the name of the config map which has
+                the RU mapping
+              type: string
             topologyConfigMap:
               description: TopologyConfigMap points to the config map that holds the
                 topology information
@@ -65,7 +93,8 @@ spec:
           required:
           - algorithm
           - nodesConfigMap
-          - rus
+          - resources
+          - ruConfigMap
           - topologyConfigMap
           type: object
         status:

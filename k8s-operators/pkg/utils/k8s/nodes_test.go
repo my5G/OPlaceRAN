@@ -1,6 +1,7 @@
 package k8s
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/testutils"
@@ -64,8 +65,8 @@ func TestGetNodesResources(t *testing.T) {
 			require.Nil(t, err)
 
 			for i := range tc.expected {
-				assert.Equal(t, tc.expected[i].CPUAvailable, nodes[i].CPUAvailable)
-				assert.Equal(t, tc.expected[i].MemoryAvailable, nodes[i].MemoryAvailable)
+				assert.Equal(t, tc.expected[i].CPUAvailable, nodes[fmt.Sprint(i+1)].CPUAvailable)
+				assert.Equal(t, tc.expected[i].MemoryAvailable, nodes[fmt.Sprint(i+1)].MemoryAvailable)
 			}
 		})
 	}
