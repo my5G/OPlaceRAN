@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="27654a13-83f1-4e35-8a8b-2fd4d216b729" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/scheduler-manager/deploy.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scheduler-manager/deployment.yaml" afterDir="false" />
+    <list default="true" id="27654a13-83f1-4e35-8a8b-2fd4d216b729" name="Default Changelist" comment="add deployment">
+      <change afterPath="$PROJECT_DIR$/placement-algorithms/example/build.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/config/manager/manager.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/manager/manager.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/config/manager/kustomization.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/manager/kustomization.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/vendor/modules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/vendor/modules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/vendor/sigs.k8s.io/controller-runtime/pkg/client/split.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/vendor/sigs.k8s.io/controller-runtime/pkg/client/split.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/vendor/sigs.k8s.io/controller-runtime/pkg/log/log.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/vendor/sigs.k8s.io/controller-runtime/pkg/log/log.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/vendor/sigs.k8s.io/controller-runtime/pkg/webhook/admission/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/vendor/sigs.k8s.io/controller-runtime/pkg/webhook/admission/response.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scheduler-manager/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler-manager/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scheduler-manager/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler-manager/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scheduler-manager/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler-manager/deployment.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,6 +101,11 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add deployment" />
+    <option name="LAST_COMMIT_MESSAGE" value="add deployment" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

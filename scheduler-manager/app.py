@@ -33,9 +33,9 @@ schedule_schema = {
 # List of allowed algorithm names
 algorithm_allow_list = {
     "ubuntu": None,
-    "example": None
+    "example": None,
+    "ng_ran_model": None
 }
-
 
 @app.route('/schedule', methods=['POST'])
 @schema.validate(schedule_schema)
@@ -77,6 +77,10 @@ def schedule_get():
     return result
 
 
+@app.route('/healthz', methods=['GET'])
+def healthz_get():
+    return { "health": "ok" }
+
 @app.errorhandler(500)
 def error_registering_job(error):
     return error, 500
@@ -92,4 +96,5 @@ def error_validating_schema(error):
     return jsonify({'error': error.message, 'errors': [validation_error.message for validation_error in error.errors]})
 
 
-app.run()
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')

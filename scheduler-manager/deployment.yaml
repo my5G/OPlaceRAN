@@ -7,10 +7,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 5000
-      targetPort: 5000
+    - port: 80
+      targetPort: http
       protocol: TCP
-      name: http
   selector:
     app: algorithm-scheduler
 ---
@@ -32,6 +31,9 @@ spec:
     spec:
       containers:
         - name: algorithm-scheduler
+          imagePullPolicy: Never
           image: algorithm-scheduler:1
           ports:
-            - containerPort: 5000
+            - name: http
+              containerPort: 5000
+              protocol: TCP
