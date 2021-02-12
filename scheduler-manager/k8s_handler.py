@@ -29,7 +29,7 @@ class JobHandler:
             self.resources_identifier = str(uuid.uuid1())
 
         # Configs can be set in Configuration class directly or using helper utility
-        config.load_kube_config()
+        config.load_incluster_config()()
 
         configuration = client.Configuration()
         api_client = client.ApiClient(configuration)
