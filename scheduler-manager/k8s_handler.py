@@ -29,12 +29,12 @@ class JobHandler:
             self.resources_identifier = str(uuid.uuid1())
 
         # Configs can be set in Configuration class directly or using helper utility
-        config.load_incluster_config()()
+        config.load_incluster_config()
 
-        configuration = client.Configuration()
-        api_client = client.ApiClient(configuration)
-        self.batch_client = client.BatchV1Api(api_client)
-        self.v1_client = client.CoreV1Api(api_client)
+#         configuration = client.Configuration()
+#         api_client = client.ApiClient(configuration)
+        self.batch_client = client.BatchV1Api()
+        self.v1_client = client.CoreV1Api()
 
         # Resources to rollback in case of issues during processing
         self.rollback_resources = []
