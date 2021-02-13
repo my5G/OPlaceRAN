@@ -38,14 +38,14 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 
 	algorithmHandler := algorithm.NewAlgorithmHandler(h.client, h.log)
 
-	// Get algorithm input
-	input, err := algorithmHandler.GetInputs(ranPlacer)
-	if err != nil {
-		return fmt.Errorf("error getting algorithm input: %w", err)
-	}
-
 	// Call algorithm
 	if ranPlacer.Status.Token == "" {
+		// Get algorithm input
+		input, err := algorithmHandler.GetInputs(ranPlacer)
+		if err != nil {
+			return fmt.Errorf("error getting algorithm input: %w", err)
+		}
+
 		token, err := algorithmHandler.Trigger(input)
 		if err != nil {
 			return fmt.Errorf("error calling algorithm: %w", err)

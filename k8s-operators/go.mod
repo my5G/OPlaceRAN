@@ -1,6 +1,6 @@
 module github.com/CROSSHAUL/RANPlacer/k8s-operators
 
-go 1.13
+go 1.14
 
 require (
 	github.com/go-logr/logr v0.3.0

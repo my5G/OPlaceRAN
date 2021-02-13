@@ -92,7 +92,6 @@ spec:
               type: string
           required:
           - algorithm
-          - nodesConfigMap
           - resources
           - ruConfigMap
           - topologyConfigMap

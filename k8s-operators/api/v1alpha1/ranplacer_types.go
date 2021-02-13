@@ -35,7 +35,7 @@ type RANPlacerSpec struct {
 	// Foo string `json:"foo,omitempty"`
 
 	// NodesConfigMap points to the config map that holds the nodes metadata information
-	NodesConfigMap string `json:"nodesConfigMap"`
+	NodesConfigMap string `json:"nodesConfigMap,omitempty"`
 	// TopologyConfigMap points to the config map that holds the topology information
 	TopologyConfigMap string `json:"topologyConfigMap"`
 	// RUConfigMap holds the name of the config map which has the RU mapping

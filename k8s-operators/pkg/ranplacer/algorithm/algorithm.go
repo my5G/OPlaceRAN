@@ -49,6 +49,7 @@ func (h *Handler) GetInputs(ranPlacer *v1alpha1.RANPlacer) (*Input, error) {
 	input.Topology = topology
 	input.Algorithm = ranPlacer.Spec.Algorithm
 	input.RUs = ruPosition
+	input.ResourceRequest = ranPlacer.Spec.Resources
 
 	return input, nil
 }

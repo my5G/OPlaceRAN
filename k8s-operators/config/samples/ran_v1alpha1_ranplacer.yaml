@@ -4,4 +4,16 @@ metadata:
   name: ranplacer-sample
 spec:
   # Add fields here
-  foo: bar
+  algorithm: example
+  ruConfigMap: rus
+  topologyConfigMap: topology
+  resources:
+    cu:
+      cpu: 1
+      memory: 2037Ki
+    du:
+      cpu: 1
+      memory: 2037Ki
+    ru:
+      cpu: 1
+      memory: 2037Ki
