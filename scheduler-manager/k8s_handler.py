@@ -46,11 +46,11 @@ class JobHandler:
         # Resources to rollback in case of issues during processing
         self.rollback_resources = []
 
-    def register(self, nodes, topology, algorithm, rus):
+    def register(self, nodes, topology, algorithm):
 
         try:
             # Register Job Config Map
-            self._register_job_configmap(nodes, topology, rus)
+            self._register_job_configmap(nodes, topology)
 
             # Register Job
             self._register_job(algorithm)
@@ -68,11 +68,12 @@ class JobHandler:
         job = self.batch_client.read_namespaced_job(
             name=self.resources_identifier, namespace=NAMESPACE)
 
+        print(job)
+        if job.status.failed == 5:
+            return {"status": STATUS_FAILED}
+
         if job.status.completion_time is None:
             return {"status": STATUS_RUNNING}
-
-        if job.status.succeeded is None or job.status.succeeded == 0:
-            return {"status": STATUS_FAILED}
 
         output = self._get_algorithm_output()
 
@@ -91,7 +92,7 @@ class JobHandler:
 
         self.rollback_resources.append(ROLLBACK_JOB_KEY)
 
-    def _register_job_configmap(self, nodes, topology, rus):
+    def _register_job_configmap(self, nodes, topology):
         cm = client.V1ConfigMap()
 
         cm.metadata = client.V1ObjectMeta(
@@ -100,7 +101,7 @@ class JobHandler:
         cm.data = dict()
         cm.data[CONFIG_MAP_KEY_NODES] = str(nodes)
         cm.data[CONFIG_MAP_KEY_TOPOLOGY] = str(topology)
-        cm.data[CONFIG_MAP_KEY_RUS] = str(rus)
+        # cm.data[CONFIG_MAP_KEY_RUS] = str(rus)
 
         self.v1_client.create_namespaced_config_map(
             namespace=NAMESPACE, body=cm)

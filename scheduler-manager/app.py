@@ -19,7 +19,7 @@ schedule_schema = {
             'type': 'object',
         },
         'nodes': {
-            'type': 'object',
+            'type': 'array',
         },
         'algorithm': {
             'type': 'string'
@@ -28,7 +28,7 @@ schedule_schema = {
             'type': 'object'
         }
     },
-    'required': ['topology', 'nodes', 'algorithm', 'rus']
+    'required': ['topology', 'nodes', 'algorithm']
 }
 
 # List of allowed algorithm names
@@ -37,6 +37,23 @@ algorithm_allow_list = {
     "example": None,
     "ng_ran_model": None
 }
+
+@app.route('/healthz', methods=['GET'])
+def healthz_get():
+    return {"health": "ok"}
+
+
+@app.errorhandler(500)
+def error_registering_job(error):
+    return error, 500
+
+@app.errorhandler(JsonValidationError)
+def error_validating_schema(error):
+    return jsonify({'error': error.message, 'errors': [validation_error.message for validation_error in error.errors]}), 400
+
+@app.errorhandler(400)
+def bad_request(error):
+    return f"Bad Request: {error}", 400
 
 @app.route('/schedule', methods=['POST'])
 @schema.validate(schedule_schema)
@@ -56,7 +73,7 @@ def schedule_post():
     try:
         handler = JobHandler()
         job_token = handler.register(
-            data["nodes"], data["topology"], data["algorithm"], data["rus"])
+            data["nodes"], data["topology"], data["algorithm"])
     except ApiException as e:
         print(e)
         return f"Error registering job: {e.reason}", e.status
@@ -78,25 +95,6 @@ def schedule_get():
         return f"Error getting job result: {e.reason}", e.status
 
     return result
-
-
-@app.route('/healthz', methods=['GET'])
-def healthz_get():
-    return { "health": "ok" }
-
-@app.errorhandler(500)
-def error_registering_job(error):
-    return error, 500
-
-
-@app.errorhandler(400)
-def bad_request(error):
-    return f"Bad Request: {error}", 400
-
-
-@app.errorhandler(JsonValidationError)
-def error_validating_schema(error):
-    return jsonify({'error': error.message, 'errors': [validation_error.message for validation_error in error.errors]})
 
 
 if __name__ == '__main__':

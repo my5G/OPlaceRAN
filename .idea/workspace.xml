@@ -3,12 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="27654a13-83f1-4e35-8a8b-2fd4d216b729" name="Default Changelist" comment="fix: issues">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/config/samples/ran-placer-config-maps/rus.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/samples/ran-placer-config-maps/rus.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/config/samples/ran-placer-config-maps/topology.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/samples/ran-placer-config-maps/topology.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/config/samples/ran_v1alpha1_ranplacer.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/samples/ran_v1alpha1_ranplacer.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s-operators/controllers/ranplacer_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/controllers/ranplacer_controller.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/algorithm.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/algorithm.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/types.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/utils.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/placement-algorithms/example/algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/placement-algorithms/example/algorithm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/getters.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/getters.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/placement-algorithms/example/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/placement-algorithms/example/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scheduler-manager/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler-manager/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scheduler-manager/k8s_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler-manager/k8s_handler.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

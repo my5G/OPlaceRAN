@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/go-logr/logr"
 	v1 "k8s.io/api/core/v1"
@@ -19,6 +20,9 @@ import (
 )
 
 const (
+	// temporarily annotation, node name should be used instead
+	nodeNumberLabel = "oai.unisinos/node-number"
+
 	scheduleEndpoint = "/schedule"
 
 	tokenKey = "token"
@@ -45,14 +49,80 @@ func (h *Handler) GetInputs(ranPlacer *v1alpha1.RANPlacer) (*Input, error) {
 	}
 
 	ruPosition, err := h.getRUsPosition(ranPlacer)
+	if err != nil {
+		return nil, fmt.Errorf("error getting ru position: %w", err)
+	}
 
-	input.Nodes = nodesResources
+	nodesInput, err := h.GetNodesInput(nodesResources, ruPosition)
+	if err != nil {
+		return nil, fmt.Errorf("error getting nodes input: %w", err)
+	}
+
+	input.Nodes = nodesInput
 	input.Topology = topology
 	input.Algorithm = ranPlacer.Spec.Algorithm
-	input.RUs = ruPosition
+	//input.RUs = ruPosition
 	input.ResourceRequest = ranPlacer.Spec.Resources
 
+	jsonVal, err := json.Marshal(input)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling json: %w", err)
+	}
+
+	h.log.Info("algorithm input", "input", string(jsonVal))
+
 	return input, nil
+}
+
+func (h *Handler) GetNodesInput(nodes map[string]*k8s.Node, ruPosition map[string]RUsPosition) ([]*NodeInput, error) {
+	var nodesInput []*NodeInput
+
+	for name, node := range nodes {
+		// TODO: Remove node number, it doesn't make sense, the node name should be used
+		nodeNumber, err := h.getNodeNumber(name)
+		if err != nil {
+			return nil, fmt.Errorf("error getting node number for node %s: %w", name, err)
+		}
+
+		h.log.Info("ru position", "node_name", name)
+
+		v, ok := ruPosition[name]
+		if ok == false {
+			return nil, fmt.Errorf("error getting number of rus for node %s", name)
+		}
+
+		input := &NodeInput{
+			NodeNumber: nodeNumber,
+			NodeType:   "",
+			CPU:        node.CPUAvailable,
+			Memory:     node.MemoryAvailable,
+			RU:         v.RU,
+		}
+
+		nodesInput = append(nodesInput, input)
+	}
+
+	return nodesInput, nil
+}
+
+func (h *Handler) getNodeNumber(name string) (int, error) {
+	node := &v1.Node{}
+	err := k8s.GetNode(h.client, name, node)
+	if err != nil {
+		return 0, fmt.Errorf("error getting node %s: %w", name, err)
+	}
+
+	v, ok := node.Labels[nodeNumberLabel]
+	if ok == false {
+		return 0, fmt.Errorf("error getting node number from annotation %s: %w", nodeNumberLabel, err)
+	}
+
+	i, err := strconv.Atoi(v)
+	if err != nil {
+		return 0, fmt.Errorf("error converting node number to int, value is %s: %w", v, err)
+	}
+
+	return i, nil
 }
 
 func (h *Handler) Trigger(inputs *Input) (string, error) {
@@ -74,17 +144,23 @@ func (h *Handler) Trigger(inputs *Input) (string, error) {
 		return "", fmt.Errorf("error executing request to %s: %w", algorithmSchedulerUrl, err)
 	}
 
-	if res.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("unexpected status code %d retrieved triggering algorithm execution", res.StatusCode)
+	var respBody []byte
+	if res.Body != nil {
+		respBody, err = ioutil.ReadAll(res.Body)
+		if err != nil {
+			return "", fmt.Errorf("error reading response body: %w", err)
+		}
 	}
 
-	respBody, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return "", fmt.Errorf("error reading response body: %w", err)
+	if res.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("unexpected status code %d retrieved triggering algorithm execution, response message: %s",
+			res.StatusCode, respBody)
 	}
 
 	data := map[string]string{}
 	if err := json.Unmarshal(respBody, &data); err != nil {
+		msg := fmt.Sprintf("error unmarshaling value: %s", respBody)
+		h.log.Info(msg)
 		return "", fmt.Errorf("error unmarshaling algorithm trigger response: %w", err)
 	}
 
@@ -124,7 +200,7 @@ func (h *Handler) GetResult(token string) (*Output, error) {
 	return output, nil
 }
 
-func (h *Handler) getTopology(ranPlacer *v1alpha1.RANPlacer) (*Topology, error) {
+func (h *Handler) getTopology(ranPlacer *v1alpha1.RANPlacer) (Topology, error) {
 	topologyNamespacedName := types.NamespacedName{
 		Namespace: ranPlacer.Namespace,
 		Name:      ranPlacer.Spec.TopologyConfigMap,
@@ -141,8 +217,8 @@ func (h *Handler) getTopology(ranPlacer *v1alpha1.RANPlacer) (*Topology, error) 
 		return nil, fmt.Errorf("topology config map doesn't have field %s, cannot read topology", topologyKey)
 	}
 
-	topology := &Topology{}
-	if err := json.Unmarshal([]byte(topologyData), topology); err != nil {
+	topology := Topology{}
+	if err := json.Unmarshal([]byte(topologyData), &topology); err != nil {
 		return nil, fmt.Errorf("error unmarshaling topology, check if it is valid: %w", err)
 	}
 

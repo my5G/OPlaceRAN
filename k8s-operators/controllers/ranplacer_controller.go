@@ -60,15 +60,15 @@ func (r *RANPlacerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 	if err := handler.Sync(ranPlacer); err != nil {
 		switch err.(type) {
 		case *customerrors.DoNotRequeueError:
-			log.Error(err, "sync failed, RANPlacer will not be enqueued")
+			log.Info("sync failed, RANPlacer will not be enqueued", "error", err.Error())
 			return ctrl.Result{}, nil
 		default:
-			log.Error(err, "sync failed, RANPlacer will be enqueued")
+			log.Info("sync failed, RANPlacer will be enqueued", "error", err.Error())
 			return ctrl.Result{}, err
 		}
 	}
 
-	if ranPlacer.Status.State == v1alpha1.FinishedState {
+	if ranPlacer.Status.State == v1alpha1.FinishedState || ranPlacer.Status.State == v1alpha1.ErrorState {
 		return ctrl.Result{Requeue: false}, nil
 	}
 
