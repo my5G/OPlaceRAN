@@ -5,7 +5,10 @@ import (
 
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/fields"
+	clientset "k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/rest"
 	resourcehelper "k8s.io/kubectl/pkg/util/resource"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -13,6 +16,20 @@ import (
 type Node struct {
 	MemoryAvailable float64
 	CPUAvailable    float64
+}
+
+func getClient() (clientset.Interface, error) {
+	cfg, err := rest.InClusterConfig()
+	if err != nil {
+		return nil, fmt.Errorf("error getting k8s inner cluster config: %w", err)
+	}
+
+	c, err := clientset.NewForConfig(cfg)
+	if err != nil {
+		return nil, fmt.Errorf("error creating k8s client: %w", err)
+	}
+
+	return c, nil
 }
 
 func GetNodesResources(k8sClient client.Client) (map[string]*Node, error) {
@@ -28,10 +45,15 @@ func GetNodesResources(k8sClient client.Client) (map[string]*Node, error) {
 		if err != nil {
 			return nil, fmt.Errorf("error parsing fields for node %s: %w", node.Name, err)
 		}
-		opts := &client.ListOptions{FieldSelector: fieldSelector}
+		opts := metav1.ListOptions{FieldSelector: fieldSelector.String()}
 
-		podList := &corev1.PodList{}
-		if err := ListPods(k8sClient, opts, podList); err != nil {
+		c, err := getClient()
+		if err != nil {
+			return nil, fmt.Errorf("error getting K8S client: %w", err)
+		}
+
+		podList, err := ListPods(c, opts)
+		if err != nil {
 			return nil, fmt.Errorf("error listing pods: %w", err)
 		}
 

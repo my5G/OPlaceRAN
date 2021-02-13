@@ -8,13 +8,14 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/CROSSHAUL/RANPlacer/k8s-operators/api/v1alpha1"
-	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/common"
-	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/utils/k8s"
 	"github.com/go-logr/logr"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	"github.com/CROSSHAUL/RANPlacer/k8s-operators/api/v1alpha1"
+	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/common"
+	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/utils/k8s"
 )
 
 const (
@@ -69,6 +70,9 @@ func (h *Handler) Trigger(inputs *Input) (string, error) {
 
 	body := bytes.NewBuffer(rawBody)
 	res, err := http.Post(algorithmSchedulerUrl, common.JSONContentType, body)
+	if err != nil {
+		return "", fmt.Errorf("error executing request to %s: %w", algorithmSchedulerUrl, err)
+	}
 
 	if res.StatusCode != http.StatusOK {
 		return "", fmt.Errorf("unexpected status code %d retrieved triggering algorithm execution", res.StatusCode)

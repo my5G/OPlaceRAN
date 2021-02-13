@@ -1,4 +1,5 @@
 import flask
+import logging
 from flask import request, jsonify
 from flask_json_schema import JsonSchema, JsonValidationError
 from k8s_handler import JobHandler
@@ -46,6 +47,8 @@ def schedule_post():
     data = request.get_json()
     if data is None or data == []:
         return bad_request()
+
+    logging.debug(f"Received request body: {str(data)}")
 
     if data["algorithm"] not in algorithm_allow_list:
         return f"Algorithm " + data["algorithm"] + " is not allowed", 400

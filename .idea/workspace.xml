@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="27654a13-83f1-4e35-8a8b-2fd4d216b729" name="Default Changelist" comment="add watchers">
+    <list default="true" id="27654a13-83f1-4e35-8a8b-2fd4d216b729" name="Default Changelist" comment="fix: error message">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/algorithm.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/algorithm.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/getters.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/getters.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/nodes.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/nodes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scheduler-manager/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler-manager/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +105,8 @@
     <MESSAGE value="changes" />
     <MESSAGE value="fix build" />
     <MESSAGE value="add watchers" />
-    <option name="LAST_COMMIT_MESSAGE" value="add watchers" />
+    <MESSAGE value="fix: error message" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: error message" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -112,7 +116,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/nodes.go</url>
-          <line>23</line>
+          <line>40</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
