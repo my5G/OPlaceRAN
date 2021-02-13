@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="27654a13-83f1-4e35-8a8b-2fd4d216b729" name="Default Changelist" comment="fix: svc url">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/api/v1alpha1/ranplacer_types.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/api/v1alpha1/ranplacer_types.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/config/crd/bases/ran.unisinos_ranplacers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/crd/bases/ran.unisinos_ranplacers.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/algorithm.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/algorithm.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scheduler-manager/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler-manager/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

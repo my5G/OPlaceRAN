@@ -8,6 +8,19 @@ metadata:
   creationTimestamp: null
   name: ranplacers.ran.unisinos
 spec:
+  additionalPrinterColumns:
+  - JSONPath: .spec.topologyConfigMap
+    name: TOPOLOGY
+    type: string
+  - JSONPath: .spec.ruConfigMap
+    name: RUS
+    type: string
+  - JSONPath: .spec.algorithm
+    name: ALGORITHM
+    type: string
+  - JSONPath: .status.state
+    name: STATUS
+    type: string
   group: ran.unisinos
   names:
     kind: RANPlacer
@@ -15,6 +28,8 @@ spec:
     plural: ranplacers
     singular: ranplacer
   scope: Namespaced
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
       description: RANPlacer is the Schema for the ranplacers API

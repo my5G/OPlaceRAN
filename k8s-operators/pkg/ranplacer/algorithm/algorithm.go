@@ -97,7 +97,7 @@ func (h *Handler) GetResult(token string) (*Output, error) {
 		return nil, fmt.Errorf("env var %s contains empty URL", common.EnvAlgorithmSchedulerURL)
 	}
 
-	algorithmSchedulerUrl = fmt.Sprintf("%s%s?job_token=%s", algorithmSchedulerUrl, scheduleEndpoint, token)
+	algorithmSchedulerUrl = fmt.Sprintf("http://%s%s?job_token=%s", algorithmSchedulerUrl, scheduleEndpoint, token)
 
 	res, err := http.Get(algorithmSchedulerUrl)
 	if err != nil {

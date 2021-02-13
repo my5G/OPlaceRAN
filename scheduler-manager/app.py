@@ -48,7 +48,7 @@ def schedule_post():
     if data is None or data == []:
         return bad_request()
 
-    logging.debug(f"Received request body: {str(data)}")
+    logging.info(f"Received request body: {str(data)}")
 
     if data["algorithm"] not in algorithm_allow_list:
         return f"Algorithm " + data["algorithm"] + " is not allowed", 400

@@ -94,6 +94,11 @@ type Algorithm struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="TOPOLOGY",type=string,JSONPath=`.spec.topologyConfigMap`
+// +kubebuilder:printcolumn:name="RUS",type=string,JSONPath=`.spec.ruConfigMap`
+// +kubebuilder:printcolumn:name="ALGORITHM",type=string,JSONPath=`.spec.algorithm`
+// +kubebuilder:printcolumn:name="STATUS",type=string,JSONPath=`.status.state`
 
 // RANPlacer is the Schema for the ranplacers API
 type RANPlacer struct {
