@@ -113,6 +113,9 @@ func (h *Handler) GetResult(token string) (*Output, error) {
 		return nil, fmt.Errorf("error reading response body: %w", err)
 	}
 
+	respString := string(respBody)
+	h.log.Info(respString)
+
 	output := &Output{}
 	if err := json.Unmarshal(respBody, output); err != nil {
 		return nil, fmt.Errorf("error unmarshaling algorithm GET response: %w", err)

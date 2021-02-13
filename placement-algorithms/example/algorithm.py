@@ -4,4 +4,4 @@ initial_validation()
 
 # Placement algorithm execution
 
-output_result({"test": "test data"})
+output_result([{"id": "test_data"}])

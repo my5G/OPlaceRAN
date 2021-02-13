@@ -5,14 +5,15 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/CROSSHAUL/RANPlacer/k8s-operators/api/v1alpha1"
-	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/ranplacer/algorithm"
-	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/utils"
-	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/utils/errors"
 	"github.com/go-logr/logr"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	"github.com/CROSSHAUL/RANPlacer/k8s-operators/api/v1alpha1"
+	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/ranplacer/algorithm"
+	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/utils"
+	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/utils/errors"
 )
 
 func NewHandler(ctx context.Context, client client.Client, log logr.Logger,
@@ -35,6 +36,11 @@ type Handler struct {
 }
 
 func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
+
+	if ranPlacer.Status.State == v1alpha1.FinishedState {
+		h.log.Info("state is Finished, skipping reconcile")
+		return nil
+	}
 
 	algorithmHandler := algorithm.NewAlgorithmHandler(h.client, h.log)
 
@@ -62,24 +68,29 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 		return nil
 	}
 
+	h.log.Info("getting algorithm result", "token", ranPlacer.Status.Token)
 	output, err := algorithmHandler.GetResult(ranPlacer.Status.Token)
 	if err != nil {
 		return fmt.Errorf("error getting algorithm result: %w", err)
 	}
 
-	if output.Status == algorithm.Failed || output.Status == algorithm.Completed {
+	if output.Status == algorithm.Failed || output.Status == algorithm.BadOutput || output.Status == algorithm.Completed {
 		// TODO: add error message in algorithm response and add it to the error from RANPlacer
 		ranPlacer.Status.Algorithm.EndTimestamp = utils.GetTimePnt(metav1.NewTime(time.Now()))
 		ranPlacer.Status.Algorithm.DurationInSeconds = algorithm.GetDurationInSeconds(ranPlacer)
 
-		if output.Status == algorithm.Failed {
+		if output.Status == algorithm.Failed || output.Status == algorithm.BadOutput {
 			ranPlacer.Status.State = v1alpha1.ErrorState
 			ranPlacer.Status.LastErrorMessage = "algorithm execution failed"
+			if output.Status == algorithm.BadOutput {
+				ranPlacer.Status.LastErrorMessage = "algorithm output in bad format"
+			}
 
 			if err := h.client.Status().Update(context.Background(), ranPlacer); err != nil {
 				return fmt.Errorf("error updating RanPlacer status: %w", err)
 			}
 
+			h.log.Info("algorithm error", "status", output.Status)
 			return errors.NewDoNotRequeueError("algorithm execution failed")
 		}
 	}

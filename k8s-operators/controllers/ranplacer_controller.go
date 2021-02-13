@@ -68,6 +68,10 @@ func (r *RANPlacerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 		}
 	}
 
+	if ranPlacer.Status.State == v1alpha1.FinishedState {
+		return ctrl.Result{Requeue: false}, nil
+	}
+
 	return ctrl.Result{RequeueAfter: requeueAfter}, nil
 }
 

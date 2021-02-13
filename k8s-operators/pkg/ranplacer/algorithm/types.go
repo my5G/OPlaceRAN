@@ -1,10 +1,11 @@
 package algorithm
 
 import (
-	"github.com/CROSSHAUL/RANPlacer/k8s-operators/api/v1alpha1"
-	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/utils/k8s"
 	"github.com/go-logr/logr"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	"github.com/CROSSHAUL/RANPlacer/k8s-operators/api/v1alpha1"
+	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/utils/k8s"
 )
 
 type State string
@@ -13,6 +14,7 @@ const (
 	Completed State = "completed"
 	Failed    State = "failed"
 	Running   State = "running"
+	BadOutput State = "bad_output"
 
 	topologyKey string = "topology"
 	rusKey      string = "rus"
