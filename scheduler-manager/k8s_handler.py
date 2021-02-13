@@ -1,4 +1,5 @@
 import uuid
+import json
 
 from kubernetes import client, config
 from kubernetes.client.rest import ApiException
@@ -17,6 +18,7 @@ ROLLBACK_JOB_KEY = "job"
 STATUS_COMPLETED = "completed"
 STATUS_FAILED = "failed"
 STATUS_RUNNING = "running"
+STATUS_BAD_OUTPUT = "bad_output"
 
 ENV_VAR_JOB_NAME = "JOB_NAME"
 
@@ -28,13 +30,18 @@ class JobHandler:
         if self.resources_identifier is None:
             self.resources_identifier = str(uuid.uuid1())
 
-        # Configs can be set in Configuration class directly or using helper utility
-        config.load_kube_config()
+        config.load_incluster_config()
 
-        configuration = client.Configuration()
-        api_client = client.ApiClient(configuration)
-        self.batch_client = client.BatchV1Api(api_client)
-        self.v1_client = client.CoreV1Api(api_client)
+        self.batch_client = client.BatchV1Api()
+        self.v1_client = client.CoreV1Api()
+
+# Use the following if running from outside K8S
+#         config.load_kube_config()
+#
+#         configuration = client.Configuration()
+#         api_client = client.ApiClient(configuration)
+#         self.batch_client = client.BatchV1Api(api_client)
+#         self.v1_client = client.CoreV1Api(api_client)
 
         # Resources to rollback in case of issues during processing
         self.rollback_resources = []
@@ -67,7 +74,16 @@ class JobHandler:
         if job.status.succeeded is None or job.status.succeeded == 0:
             return {"status": STATUS_FAILED}
 
-        return {"status": STATUS_COMPLETED, "result": self._get_algorithm_output()}
+        output = self._get_algorithm_output()
+
+        try:
+            output_obj = json.loads(output)
+        except ValueError:
+            return {"status": STATUS_BAD_OUTPUT}
+
+        print(output_obj)
+
+        return {"status": STATUS_COMPLETED, "result": output_obj}
 
     def _register_job(self, algorithm):
         job = self._get_job_object(algorithm)

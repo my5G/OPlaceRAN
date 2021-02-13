@@ -1,0 +1,10 @@
+domain: unisinos
+repo: github.com/CROSSHAUL/RANPlacer/k8s-operators
+resources:
+- group: ran
+  kind: RANDeployer
+  version: v1alpha1
+- group: ran
+  kind: RANPlacer
+  version: v1alpha1
+version: "2"

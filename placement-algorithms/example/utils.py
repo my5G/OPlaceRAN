@@ -1,3 +1,4 @@
+import json
 import os
 
 from kubernetes import client, config
@@ -29,7 +30,7 @@ def output_result(data, namespace="default"):
         namespace=namespace, name=cm_name)
 
     cm.data = dict()
-    cm.data[CONFIG_MAP_KEY_RESULT] = str(data)
+    cm.data[CONFIG_MAP_KEY_RESULT] = json.dumps(data)
 
     v1_client.create_namespaced_config_map(
         namespace=namespace, body=cm)

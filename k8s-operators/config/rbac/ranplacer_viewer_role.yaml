@@ -1,0 +1,20 @@
+# permissions for end users to view ranplacers.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ranplacer-viewer-role
+rules:
+- apiGroups:
+  - ran.unisinos
+  resources:
+  - ranplacers
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ran.unisinos
+  resources:
+  - ranplacers/status
+  verbs:
+  - get

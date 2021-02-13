@@ -1,0 +1,19 @@
+apiVersion: ran.unisinos/v1alpha1
+kind: RANPlacer
+metadata:
+  name: ranplacer-sample
+spec:
+  # Add fields here
+  algorithm: example
+  ruConfigMap: rus
+  topologyConfigMap: topology
+  resources:
+    cu:
+      cpu: 1
+      memory: 2037Ki
+    du:
+      cpu: 1
+      memory: 2037Ki
+    ru:
+      cpu: 1
+      memory: 2037Ki

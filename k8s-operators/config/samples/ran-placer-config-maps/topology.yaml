@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: topology
+  labels:
+    ran-placer: "topology"
+data:
+  topology: |
+    {
+        "node-1--node-3": {
+            "linkCapacity": "10",
+            "linkDelay": "0,16215",
+            "source": {
+                "node": "node-1"
+            },
+            "destination": {
+                "node": "node-3"
+            }
+        }
+    }

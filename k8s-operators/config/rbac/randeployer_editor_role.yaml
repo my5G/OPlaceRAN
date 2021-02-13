@@ -1,0 +1,24 @@
+# permissions for end users to edit randeployers.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: randeployer-editor-role
+rules:
+- apiGroups:
+  - ran.unisinos
+  resources:
+  - randeployers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ran.unisinos
+  resources:
+  - randeployers/status
+  verbs:
+  - get
