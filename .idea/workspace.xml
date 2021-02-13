@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="27654a13-83f1-4e35-8a8b-2fd4d216b729" name="Default Changelist" comment="fix: error message">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/algorithm.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/algorithm.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/getters.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/getters.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/nodes.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/nodes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scheduler-manager/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler-manager/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/config/manager/manager.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/manager/manager.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scheduler-manager/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler-manager/deployment.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

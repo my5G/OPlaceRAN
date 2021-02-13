@@ -32,7 +32,7 @@ spec:
         name: manager
         env:
           - name: ALGORITHM_SCHEDULER_URL
-            value: "algorithm-scheduler"
+            value: "algorithm-scheduler.default.svc.cluster.local"
         resources:
           limits:
             cpu: 100m
