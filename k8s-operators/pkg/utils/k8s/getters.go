@@ -22,6 +22,19 @@ func ListNodes(k8sClient client.Client, nodeList *v1.NodeList) error {
 	return nil
 }
 
+func GetNode(k8sClient client.Client, name string, node *v1.Node) error {
+	nodeKey := client.ObjectKey{
+		Name: name,
+	}
+
+	err := k8sClient.Get(context.Background(), nodeKey, node)
+	if err != nil {
+		return fmt.Errorf("error getting node %s: %w", name, err)
+	}
+
+	return nil
+}
+
 func ListPods(k8sClient clientset.Interface, options metav1.ListOptions) (*v1.PodList, error) {
 	podsList, err := k8sClient.CoreV1().Pods("").List(context.Background(), options)
 	if err != nil {

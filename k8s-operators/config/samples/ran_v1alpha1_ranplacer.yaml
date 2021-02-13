@@ -2,6 +2,7 @@ apiVersion: ran.unisinos/v1alpha1
 kind: RANPlacer
 metadata:
   name: ranplacer-sample
+  namespace: default
 spec:
   # Add fields here
   algorithm: example

@@ -8,11 +8,13 @@ ENV_VAR_JOB_NAME = "JOB_NAME"
 CONFIG_MAP_KEY_RESULT = "result"
 
 required_files = ["/etc/config/nodes.json",
-                  "/etc/config/topology.json", "/etc/config/rus.json"]
+                  "/etc/config/topology.json",
+                #   "/etc/config/rus.json"
+                  ]
 
 
 def output_result(data, namespace="default"):
-    
+
     config.load_incluster_config()
 
     v1_client = client.CoreV1Api()

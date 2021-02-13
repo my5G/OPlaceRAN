@@ -5,7 +5,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/CROSSHAUL/RANPlacer/k8s-operators/api/v1alpha1"
-	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/utils/k8s"
 )
 
 type State string
@@ -20,19 +19,35 @@ const (
 	rusKey      string = "rus"
 )
 
-type Topology struct {
+type Topology map[string]*Link
+
+type Link struct {
+	Capacity    string `json:"capacity"`
+	Delay       string `json:"delay"`
+	Source      string `json:"fromNode"`
+	Destination string `json:"toNode"`
+	ID          string `json:"linkNumber"`
 }
 
 type RUsPosition struct {
-	RU int `json:"ru,omitempty"`
+	RU int `json:"ru"`
 }
 
 type Input struct {
-	Nodes           map[string]*k8s.Node      `json:"nodes,omitempty"`
+	Nodes           []*NodeInput              `json:"nodes,omitempty"`
 	Algorithm       string                    `json:"algorithm,omitempty"`
-	Topology        *Topology                 `json:"topology,omitempty"`
+	Topology        Topology                  `json:"topology,omitempty"`
 	ResourceRequest v1alpha1.ResourcesRequest `json:"resources"`
-	RUs             map[string]RUsPosition    `json:"rus,omitempty"`
+	//RUs             map[string]RUsPosition    `json:"rus,omitempty"`
+}
+
+// NodeInput is temporarily, RUs should be split from nodes information
+type NodeInput struct {
+	NodeNumber int     `json:"nodeNumber"`
+	NodeType   string  `json:"nodeType"`
+	CPU        float64 `json:"cpu"`
+	Memory     float64 `json:"RAM"`
+	RU         int     `json:"RU"`
 }
 
 type Output struct {
