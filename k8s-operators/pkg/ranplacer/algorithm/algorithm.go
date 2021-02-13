@@ -61,7 +61,7 @@ func (h *Handler) Trigger(inputs *Input) (string, error) {
 		return "", fmt.Errorf("env var %s contains empty URL", common.EnvAlgorithmSchedulerURL)
 	}
 
-	algorithmSchedulerUrl = algorithmSchedulerUrl + scheduleEndpoint
+	algorithmSchedulerUrl = fmt.Sprintf("http://%s%s", algorithmSchedulerUrl, scheduleEndpoint)
 
 	rawBody, err := json.Marshal(inputs)
 	if err != nil {

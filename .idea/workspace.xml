@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="27654a13-83f1-4e35-8a8b-2fd4d216b729" name="Default Changelist" comment="fix: error message">
+    <list default="true" id="27654a13-83f1-4e35-8a8b-2fd4d216b729" name="Default Changelist" comment="fix: svc url">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/config/manager/manager.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/manager/manager.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scheduler-manager/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler-manager/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/algorithm.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/algorithm.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +103,8 @@
     <MESSAGE value="fix build" />
     <MESSAGE value="add watchers" />
     <MESSAGE value="fix: error message" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: error message" />
+    <MESSAGE value="fix: svc url" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: svc url" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
