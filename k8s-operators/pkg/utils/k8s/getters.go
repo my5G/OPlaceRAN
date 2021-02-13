@@ -23,7 +23,7 @@ func ListNodes(k8sClient client.Client, nodeList *v1.NodeList) error {
 func ListPods(k8sClient client.Client, options *client.ListOptions, podsList *v1.PodList) error {
 	err := k8sClient.List(context.Background(), podsList, options)
 	if err != nil {
-		return fmt.Errorf("error listing nodes: %w", err)
+		return fmt.Errorf("error listing pods: %w", err)
 	}
 
 	return nil
