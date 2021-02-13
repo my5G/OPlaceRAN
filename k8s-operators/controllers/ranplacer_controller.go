@@ -20,14 +20,14 @@ import (
 	"context"
 	"time"
 
-	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/ranplacer"
-	customerrors "github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/utils/errors"
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	v1alpha1 "github.com/CROSSHAUL/RANPlacer/k8s-operators/api/v1alpha1"
+	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/ranplacer"
+	customerrors "github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/utils/errors"
 )
 
 // RANPlacerReconciler reconciles a RANPlacer object
