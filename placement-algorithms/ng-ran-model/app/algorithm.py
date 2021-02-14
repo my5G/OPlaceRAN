@@ -1,5 +1,6 @@
 import time
 import json
+import sys
 from docplex.mp.model import Model
 
 import constants
@@ -398,7 +399,10 @@ def run_phase_1():
     end_time = time.time()
     print("Stage 1 - Alocation Time: {}".format(alocation_time_end - alocation_time_start))
     print("Stage 1 - Enlapsed Time: {}".format(end_time - start_time))
-
+    
+    if mdl.solution is None:
+        sys.exit("Stage 1 - Solution not found. Failing algorithm execution")
+    
     print("FO: {}".format(mdl.solution.get_objective_value()))
 
     global f1_vars
@@ -638,6 +642,9 @@ def run_phase_2(FO_fase_1):
                 result_list["Solution"].append(result)
         json.dump(result_list, stage_2_result)
 
+    if mdl.solution is None:
+        sys.exit("Stage 1 - Solution not found. Failing algorithm execution")
+
     print("FO: {}".format(mdl.solution.get_objective_value()))
 
     global f2_vars
@@ -665,14 +672,25 @@ def run_phase_3(FO_fase_1, FO_fase_2):
 
     # create the set of O's (functional splits)
     # O's(id, O_cpu, O_ram)
-    O1 = Os(1, 2, 2)
-    O2 = Os(2, 2, 2)
-    O3 = Os(3, 2, 2)
-    O4 = Os(4, 2, 2)
-    O5 = Os(5, 2, 2)
-    O6 = Os(6, 2, 2)
-    O7 = Os(7, 2, 2)
-    O8 = Os(8, 2, 2)
+    
+    ## Original values
+    # O1 = Os(1, 2, 2)
+    # O2 = Os(2, 2, 2)
+    # O3 = Os(3, 2, 2)
+    # O4 = Os(4, 2, 2)
+    # O5 = Os(5, 2, 2)
+    # O6 = Os(6, 2, 2)
+    # O7 = Os(7, 2, 2)
+    # O8 = Os(8, 2, 2)
+
+    O1 = Os(1, 0.1, 0.1)
+    O2 = Os(2, 0.1, 0.1)
+    O3 = Os(3, 0.1, 0.1)
+    O4 = Os(4, 0.1, 0.1)
+    O5 = Os(5, 0.1, 0.1)
+    O6 = Os(6, 0.1, 0.1)
+    O7 = Os(7, 0.1, 0.1)
+    O8 = Os(8, 0.1, 0.1)
 
     # set of O's
     conj_Os = {1: O1, 2: O2, 3: O3, 4: O4, 5: O5, 6: O6}
@@ -840,6 +858,8 @@ def run_phase_3(FO_fase_1, FO_fase_2):
 
                 result_list["Solution"].append(result)
         json.dump(result_list, stage_3_result)
+        if mdl.solution is None:
+            sys.exit("Stage 1 - Solution not found. Failing algorithm execution")
         print("FO: {}".format(mdl.solution.get_objective_value()))
 
         return result_list
