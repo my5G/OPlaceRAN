@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="27654a13-83f1-4e35-8a8b-2fd4d216b729" name="Default Changelist" comment="feat: add placement">
+    <list default="true" id="27654a13-83f1-4e35-8a8b-2fd4d216b729" name="Default Changelist" comment="fix repositories">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/config/manager/manager.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/manager/manager.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scheduler-manager/deploy.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler-manager/deploy.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/config/rbac/leader_election_role.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/rbac/leader_election_role.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/algorithm.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/algorithm.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +110,8 @@
     <MESSAGE value="fix: issues" />
     <MESSAGE value="feat: issues and add randeployer" />
     <MESSAGE value="feat: add placement" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add placement" />
+    <MESSAGE value="fix repositories" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix repositories" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

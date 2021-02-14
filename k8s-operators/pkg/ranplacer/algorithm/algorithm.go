@@ -81,7 +81,8 @@ func (h *Handler) GetNodesInput(nodes map[string]*k8s.Node, ruPosition map[strin
 		// TODO: Remove node number, it doesn't make sense, the node name should be used
 		nodeNumber, err := h.getNodeNumber(name)
 		if err != nil {
-			return nil, fmt.Errorf("error getting node number for node %s: %w", name, err)
+			h.log.Info(fmt.Sprintf("error getting node number for node %s, skipping it: %s", name, err.Error()))
+			continue
 		}
 
 		h.log.Info("ru position", "node_name", name)
@@ -114,7 +115,7 @@ func (h *Handler) getNodeNumber(name string) (int, error) {
 
 	v, ok := node.Labels[NodeNumberLabel]
 	if ok == false {
-		return 0, fmt.Errorf("error getting node number from annotation %s: %w", NodeNumberLabel, err)
+		return 0, fmt.Errorf("error getting node number from label %s: %w", NodeNumberLabel, err)
 	}
 
 	i, err := strconv.Atoi(v)

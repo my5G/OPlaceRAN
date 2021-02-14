@@ -10,6 +10,8 @@ rules:
   - leases
   verbs:
   - create
+  - update
+  - get
 - apiGroups:
   - ""
   resources:
