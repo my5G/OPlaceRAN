@@ -180,6 +180,7 @@ func (h *Handler) GetResult(token string) (*Output, error) {
 		return nil, fmt.Errorf("error executing get request to retrieve algorithm result: %w", err)
 	}
 
+	// TODO: Handle error response properly (unmarshal and get error message)
 	if res.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("unexpected status code %d retrieved getting algorithm result", res.StatusCode)
 	}

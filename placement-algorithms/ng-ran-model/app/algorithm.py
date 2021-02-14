@@ -1,8 +1,17 @@
 import time
 import json
 from docplex.mp.model import Model
+
 import constants
-#from utils import initial_validation, output_result
+from utils import initial_validation, output_result
+
+
+RU_ID = "id"
+DRC = "drc"
+RU_POS = "ru"
+DU_POS = "du"
+CU_POS = "cu"
+PATH = "path"
 
 
 class Path:
@@ -239,7 +248,7 @@ f1_vars = []
 f2_vars = []
 
 
-def run_NG_RAN_model_fase_1():
+def run_phase_1():
     """
     This method uses the topology main structure to calculate the optimal solution of the fase 1
     :rtype: This method returns the optimal value of the fase 1
@@ -374,7 +383,7 @@ def run_NG_RAN_model_fase_1():
         result_list = {"Solution": []}
         for it in i:
             if mdl.x[it].solution_value > 0:
-                result = {"RU_id": 0, "RU_DRC": 0, "CU_loc": 0, "DU_loc": 0, "RU_loc": 0, "path": []}
+                result = {RU_ID: 0, DRC: 0, CU_POS: 0, DU_POS: 0, RU_POS: 0, PATH: []}
                 path_sol = []
                 sol_dsg = it[1]
                 ru_id = it[2]
@@ -387,11 +396,11 @@ def run_NG_RAN_model_fase_1():
                 if paths[it[0]].p3:
                     for item in paths[it[0]].p3:
                         path_sol.append(item)
-                result["path"] = path_sol
+                result[PATH] = path_sol
                 cu_loc = paths[it[0]].seq[0]
                 du_loc = paths[it[0]].seq[1]
                 ru_loc = paths[it[0]].seq[2]
-                result["RU_id"] = ru_id
+                result[RU_ID] = ru_id
                 if du_loc == 0:
                     du_loc = ru_loc
                     cu_loc = du_loc
@@ -400,12 +409,12 @@ def run_NG_RAN_model_fase_1():
                 elif cu_loc == 0 and it[1] < 9:
                     cu_loc = du_loc
                     du_loc = ru_loc
-                result["RU_id"] = ru_id
-                result["RU_DRC"] = sol_dsg
-                result["CU_loc"] = cu_loc
-                result["DU_loc"] = du_loc
-                result["RU_loc"] = ru_loc
-                result["path"] = path_sol
+                result[RU_ID] = ru_id
+                result[DRC] = sol_dsg
+                result[CU_POS] = cu_loc
+                result[DU_POS] = du_loc
+                result[RU_POS] = ru_loc
+                result[PATH] = path_sol
 
                 result_list["Solution"].append(result)
         json.dump(result_list, stage_1_result)
@@ -413,7 +422,7 @@ def run_NG_RAN_model_fase_1():
     return mdl.solution.get_objective_value()
 
 
-def run_NG_RAN_model_fase_2(FO_fase_1):
+def run_phase_2(FO_fase_1):
     """
     This method uses the topology main structure to calculate the optimal solution of the fase 2
     :rtype: This method returns the optimal value of the fase 2
@@ -555,7 +564,7 @@ def run_NG_RAN_model_fase_2(FO_fase_1):
         result_list = {"Solution": []}
         for it in i:
             if mdl.x[it].solution_value > 0:
-                result = {"RU_id": 0, "RU_DRC": 0, "CU_loc": 0, "DU_loc": 0, "RU_loc": 0, "path": []}
+                result = {RU_ID: 0, DRC: 0, CU_POS: 0, DU_POS: 0, RU_POS: 0, PATH: []}
                 path_sol = []
                 sol_dsg = it[1]
                 ru_id = it[2]
@@ -568,11 +577,11 @@ def run_NG_RAN_model_fase_2(FO_fase_1):
                 if paths[it[0]].p3:
                     for item in paths[it[0]].p3:
                         path_sol.append(item)
-                result["path"] = path_sol
+                result[PATH] = path_sol
                 cu_loc = paths[it[0]].seq[0]
                 du_loc = paths[it[0]].seq[1]
                 ru_loc = paths[it[0]].seq[2]
-                result["RU_id"] = ru_id
+                result[RU_ID] = ru_id
                 if du_loc == 0:
                     du_loc = ru_loc
                     cu_loc = du_loc
@@ -581,12 +590,12 @@ def run_NG_RAN_model_fase_2(FO_fase_1):
                 elif cu_loc == 0 and it[1] < 9:
                     cu_loc = du_loc
                     du_loc = ru_loc
-                result["RU_id"] = ru_id
-                result["RU_DRC"] = sol_dsg
-                result["CU_loc"] = cu_loc
-                result["DU_loc"] = du_loc
-                result["RU_loc"] = ru_loc
-                result["path"] = path_sol
+                result[RU_ID] = ru_id
+                result[DRC] = sol_dsg
+                result[CU_POS] = cu_loc
+                result[DU_POS] = du_loc
+                result[RU_POS] = ru_loc
+                result[PATH] = path_sol
 
                 result_list["Solution"].append(result)
         json.dump(result_list, stage_2_result)
@@ -601,7 +610,7 @@ def run_NG_RAN_model_fase_2(FO_fase_1):
     return mdl.solution.get_objective_value()
 
 
-def run_NG_RAN_model_fase_3(FO_fase_1, FO_fase_2):
+def run_phase_3(FO_fase_1, FO_fase_2):
     """
     This method uses the topology main structure to calculate the optimal solution of the fase 3
     :rtype: This method returns the optimal value of the fase 3
@@ -747,7 +756,7 @@ def run_NG_RAN_model_fase_3(FO_fase_1, FO_fase_2):
         result_list = {"Solution": []}
         for it in i:
             if mdl.x[it].solution_value > 0:
-                result = {"RU_id": 0, "RU_DRC": 0, "CU_loc": 0, "DU_loc": 0, "RU_loc": 0, "path": []}
+                result = {RU_ID: 0, DRC: 0, CU_POS: 0, DU_POS: 0, RU_POS: 0, PATH: []}
                 path_sol = []
                 sol_dsg = it[1]
                 ru_id = it[2]
@@ -760,11 +769,11 @@ def run_NG_RAN_model_fase_3(FO_fase_1, FO_fase_2):
                 if paths[it[0]].p3:
                     for item in paths[it[0]].p3:
                         path_sol.append(item)
-                result["path"] = path_sol
+                result[PATH] = path_sol
                 cu_loc = paths[it[0]].seq[0]
                 du_loc = paths[it[0]].seq[1]
                 ru_loc = paths[it[0]].seq[2]
-                result["RU_id"] = ru_id
+                result[RU_ID] = ru_id
                 if du_loc == 0:
                     du_loc = ru_loc
                     cu_loc = du_loc
@@ -773,18 +782,18 @@ def run_NG_RAN_model_fase_3(FO_fase_1, FO_fase_2):
                 elif cu_loc == 0 and it[1] < 9:
                     cu_loc = du_loc
                     du_loc = ru_loc
-                result["RU_id"] = ru_id
-                result["RU_DRC"] = sol_dsg
-                result["CU_loc"] = cu_loc
-                result["DU_loc"] = du_loc
-                result["RU_loc"] = ru_loc
-                result["path"] = path_sol
+                result[RU_ID] = ru_id
+                result[DRC] = sol_dsg
+                result[CU_POS] = cu_loc
+                result[DU_POS] = du_loc
+                result[RU_POS] = ru_loc
+                result[PATH] = path_sol
 
                 result_list["Solution"].append(result)
         json.dump(result_list, stage_3_result)
-        #output_result(result_list)
-
         print("FO: {}".format(mdl.solution.get_objective_value()))
+
+        return result_list
 
 
 if __name__ == '__main__':
@@ -792,10 +801,11 @@ if __name__ == '__main__':
 
     start_all = time.time()
 
-    FO_fase_1 = run_NG_RAN_model_fase_1()
-    FO_fase_2 = run_NG_RAN_model_fase_2(FO_fase_1)
-    run_NG_RAN_model_fase_3(FO_fase_1, FO_fase_2)
+    FO_fase_1 = run_phase_1()
+    FO_fase_2 = run_phase_2(FO_fase_1)
+    result = run_phase_3(FO_fase_1, FO_fase_2)
 
     end_all = time.time()
 
+    output_result(result["Solution"])
     print("TOTAL TIME: {}".format(end_all - start_all))
