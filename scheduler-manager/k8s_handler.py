@@ -162,7 +162,11 @@ class JobHandler:
                                         value=self.resources_identifier))
 
         docker_repo = os.environ.get(ENV_VAR_DOCKER_REPOSITORY, "")
-        image_name = f"{docker_repo}/{algorithm}:latest"
+        if docker_repo != "":
+            image_name = f"{docker_repo}/{algorithm}:latest"
+        else:
+            image_name = f"{algorithm}:latest"
+
         volume_mounts = [client.V1VolumeMount(
             name=VOLUME_NAME_ALGORITHM_INPUT, mount_path="/etc/config")]
         container = client.V1Container(
