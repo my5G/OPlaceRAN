@@ -22,7 +22,7 @@ const (
 type Topology []*Link
 
 type Link struct {
-	Capacity    string `json:"capacity"`
+	Capacity    int    `json:"capacity"`
 	Delay       string `json:"delay"`
 	Source      string `json:"fromNode"`
 	Destination string `json:"toNode"`
