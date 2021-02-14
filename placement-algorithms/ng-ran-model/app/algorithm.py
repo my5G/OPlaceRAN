@@ -838,7 +838,7 @@ def run_phase_3(FO_fase_1, FO_fase_2):
 
 
 if __name__ == '__main__':
-    # initial_validation()
+    initial_validation()
 
     print("starting paths generation")
     path_gen()
@@ -857,6 +857,6 @@ if __name__ == '__main__':
     res = result["Solution"]
     print(f"result: {res}")
 
-    # output_result(result["Solution"])
+    output_result(result["Solution"])
     
     print("TOTAL TIME: {}".format(end_all - start_all))
