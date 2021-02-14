@@ -39,3 +39,6 @@ spec:
             - name: http
               containerPort: 5000
               protocol: TCP
+          env:
+            - name: "DOCKER_REPOSITORY"
+              value: "10.43.0.201:5000"
