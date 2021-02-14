@@ -81,7 +81,7 @@ func (h *Handler) GetNodesInput(nodes map[string]*k8s.Node, ruPosition map[strin
 		// TODO: Remove node number, it doesn't make sense, the node name should be used
 		nodeNumber, err := h.getNodeNumber(name)
 		if err != nil {
-			h.log.Info(fmt.Sprintf("error getting node number for node %s, skipping it: %s", name, err.Error()))
+			h.log.Info("error getting node number, skipping it", "node", name, "error", err.Error())
 			continue
 		}
 
@@ -89,7 +89,7 @@ func (h *Handler) GetNodesInput(nodes map[string]*k8s.Node, ruPosition map[strin
 
 		v, ok := ruPosition[name]
 		if ok == false {
-			return nil, fmt.Errorf("error getting number of rus for node %s", name)
+			h.log.Info("no rus provided for node, will be set to 0", "name", name)
 		}
 
 		input := &NodeInput{
