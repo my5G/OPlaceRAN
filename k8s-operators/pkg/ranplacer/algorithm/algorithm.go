@@ -21,7 +21,7 @@ import (
 
 const (
 	// temporarily annotation, node name should be used instead
-	nodeNumberLabel = "oai.unisinos/node-number"
+	NodeNumberLabel = "oai.unisinos/node-number"
 
 	scheduleEndpoint = "/schedule"
 
@@ -112,9 +112,9 @@ func (h *Handler) getNodeNumber(name string) (int, error) {
 		return 0, fmt.Errorf("error getting node %s: %w", name, err)
 	}
 
-	v, ok := node.Labels[nodeNumberLabel]
+	v, ok := node.Labels[NodeNumberLabel]
 	if ok == false {
-		return 0, fmt.Errorf("error getting node number from annotation %s: %w", nodeNumberLabel, err)
+		return 0, fmt.Errorf("error getting node number from annotation %s: %w", NodeNumberLabel, err)
 	}
 
 	i, err := strconv.Atoi(v)

@@ -6,9 +6,14 @@ import (
 	"time"
 
 	"github.com/go-logr/logr"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/utils/k8s"
 
 	"github.com/CROSSHAUL/RANPlacer/k8s-operators/api/v1alpha1"
 	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/ranplacer/algorithm"
@@ -16,11 +21,12 @@ import (
 	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/utils/errors"
 )
 
-func NewHandler(ctx context.Context, client client.Client, log logr.Logger,
+func NewHandler(ctx context.Context, client client.Client, scheme *runtime.Scheme, log logr.Logger,
 	req ctrl.Request) *Handler {
 	return &Handler{
 		ctx:     ctx,
 		client:  client,
+		scheme:  scheme,
 		log:     log,
 		request: req,
 	}
@@ -32,6 +38,7 @@ type Handler struct {
 	client           client.Client
 	log              logr.Logger
 	request          ctrl.Request
+	scheme           *runtime.Scheme
 	algorithmHandler algorithm.Handler
 }
 
@@ -114,9 +121,9 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 
 	h.log.Info("algorithm result", "result", fmt.Sprintf("%v", output.Result))
 
-	err = h.place(output)
+	err = h.place(ranPlacer, output.Result)
 	if err != nil {
-		return err
+		return fmt.Errorf("error placing algorithm output: %w", err)
 	}
 
 	ranPlacer.Status.State = v1alpha1.FinishedState
@@ -127,6 +134,79 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 	return nil
 }
 
-func (h *Handler) place(positions *algorithm.Output) error {
+func (h *Handler) place(ranPlacer *v1alpha1.RANPlacer, positions []algorithm.ChainPosition) error {
+
+	for _, pos := range positions {
+		key := types.NamespacedName{
+			Namespace: ranPlacer.Namespace,
+			Name:      fmt.Sprintf("%s-%s", ranPlacer.Name, pos.ID),
+		}
+
+		ranDeployer := &v1alpha1.RANDeployer{}
+		exists, err := k8s.GetRanDeployer(h.client, key, ranDeployer)
+		if err != nil {
+			return fmt.Errorf("error checking if ran deployer exists: %w", err)
+		}
+
+		if !exists {
+			h.log.Info("Creating ran deployer...", "randeployer", ranDeployer.Name)
+			ranDeployer, err = h.getRanDeployerTemplate(pos, key, ranPlacer.Spec.CoreIP)
+			if err != nil {
+				return fmt.Errorf("error getting ran deployer template: %w", err)
+			}
+			if err := ctrl.SetControllerReference(ranPlacer, ranDeployer, h.scheme); err != nil {
+				return fmt.Errorf("error setting ran deployer owner reference: %w", err)
+			}
+
+			err := h.client.Create(context.Background(), ranDeployer)
+			if err != nil {
+				return fmt.Errorf("error creating ran deployer %s: %w", key.Name, err)
+			}
+		}
+	}
+
 	return nil
+}
+
+func (h *Handler) getRanDeployerTemplate(pos algorithm.ChainPosition, key types.NamespacedName,
+	coreIP string) (*v1alpha1.RANDeployer, error) {
+
+	nodeList := &corev1.NodeList{}
+	if err := k8s.ListNodes(h.client, nodeList); err != nil {
+		return nil, fmt.Errorf("error listing nodes: %w", err)
+	}
+
+	cuNode, duNode, ruNode := "", "", ""
+
+	for _, node := range nodeList.Items {
+		nodeNumber, ok := node.Labels[algorithm.NodeNumberLabel]
+		if !ok {
+			return nil, fmt.Errorf("error getting value from %s label", algorithm.NodeNumberLabel)
+		}
+
+		if nodeNumber == pos.CU {
+			cuNode = node.Name
+		}
+
+		if nodeNumber == pos.DU {
+			duNode = node.Name
+		}
+
+		if nodeNumber == pos.RU {
+			ruNode = node.Name
+		}
+	}
+
+	return &v1alpha1.RANDeployer{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      key.Name,
+			Namespace: key.Namespace,
+		},
+		Spec: v1alpha1.RANDeployerSpec{
+			CoreIP: coreIP,
+			CUNode: cuNode,
+			DUNode: duNode,
+			RUNode: ruNode,
+		},
+	}, nil
 }

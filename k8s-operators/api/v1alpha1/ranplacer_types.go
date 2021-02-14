@@ -34,6 +34,8 @@ type RANPlacerSpec struct {
 	// Foo is an example field of RANPlacer. Edit RANPlacer_types.go to remove/update
 	// Foo string `json:"foo,omitempty"`
 
+	// CoreIP to where the ran deployer created will point to.
+	CoreIP string `json:"coreIP"`
 	// NodesConfigMap points to the config map that holds the nodes metadata information
 	NodesConfigMap string `json:"nodesConfigMap,omitempty"`
 	// TopologyConfigMap points to the config map that holds the topology information

@@ -57,7 +57,7 @@ func (r *RANPlacerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	handler := ranplacer.NewHandler(ctx, r.Client, log, req)
+	handler := ranplacer.NewHandler(ctx, r.Client, r.Scheme, log, req)
 
 	if err := handler.Sync(ranPlacer); err != nil {
 		switch err.(type) {

@@ -80,11 +80,11 @@ func GetNodesResources(k8sClient client.Client) (map[string]*Node, error) {
 
 		availableCpu.Sub(cpuReqs)
 		availableMem.Sub(memoryReqs)
-		cpuMilli := float64(availableCpu.MilliValue())
-		mem := float64(availableMem.ScaledValue(resource.Mega))
+		cpuGiga := float64(availableCpu.ScaledValue(resource.Giga))
+		mem := float64(availableMem.ScaledValue(resource.Giga))
 
 		nodesResources[node.Name] = &Node{MemoryAvailable: mem,
-			CPUAvailable: cpuMilli}
+			CPUAvailable: cpuGiga}
 	}
 
 	return nodesResources, nil

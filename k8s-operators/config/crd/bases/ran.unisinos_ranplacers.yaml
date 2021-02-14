@@ -52,6 +52,9 @@ spec:
             algorithm:
               description: Algorithm holds the algorithm key used to define the placement
               type: string
+            coreIP:
+              description: CoreIP to where the ran deployer created will point to.
+              type: string
             nodesConfigMap:
               description: NodesConfigMap points to the config map that holds the
                 nodes metadata information
@@ -107,6 +110,7 @@ spec:
               type: string
           required:
           - algorithm
+          - coreIP
           - resources
           - ruConfigMap
           - topologyConfigMap

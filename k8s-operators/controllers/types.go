@@ -9,16 +9,18 @@ const (
 	DU SplitPiece = "du"
 	RU SplitPiece = "ru"
 
-	CUTemplateConfigMapName = "operator-cu-template"
-	DUTemplateConfigMapName = "operator-du-template"
-	RUTemplateConfigMapName = "operator-ru-template"
+	kustomizePrefix = "k8s-operators-"
+
+	CUTemplateConfigMapName = kustomizePrefix + "cu-template"
+	DUTemplateConfigMapName = kustomizePrefix + "du-template"
+	RUTemplateConfigMapName = kustomizePrefix + "ru-template"
+	operatorNamespace       = kustomizePrefix + "system"
 
 	SplitMemoryLimitValue   = "512Mi"
 	SplitMemoryRequestValue = "256Mi"
 	SplitCPULimitValue      = "500m"
 	SplitCPURequestValue    = "150m"
 
-	operatorNamespace          = "operator-system"
 	cuConfigMapContentTemplate = "upfaddress: %s\nlocaladdress: %s\nsouthaddress: %s\n"
 	duConfigMapContentTemplate = "northaddress: %s\nlocaladdress: %s\nsouthaddress: %s\n"
 	ruConfigMapContentTemplate = "northaddress: %s\nlocaladdress: %s\n"

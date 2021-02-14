@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="27654a13-83f1-4e35-8a8b-2fd4d216b729" name="Default Changelist" comment="feat: issues and add randeployer">
-      <change afterPath="$PROJECT_DIR$/k8s-operators/controllers/types.go" afterDir="false" />
+    <list default="true" id="27654a13-83f1-4e35-8a8b-2fd4d216b729" name="Default Changelist" comment="feat: add files">
+      <change afterPath="$PROJECT_DIR$/dummy-image/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dummy-image/build.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dummy-image/exec.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/api/v1alpha1/randeployer_types.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/api/v1alpha1/randeployer_types.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/config/crd/bases/ran.unisinos_randeployers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/crd/bases/ran.unisinos_randeployers.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/config/rbac/role.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/rbac/role.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/controllers/randeployer_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/controllers/randeployer_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/api/v1alpha1/ranplacer_types.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/api/v1alpha1/ranplacer_types.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/config/default/kustomization.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/default/kustomization.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/config/manager/manager.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/manager/manager.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/config/samples/ran_v1alpha1_randeployer.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/config/samples/ran_v1alpha1_randeployer.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s-operators/controllers/ranplacer_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/controllers/ranplacer_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/controllers/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/controllers/types.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/algorithm.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/algorithm/algorithm.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/ranplacer/handler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/getters.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/getters.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/utils/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/utils/utils.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/placement-algorithms/example/algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/placement-algorithms/example/algorithm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/placement-algorithms/ng-ran-model/src/Place_RAN_algorithm.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/placement-algorithms/ng-ran-model/src/path_gen.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/placement-algorithms/ng-ran-model/src/paths.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/placement-algorithms/ng-ran-model/src/stage_1_solution.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/placement-algorithms/ng-ran-model/src/stage_2_solution.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/placement-algorithms/ng-ran-model/src/stage_3_solution.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/placement-algorithms/ng-ran-model/src/topo_links.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/placement-algorithms/ng-ran-model/src/topo_nodes.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/placement-algorithms/ng-ran-model/src/utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/nodes.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/pkg/utils/k8s/nodes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scheduler-manager/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler-manager/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +61,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dummy-image" />
+      <recent name="$PROJECT_DIR$/docs" />
       <recent name="$PROJECT_DIR$/k8s-operators/config/samples/ran-placer-config-maps" />
       <recent name="$PROJECT_DIR$/scheduler-manager" />
     </key>

@@ -20,13 +20,14 @@ import (
 	"flag"
 	"os"
 
-	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/common"
 	"github.com/sirupsen/logrus"
 	"k8s.io/apimachinery/pkg/runtime"
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+
+	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/common"
 
 	ranv1alpha1 "github.com/CROSSHAUL/RANPlacer/k8s-operators/api/v1alpha1"
 	"github.com/CROSSHAUL/RANPlacer/k8s-operators/controllers"
@@ -71,9 +72,10 @@ func main() {
 	}
 
 	if err = (&controllers.RANDeployerReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("RANDeployer"),
-		Scheme: mgr.GetScheme(),
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("RANDeployer"),
+		Scheme:   mgr.GetScheme(),
+		Recorder: mgr.GetEventRecorderFor("randeployer-controller"),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "RANDeployer")
 		os.Exit(1)

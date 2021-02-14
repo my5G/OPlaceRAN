@@ -10,6 +10,8 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	clientset "k8s.io/client-go/kubernetes"
 
+	"github.com/CROSSHAUL/RANPlacer/k8s-operators/api/v1alpha1"
+
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	v1 "k8s.io/api/core/v1"
@@ -66,6 +68,19 @@ func GetDeployment(k8sClient client.Client, objectKey types.NamespacedName,
 			return false, nil
 		}
 		return false, fmt.Errorf("error getting deployment %s: %w", objectKey.String(), err)
+	}
+
+	return true, nil
+}
+
+func GetRanDeployer(k8sClient client.Client, objectKey types.NamespacedName,
+	split *v1alpha1.RANDeployer) (bool, error) {
+	if err := k8sClient.Get(context.Background(), objectKey, split); err != nil {
+		if apierrors.IsNotFound(err) {
+			return false, nil
+		}
+
+		return false, fmt.Errorf("error getting ran deployer: %w", err)
 	}
 
 	return true, nil

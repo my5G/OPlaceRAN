@@ -27,12 +27,17 @@ spec:
         - /manager
         args:
         - --enable-leader-election
+#        image: 10.43.0.201:5000/controller:latest
         image: controller:latest
         imagePullPolicy: Never
         name: manager
         env:
           - name: ALGORITHM_SCHEDULER_URL
             value: "algorithm-scheduler.default.svc.cluster.local"
+          - name: "DOCKER_REPOSITORY"
+            value: "10.43.0.201:5000"
+          - name: "DEFAULT_IMAGE_VERSION"
+            value: "latest"
         resources:
           limits:
             cpu: 100m
