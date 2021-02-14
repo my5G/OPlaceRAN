@@ -1,5 +1,6 @@
 import uuid
 import json
+import os
 
 from kubernetes import client, config
 from kubernetes.client.rest import ApiException
@@ -21,6 +22,7 @@ STATUS_RUNNING = "running"
 STATUS_BAD_OUTPUT = "bad_output"
 
 ENV_VAR_JOB_NAME = "JOB_NAME"
+ENV_VAR_DOCKER_REPOSITORY = "DOCKER_REPOSITORY"
 
 
 class JobHandler:
@@ -159,7 +161,8 @@ class JobHandler:
         env_list.append(client.V1EnvVar(name=ENV_VAR_JOB_NAME,
                                         value=self.resources_identifier))
 
-        image_name = algorithm + ":latest"
+        docker_repo = os.environ.get(ENV_VAR_DOCKER_REPOSITORY, "")
+        image_name = docker_repo + algorithm + ":latest"
         volume_mounts = [client.V1VolumeMount(
             name=VOLUME_NAME_ALGORITHM_INPUT, mount_path="/etc/config")]
         container = client.V1Container(
