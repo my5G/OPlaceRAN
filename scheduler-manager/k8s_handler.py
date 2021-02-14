@@ -68,7 +68,6 @@ class JobHandler:
         job = self.batch_client.read_namespaced_job(
             name=self.resources_identifier, namespace=NAMESPACE)
 
-        print(job)
         if job.status.failed == 5:
             return {"status": STATUS_FAILED}
 
@@ -98,15 +97,37 @@ class JobHandler:
         cm.metadata = client.V1ObjectMeta(
             namespace=NAMESPACE, name=self.resources_identifier)
 
+        values = self._prepare_data_for_algorithm(nodes, topology)
+
         cm.data = dict()
-        cm.data[CONFIG_MAP_KEY_NODES] = str(nodes)
-        cm.data[CONFIG_MAP_KEY_TOPOLOGY] = str(topology)
+        cm.data[CONFIG_MAP_KEY_NODES] = json.dumps(values["nodes"])
+        cm.data[CONFIG_MAP_KEY_TOPOLOGY] = json.dumps(values["topology"])
         # cm.data[CONFIG_MAP_KEY_RUS] = str(rus)
 
         self.v1_client.create_namespaced_config_map(
             namespace=NAMESPACE, body=cm)
 
         self.rollback_resources.append(ROLLBACK_CONFIG_MAP_KEY)
+
+    def _prepare_data_for_algorithm(self, nodes, topology):
+        # Keeping pattern from ng-ran-model, should be removed after
+        # the nodes key is not necessary.
+        nodes_value = {
+            "nodes": nodes
+        }
+
+        topology_value = []
+        for v in topology:
+            topology_value.append(topology[v])
+
+        t = {
+            "links": topology_value
+        }
+
+        return {
+            "nodes": nodes_value,
+            "topology": t
+        }
 
     def _update_config_map_owner_reference(self):
         cm = self.v1_client.read_namespaced_config_map(
