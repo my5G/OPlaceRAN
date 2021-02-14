@@ -4,6 +4,7 @@ from docplex.mp.model import Model
 
 import constants
 from utils import initial_validation, output_result
+from path_gen import path_gen
 
 
 RU_ID = "id"
@@ -104,6 +105,8 @@ def read_topology():
     """
     with open(constants.TOPOLOGY_PATH) as json_file:
         data = json.load(json_file)
+        print("topology:")
+        print(data)
 
         # create a set of links with delay and capacity read by the json file, stored in a global list "links"
         json_links = data["links"]
@@ -127,6 +130,8 @@ def read_topology():
         # create and store the set of RC's with RAM and CPU in a global list "rcs"-rc[0] is the core network without CR
         with open(constants.NODES_PATH) as json_file:
             data = json.load(json_file)
+            print("nodes:")
+            print(data)
             json_nodes = data["nodes"]
             for item in json_nodes:
                 node = item
@@ -202,16 +207,20 @@ def read_topology():
 def dsg_structure():
     # create the DSG's and the set of DSG's
     # dsg5 = 8 -> NG-RAN(3) [CU]-[DU]-[RU]
-    dsg5 = DSG(5, 0.98, 0.735, 3.185, 0, 0, 0, [1, 2], [3, 4, 5], [6, 7, 8], 30, 30, 2, 151, 151, 152)
+    dsg5 = DSG(5, 0.98, 0.735, 3.185, 0, 0, 0, [1, 2], [
+               3, 4, 5], [6, 7, 8], 30, 30, 2, 151, 151, 152)
 
     # dsg7 = 13 -> NG-RAN(2) [CU]-[DU+RU]
-    dsg7 = DSG(7, 0, 3, 3.92, 0, 0, 0, [0], [1, 2], [3, 4, 5, 6, 7, 8], 0, 30, 30, 0, 151, 151)
+    dsg7 = DSG(7, 0, 3, 3.92, 0, 0, 0, [0], [1, 2], [
+               3, 4, 5, 6, 7, 8], 0, 30, 30, 0, 151, 151)
 
     # dsg10 = 17 -> C-RAN [CU+DU]-[RU]
-    dsg10 = DSG(10, 0, 1.71, 3.185, 0, 0, 0, [0], [1, 2, 3, 4, 5], [6, 7, 8], 0, 30, 2, 0, 151, 152)
+    dsg10 = DSG(10, 0, 1.71, 3.185, 0, 0, 0, [0], [
+                1, 2, 3, 4, 5], [6, 7, 8], 0, 30, 2, 0, 151, 152)
 
     # dsg8 = 19 -> D-RAN [CU+DU+RU]
-    dsg8 = DSG(8, 0, 0, 4.9, 0, 0, 0, [0], [0], [1, 2, 3, 4, 5, 6, 7, 8], 0, 0, 30, 0, 0, 151)
+    dsg8 = DSG(8, 0, 0, 4.9, 0, 0, 0, [0], [0], [
+               1, 2, 3, 4, 5, 6, 7, 8], 0, 0, 30, 0, 0, 151)
 
     # set of dsg's
     dsgs = {5: dsg5, 7: dsg7, 8: dsg8, 10: dsg10}
@@ -283,7 +292,8 @@ def run_phase_1():
     mdl = Model(name='NGRAN Problem', log_output=False)
 
     # tuple that will be used by the decision variable
-    i = [(p, d, b) for p in paths for d in dsgs for b in rus if paths[p].seq[2] == rus[b].RC]
+    i = [(p, d, b)
+         for p in paths for d in dsgs for b in rus if paths[p].seq[2] == rus[b].RC]
 
     # Decision variable X
     mdl.x = mdl.binary_var_dict(i, name='x')
@@ -291,20 +301,22 @@ def run_phase_1():
     # Fase 1 - Objective Function
     mdl.minimize(mdl.sum(mdl.min(1, mdl.sum(mdl.x[it] for it in i if c in paths[it[0]].seq)) for c in rcs
                          if rcs[c].id != 0) - mdl.sum(mdl.sum(mdl.max(0, (mdl.sum(mdl.x[it] for it in i
-                         if ((o in dsgs[it[1]].Os_CU and paths[it[0]].seq[0] == rcs[c].id) or (o in dsgs[it[1]].Os_DU
-                         and paths[it[0]].seq[1] == rcs[c].id) or (o in dsgs[it[1]].Os_RU
-                         and paths[it[0]].seq[2] == rcs[c].id))) - 1)) for o in conj_Os) for c in rcs))
+                                                                                  if ((o in dsgs[it[1]].Os_CU and paths[it[0]].seq[0] == rcs[c].id) or (o in dsgs[it[1]].Os_DU
+                                                                                                                                                        and paths[it[0]].seq[1] == rcs[c].id) or (o in dsgs[it[1]].Os_RU
+                                                                                                                                                                                                  and paths[it[0]].seq[2] == rcs[c].id))) - 1)) for o in conj_Os) for c in rcs))
 
     # Constraint 1 (4)
     for b in rus:
-        mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if it[2] == b) == 1, 'unicity')
+        mdl.add_constraint(mdl.sum(mdl.x[it]
+                                   for it in i if it[2] == b) == 1, 'unicity')
 
     # Constrains 1.1 (N)
-    mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if paths[it[0]].target != rus[it[2]].RC) == 0, 'path')
+    mdl.add_constraint(mdl.sum(
+        mdl.x[it] for it in i if paths[it[0]].target != rus[it[2]].RC) == 0, 'path')
 
     # constraint 1.2 (N) quebras de 2 so pode escolher caminhos de 2 quebras
     mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] != 0 and (
-                it[1] == 6 or it[1] == 7 or it[1] == 8 or it[1] == 9 or it[1] == 10)) == 0, 'dsgs_path_pick')
+        it[1] == 6 or it[1] == 7 or it[1] == 8 or it[1] == 9 or it[1] == 10)) == 0, 'dsgs_path_pick')
 
     # constraint 1.3 (N) quebras de 3 so pode escolher caminhos de 3 quebras
     mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if
@@ -313,12 +325,14 @@ def run_phase_1():
 
     # constraint 1.4 (N) quebras de 1 so pode escolher caminhos de 1 quebras
     mdl.add_constraint(
-        mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] == 0 and paths[it[0]].seq[1] == 0 and it[1] != 8) == 0,
+        mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] ==
+                0 and paths[it[0]].seq[1] == 0 and it[1] != 8) == 0,
         'dsgs_path_pick3')
 
     # constraint 1.5 (N) caminhos de 2 RC's nao podem usar D-RAN
     mdl.add_constraint(
-        mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] == 0 and paths[it[0]].seq[1] != 0 and it[1] == 8) == 0,
+        mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] ==
+                0 and paths[it[0]].seq[1] != 0 and it[1] == 8) == 0,
         'dsgs_path_pick4')
 
     # #constraint 1.6 (N) caminhos devem ir para o RC que esta posicionado o RU
@@ -336,26 +350,31 @@ def run_phase_1():
                            mdl.sum(mdl.x[it] * dsgs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) +
                            mdl.sum(mdl.x[it] * dsgs[it[1]].bw_BH for it in i if k in paths[it[0]].p1) +
                            mdl.sum(mdl.x[it] * dsgs[it[1]].bw_MH for it in i if k in paths[it[0]].p2) +
-                           mdl.sum(mdl.x[it] * dsgs[it[1]].bw_FH for it in i if k in paths[it[0]].p3) <= capacity[l],
+                           mdl.sum(
+                               mdl.x[it] * dsgs[it[1]].bw_FH for it in i if k in paths[it[0]].p3) <= capacity[l],
                            'links_bw')
 
     # Constraint 3 (6)
     for it in i:
-        mdl.add_constraint((mdl.x[it] * paths[it[0]].delay_p1) <= dsgs[it[1]].delay_BH, 'delay_req_p1')
+        mdl.add_constraint(
+            (mdl.x[it] * paths[it[0]].delay_p1) <= dsgs[it[1]].delay_BH, 'delay_req_p1')
 
     # Constraint 4 (7)
     for it in i:
-        mdl.add_constraint((mdl.x[it] * paths[it[0]].delay_p2) <= dsgs[it[1]].delay_MH, 'delay_req_p2')
+        mdl.add_constraint(
+            (mdl.x[it] * paths[it[0]].delay_p2) <= dsgs[it[1]].delay_MH, 'delay_req_p2')
 
     # Constraint 5 (8)
     for it in i:
-        mdl.add_constraint((mdl.x[it] * paths[it[0]].delay_p3 <= dsgs[it[1]].delay_FH), 'delay_req_p3')
+        mdl.add_constraint(
+            (mdl.x[it] * paths[it[0]].delay_p3 <= dsgs[it[1]].delay_FH), 'delay_req_p3')
 
     # Constraint 6 (9)
     for c in rcs:
         mdl.add_constraint(mdl.sum(mdl.x[it] * dsgs[it[1]].cpu_CU for it in i if c == paths[it[0]].seq[0]) +
                            mdl.sum(mdl.x[it] * dsgs[it[1]].cpu_DU for it in i if c == paths[it[0]].seq[1]) +
-                           mdl.sum(mdl.x[it] * dsgs[it[1]].cpu_RU for it in i if c == paths[it[0]].seq[2]) <= rcs[c].cpu,
+                           mdl.sum(
+                               mdl.x[it] * dsgs[it[1]].cpu_RU for it in i if c == paths[it[0]].seq[2]) <= rcs[c].cpu,
                            'rcs_cpu_usage')
     # Constraint 7 (9) RAM
     for c in rcs:
@@ -383,7 +402,8 @@ def run_phase_1():
         result_list = {"Solution": []}
         for it in i:
             if mdl.x[it].solution_value > 0:
-                result = {RU_ID: 0, DRC: 0, CU_POS: 0, DU_POS: 0, RU_POS: 0, PATH: []}
+                result = {RU_ID: 0, DRC: 0, CU_POS: 0,
+                          DU_POS: 0, RU_POS: 0, PATH: []}
                 path_sol = []
                 sol_dsg = it[1]
                 ru_id = it[2]
@@ -455,33 +475,37 @@ def run_phase_2(FO_fase_1):
     mdl = Model(name='NGRAN Problem2', log_output=False)
 
     # tuple that will be used by the decision variable
-    i = [(p, d, b) for p in paths for d in dsgs for b in rus if paths[p].seq[2] == rus[b].RC]
+    i = [(p, d, b)
+         for p in paths for d in dsgs for b in rus if paths[p].seq[2] == rus[b].RC]
 
     # Decision variable X
     mdl.x = mdl.binary_var_dict(i, name='x')
 
     # Fase 2 - Objective Function
-    mdl.minimize(mdl.sum(mdl.min(1, mdl.sum(mdl.x[it] for it in i if it[1] == dsg)) for dsg in dsgs))
+    mdl.minimize(mdl.sum(
+        mdl.min(1, mdl.sum(mdl.x[it] for it in i if it[1] == dsg)) for dsg in dsgs))
 
     # Constraint fase 1
     mdl.add_constraint(mdl.sum(
         mdl.min(1, mdl.sum(mdl.x[it] for it in i if c in paths[it[0]].seq)) for c in rcs if rcs[c].id != 0) - mdl.sum(
         mdl.sum(mdl.max(0, (mdl.sum(mdl.x[it] for it in i if (
-                    (o in dsgs[it[1]].Os_CU and paths[it[0]].seq[0] == rcs[c].id) or (
-                        o in dsgs[it[1]].Os_DU and paths[it[0]].seq[1] == rcs[c].id) or (
-                                o in dsgs[it[1]].Os_RU and paths[it[0]].seq[2] == rcs[c].id))) - 1)) for o in conj_Os)
+            (o in dsgs[it[1]].Os_CU and paths[it[0]].seq[0] == rcs[c].id) or (
+                o in dsgs[it[1]].Os_DU and paths[it[0]].seq[1] == rcs[c].id) or (
+                o in dsgs[it[1]].Os_RU and paths[it[0]].seq[2] == rcs[c].id))) - 1)) for o in conj_Os)
         for c in rcs) == FO_fase_1)
 
     # Constraint 1 (4)
     for b in rus:
-        mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if it[2] == b) == 1, 'unicity')
+        mdl.add_constraint(mdl.sum(mdl.x[it]
+                                   for it in i if it[2] == b) == 1, 'unicity')
 
     # Constrains 1.1 (N)
-    mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if paths[it[0]].target != rus[it[2]].RC) == 0, 'path')
+    mdl.add_constraint(mdl.sum(
+        mdl.x[it] for it in i if paths[it[0]].target != rus[it[2]].RC) == 0, 'path')
 
     # constraint 1.2 (N) quebras de 2 so pode escolher caminhos de 2 quebras
     mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] != 0 and (
-            it[1] == 6 or it[1] == 7 or it[1] == 8 or it[1] == 9 or it[1] == 10)) == 0, 'dsgs_path_pick')
+        it[1] == 6 or it[1] == 7 or it[1] == 8 or it[1] == 9 or it[1] == 10)) == 0, 'dsgs_path_pick')
 
     # constraint 1.3 (N) quebras de 3 so pode escolher caminhos de 3 quebras
     mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if
@@ -489,12 +513,14 @@ def run_phase_2(FO_fase_1):
                                it[1] != 10) == 0, 'dsgs_path_pick2')
     # contraint 1.4 (N) quebras de 1 so pode escolher caminhos de 1 quebras
     mdl.add_constraint(
-        mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] == 0 and paths[it[0]].seq[1] == 0 and it[1] != 8) == 0,
+        mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] ==
+                0 and paths[it[0]].seq[1] == 0 and it[1] != 8) == 0,
         'dsgs_path_pick3')
 
     # contraint 1.5 (N) caminhos de 2 RC's nao podem usar D-RAN
     mdl.add_constraint(
-        mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] == 0 and paths[it[0]].seq[1] != 0 and it[1] == 8) == 0,
+        mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] ==
+                0 and paths[it[0]].seq[1] != 0 and it[1] == 8) == 0,
         'dsgs_path_pick4')
 
     # #constraint 1.6 (N) caminhos devem ir para o RC que esta posicionado o RU
@@ -510,22 +536,25 @@ def run_phase_2(FO_fase_1):
         mdl.add_constraint(mdl.sum(mdl.x[it] * dsgs[it[1]].bw_BH for it in i if l in paths[it[0]].p1) + mdl.sum(
             mdl.x[it] * dsgs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) + mdl.sum(
             mdl.x[it] * dsgs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) +
-                           mdl.sum(mdl.x[it] * dsgs[it[1]].bw_BH for it in i if k in paths[it[0]].p1) + mdl.sum(
+            mdl.sum(mdl.x[it] * dsgs[it[1]].bw_BH for it in i if k in paths[it[0]].p1) + mdl.sum(
             mdl.x[it] * dsgs[it[1]].bw_MH for it in i if k in paths[it[0]].p2) + mdl.sum(
             mdl.x[it] * dsgs[it[1]].bw_FH for it in i if k in paths[it[0]].p3)
-                           <= capacity[l], 'links_bw')
+            <= capacity[l], 'links_bw')
 
     # Constraint 3 (6)
     for it in i:
-        mdl.add_constraint((mdl.x[it] * paths[it[0]].delay_p1) <= dsgs[it[1]].delay_BH, 'delay_req_p1')
+        mdl.add_constraint(
+            (mdl.x[it] * paths[it[0]].delay_p1) <= dsgs[it[1]].delay_BH, 'delay_req_p1')
 
     # Constraint 4 (7)
     for it in i:
-        mdl.add_constraint((mdl.x[it] * paths[it[0]].delay_p2) <= dsgs[it[1]].delay_MH, 'delay_req_p2')
+        mdl.add_constraint(
+            (mdl.x[it] * paths[it[0]].delay_p2) <= dsgs[it[1]].delay_MH, 'delay_req_p2')
 
     # Constraint 5 (8)
     for it in i:
-        mdl.add_constraint((mdl.x[it] * paths[it[0]].delay_p3 <= dsgs[it[1]].delay_FH), 'delay_req_p3')
+        mdl.add_constraint(
+            (mdl.x[it] * paths[it[0]].delay_p3 <= dsgs[it[1]].delay_FH), 'delay_req_p3')
 
     # Constraint 6 (9)
     for c in rcs:
@@ -564,7 +593,8 @@ def run_phase_2(FO_fase_1):
         result_list = {"Solution": []}
         for it in i:
             if mdl.x[it].solution_value > 0:
-                result = {RU_ID: 0, DRC: 0, CU_POS: 0, DU_POS: 0, RU_POS: 0, PATH: []}
+                result = {RU_ID: 0, DRC: 0, CU_POS: 0,
+                          DU_POS: 0, RU_POS: 0, PATH: []}
                 path_sol = []
                 sol_dsg = it[1]
                 ru_id = it[2]
@@ -646,36 +676,41 @@ def run_phase_3(FO_fase_1, FO_fase_2):
     mdl = Model(name='NGRAN Problem3', log_output=False)
 
     # tuple that will be used by the decision variable
-    i = [(p, d, b) for p in paths for d in dsgs for b in rus if paths[p].seq[2] == rus[b].RC]
+    i = [(p, d, b)
+         for p in paths for d in dsgs for b in rus if paths[p].seq[2] == rus[b].RC]
 
     # Decision variable X
     mdl.x = mdl.binary_var_dict(i, name='x')
 
     # Fase 3 Objective Function
-    mdl.minimize(mdl.sum(mdl.sum(mdl.x[it] * dsg_p[it[1]] for it in i if it[1] == dsg) for dsg in dsgs))
+    mdl.minimize(mdl.sum(mdl.sum(mdl.x[it] * dsg_p[it[1]]
+                                 for it in i if it[1] == dsg) for dsg in dsgs))
 
     # Constraint fase 2
-    mdl.add_constraint(mdl.sum(mdl.min(1, mdl.sum(mdl.x[it] for it in i if it[1] == dsg)) for dsg in dsgs) == FO_fase_2)
+    mdl.add_constraint(mdl.sum(mdl.min(1, mdl.sum(
+        mdl.x[it] for it in i if it[1] == dsg)) for dsg in dsgs) == FO_fase_2)
 
     # Constraint fase 1
     mdl.add_constraint(mdl.sum(
         mdl.min(1, mdl.sum(mdl.x[it] for it in i if c in paths[it[0]].seq)) for c in rcs if rcs[c].id != 0) - mdl.sum(
         mdl.sum(mdl.max(0, (mdl.sum(mdl.x[it] for it in i if (
-                    (o in dsgs[it[1]].Os_CU and paths[it[0]].seq[0] == rcs[c].id) or (
-                        o in dsgs[it[1]].Os_DU and paths[it[0]].seq[1] == rcs[c].id) or (
-                                o in dsgs[it[1]].Os_RU and paths[it[0]].seq[2] == rcs[c].id))) - 1)) for o in conj_Os)
+            (o in dsgs[it[1]].Os_CU and paths[it[0]].seq[0] == rcs[c].id) or (
+                o in dsgs[it[1]].Os_DU and paths[it[0]].seq[1] == rcs[c].id) or (
+                o in dsgs[it[1]].Os_RU and paths[it[0]].seq[2] == rcs[c].id))) - 1)) for o in conj_Os)
         for c in rcs) == FO_fase_1)
 
     # Constraint 1 (4)
     for b in rus:
-        mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if it[2] == b) == 1, 'unicity')
+        mdl.add_constraint(mdl.sum(mdl.x[it]
+                                   for it in i if it[2] == b) == 1, 'unicity')
 
     # Constrains 1.1 (N)
-    mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if paths[it[0]].target != rus[it[2]].RC) == 0, 'path')
+    mdl.add_constraint(mdl.sum(
+        mdl.x[it] for it in i if paths[it[0]].target != rus[it[2]].RC) == 0, 'path')
 
     # constraint 1.2 (N) quebras de 2 so pode escolher caminhos de 2 quebras
     mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] != 0 and (
-            it[1] == 6 or it[1] == 7 or it[1] == 8 or it[1] == 9 or it[1] == 10)) == 0, 'dsgs_path_pick')
+        it[1] == 6 or it[1] == 7 or it[1] == 8 or it[1] == 9 or it[1] == 10)) == 0, 'dsgs_path_pick')
 
     # constraint 1.3 (N) quebras de 3 so pode escolher caminhos de 3 quebras
     mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if
@@ -684,12 +719,14 @@ def run_phase_3(FO_fase_1, FO_fase_2):
 
     # contraint 1.4 (N) quebras de 1 so pode escolher caminhos de 1 quebras
     mdl.add_constraint(
-        mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] == 0 and paths[it[0]].seq[1] == 0 and it[1] != 8) == 0,
+        mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] ==
+                0 and paths[it[0]].seq[1] == 0 and it[1] != 8) == 0,
         'dsgs_path_pick3')
 
     # contraint 1.5 (N) caminhos de 2 RC's nao podem usar D-RAN
     mdl.add_constraint(
-        mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] == 0 and paths[it[0]].seq[1] != 0 and it[1] == 8) == 0,
+        mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] ==
+                0 and paths[it[0]].seq[1] != 0 and it[1] == 8) == 0,
         'dsgs_path_pick4')
 
     # #constraint 1.6 (N) caminhos devem ir para o RC que esta posicionado o RU
@@ -705,22 +742,25 @@ def run_phase_3(FO_fase_1, FO_fase_2):
         mdl.add_constraint(mdl.sum(mdl.x[it] * dsgs[it[1]].bw_BH for it in i if l in paths[it[0]].p1) + mdl.sum(
             mdl.x[it] * dsgs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) + mdl.sum(
             mdl.x[it] * dsgs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) +
-                           mdl.sum(mdl.x[it] * dsgs[it[1]].bw_BH for it in i if k in paths[it[0]].p1) + mdl.sum(
+            mdl.sum(mdl.x[it] * dsgs[it[1]].bw_BH for it in i if k in paths[it[0]].p1) + mdl.sum(
             mdl.x[it] * dsgs[it[1]].bw_MH for it in i if k in paths[it[0]].p2) + mdl.sum(
             mdl.x[it] * dsgs[it[1]].bw_FH for it in i if k in paths[it[0]].p3)
-                           <= capacity[l], 'links_bw')
+            <= capacity[l], 'links_bw')
 
     # Constraint 3 (6)
     for it in i:
-        mdl.add_constraint((mdl.x[it] * paths[it[0]].delay_p1) <= dsgs[it[1]].delay_BH, 'delay_req_p1')
+        mdl.add_constraint(
+            (mdl.x[it] * paths[it[0]].delay_p1) <= dsgs[it[1]].delay_BH, 'delay_req_p1')
 
     # Constraint 4 (7)
     for it in i:
-        mdl.add_constraint((mdl.x[it] * paths[it[0]].delay_p2) <= dsgs[it[1]].delay_MH, 'delay_req_p2')
+        mdl.add_constraint(
+            (mdl.x[it] * paths[it[0]].delay_p2) <= dsgs[it[1]].delay_MH, 'delay_req_p2')
 
     # Constraint 5 (8)
     for it in i:
-        mdl.add_constraint((mdl.x[it] * paths[it[0]].delay_p3 <= dsgs[it[1]].delay_FH), 'delay_req_p3')
+        mdl.add_constraint(
+            (mdl.x[it] * paths[it[0]].delay_p3 <= dsgs[it[1]].delay_FH), 'delay_req_p3')
 
     # Constraint 6 (9)
     for c in rcs:
@@ -756,7 +796,8 @@ def run_phase_3(FO_fase_1, FO_fase_2):
         result_list = {"Solution": []}
         for it in i:
             if mdl.x[it].solution_value > 0:
-                result = {RU_ID: 0, DRC: 0, CU_POS: 0, DU_POS: 0, RU_POS: 0, PATH: []}
+                result = {RU_ID: 0, DRC: 0, CU_POS: 0,
+                          DU_POS: 0, RU_POS: 0, PATH: []}
                 path_sol = []
                 sol_dsg = it[1]
                 ru_id = it[2]
@@ -797,15 +838,25 @@ def run_phase_3(FO_fase_1, FO_fase_2):
 
 
 if __name__ == '__main__':
-    initial_validation()
+    # initial_validation()
+
+    print("starting paths generation")
+    path_gen()
 
     start_all = time.time()
 
+    print("starting phase 1")
     FO_fase_1 = run_phase_1()
+    print("starting phase 2")
     FO_fase_2 = run_phase_2(FO_fase_1)
+    print("starting phase 3")
     result = run_phase_3(FO_fase_1, FO_fase_2)
 
     end_all = time.time()
 
-    output_result(result["Solution"])
+    res = result["Solution"]
+    print(f"result: {res}")
+
+    # output_result(result["Solution"])
+    
     print("TOTAL TIME: {}".format(end_all - start_all))
