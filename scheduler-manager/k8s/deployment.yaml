@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - name: algorithm-scheduler
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           image: 10.43.0.201:5000/algorithm-scheduler:1
           ports:
             - name: http
