@@ -8,7 +8,7 @@ metadata:
 data:
   topology: |
     {
-        "docker-desktop--docker-desktop": {
+        "node16--node-3": {
             "linkNumber": "1",
             "fromNode": "0",
             "toNode": "1",
