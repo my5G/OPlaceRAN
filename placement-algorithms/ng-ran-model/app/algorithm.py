@@ -112,19 +112,19 @@ def read_topology():
         json_links = data["links"]
         for item in json_links:
             link = item
-            source_node = link["fromNode"]
-            destination_node = link["toNode"]
+            source_node = int(link["fromNode"])
+            destination_node = int(link["toNode"])
 
             # create links full duplex for each link readed by the json file
             if source_node < destination_node:
                 capacity[(source_node, destination_node)] = link["capacity"]
-                delay[(source_node, destination_node)] = link["delay"]
+                delay[(source_node, destination_node)] = float(link["delay"])
                 links.append((source_node, destination_node))
 
             # creating links full duplex for each link readed by the json file
             else:
                 capacity[(destination_node, source_node)] = link["capacity"]
-                delay[(destination_node, source_node)] = link["delay"]
+                delay[(destination_node, source_node)] = float(link["delay"])
                 links.append((destination_node, source_node))
 
         # create and store the set of RC's with RAM and CPU in a global list "rcs"-rc[0] is the core network without CR
