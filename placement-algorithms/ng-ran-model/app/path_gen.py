@@ -29,6 +29,8 @@ class Graph:
                 pass
             else:
                 global k
+                global k_stop
+                global paths
                 k += 1
                 if k < k_stop + 1:
                     p = str(path)
@@ -80,6 +82,7 @@ def path_gen():
                     dst.append(item["nodeNumber"])
 
         for destination_node in dst:
+            global k
             k = 0
             g.printAllPaths(0, destination_node)
 
@@ -93,6 +96,8 @@ def path_gen():
         seq = []
         count = 2
         id = 1
+
+        global paths
 
         for path in paths:
             for position in range(0, len(path) - 1):
