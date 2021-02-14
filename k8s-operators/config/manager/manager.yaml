@@ -29,7 +29,7 @@ spec:
         - --enable-leader-election
         image: 10.43.0.201:5000/controller:latest
 #        image: controller:latest
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         name: manager
         env:
           - name: ALGORITHM_SCHEDULER_URL
