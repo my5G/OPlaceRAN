@@ -166,7 +166,7 @@ class JobHandler:
         volume_mounts = [client.V1VolumeMount(
             name=VOLUME_NAME_ALGORITHM_INPUT, mount_path="/etc/config")]
         container = client.V1Container(
-            name="algorithm", image=image_name, volume_mounts=volume_mounts, env=env_list, image_pull_policy="Never")
+            name="algorithm", image=image_name, volume_mounts=volume_mounts, env=env_list, image_pull_policy="IfNotPresent")
         # command=["sleep", "5"])
 
         cm_mount = client.V1ConfigMapVolumeSource(
