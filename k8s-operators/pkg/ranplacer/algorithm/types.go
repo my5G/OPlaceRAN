@@ -19,7 +19,7 @@ const (
 	rusKey      string = "rus"
 )
 
-type Topology map[string]*Link
+type Topology []*Link
 
 type Link struct {
 	Capacity    string `json:"capacity"`

@@ -6,7 +6,8 @@ metadata:
 spec:
   # Add fields here
   coreIP: 1.1.1.1
-  algorithm: example
+  algorithm: ng-ran-model
+  #  algorithm: example
   ruConfigMap: rus
   topologyConfigMap: topology
   resources:
