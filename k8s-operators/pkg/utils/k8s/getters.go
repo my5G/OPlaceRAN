@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	appsv1 "k8s.io/api/apps/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	clientset "k8s.io/client-go/kubernetes"
@@ -44,11 +46,27 @@ func ListPods(k8sClient clientset.Interface, options metav1.ListOptions) (*v1.Po
 	return podsList, nil
 }
 
-func GetConfigMap(k8sClient client.Client, objectKey types.NamespacedName, cm *v1.ConfigMap) error {
+func GetConfigMap(k8sClient client.Client, objectKey types.NamespacedName, cm *v1.ConfigMap) (bool, error) {
 	err := k8sClient.Get(context.Background(), objectKey, cm)
 	if err != nil {
-		return fmt.Errorf("error getting config map %s: %w", objectKey.String(), err)
+		if apierrors.IsNotFound(err) {
+			return false, nil
+		}
+		return false, fmt.Errorf("error getting config map %s: %w", objectKey.String(), err)
 	}
 
-	return nil
+	return true, nil
+}
+
+func GetDeployment(k8sClient client.Client, objectKey types.NamespacedName,
+	deployment *appsv1.Deployment) (bool, error) {
+	err := k8sClient.Get(context.Background(), objectKey, deployment)
+	if err != nil {
+		if apierrors.IsNotFound(err) {
+			return false, nil
+		}
+		return false, fmt.Errorf("error getting deployment %s: %w", objectKey.String(), err)
+	}
+
+	return true, nil
 }

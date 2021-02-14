@@ -8,6 +8,19 @@ metadata:
   creationTimestamp: null
   name: randeployers.ran.unisinos
 spec:
+  additionalPrinterColumns:
+  - JSONPath: .status.cuNode
+    name: CU NODE
+    type: string
+  - JSONPath: .status.duNode
+    name: DU NODE
+    type: string
+  - JSONPath: .status.ruNode
+    name: RU NODE
+    type: string
+  - JSONPath: .status.state
+    name: STATUS
+    type: string
   group: ran.unisinos
   names:
     kind: RANDeployer
@@ -15,6 +28,8 @@ spec:
     plural: randeployers
     singular: randeployer
   scope: Namespaced
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
       description: RANDeployer is the Schema for the randeployers API
@@ -34,13 +49,45 @@ spec:
         spec:
           description: RANDeployerSpec defines the desired state of RANDeployer
           properties:
-            foo:
-              description: Foo is an example field of RANDeployer. Edit RANDeployer_types.go
-                to remove/update
+            coreIP:
+              description: CoreIP refers to the IP to establish communications with
+                the Core
+              type: string
+            cuNode:
+              description: CUNode refers to the node where the CU should be placed
+              type: string
+            duNode:
+              description: DUNode refers to the node where the DU should be placed
+              type: string
+            ruNode:
+              description: RUNode refers to the node where the RU should be placed
               type: string
           type: object
         status:
           description: RANDeployerStatus defines the observed state of RANDeployer
+          properties:
+            cuIP:
+              description: CUIP refers to the IP of the CU pod
+              type: string
+            cuNode:
+              description: CUNode refers to the node where the CU is placed
+              type: string
+            duIP:
+              description: DUIP refers to the IP of the DU pod
+              type: string
+            duNode:
+              description: DUNode refers to the node where the DU is placed
+              type: string
+            ruIP:
+              description: RUIP refers to the IP of the RU pod
+              type: string
+            ruNode:
+              description: RUNode refers to the node where the RU is placed
+              type: string
+            state:
+              description: State shows the current state of the split according to
+                the pods state
+              type: string
           type: object
       type: object
   version: v1alpha1

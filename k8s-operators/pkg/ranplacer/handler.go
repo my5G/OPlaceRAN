@@ -76,8 +76,11 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 
 	if output.Status == algorithm.Failed || output.Status == algorithm.BadOutput || output.Status == algorithm.Completed {
 		// TODO: add error message in algorithm response and add it to the error from RANPlacer
-		ranPlacer.Status.Algorithm.EndTimestamp = utils.GetTimePnt(metav1.NewTime(time.Now()))
-		ranPlacer.Status.Algorithm.DurationInSeconds = algorithm.GetDurationInSeconds(ranPlacer)
+
+		if ranPlacer.Status.Algorithm.EndTimestamp == nil {
+			ranPlacer.Status.Algorithm.EndTimestamp = utils.GetTimePnt(metav1.NewTime(time.Now()))
+			ranPlacer.Status.Algorithm.DurationInSeconds = algorithm.GetDurationInSeconds(ranPlacer)
+		}
 
 		if output.Status == algorithm.Failed || output.Status == algorithm.BadOutput {
 			ranPlacer.Status.State = v1alpha1.ErrorState
@@ -109,18 +112,16 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 		return nil
 	}
 
-	ranPlacer.Status.State = v1alpha1.FinishedState
-	ranPlacer.Status.Algorithm.DurationInSeconds = algorithm.GetDurationInSeconds(ranPlacer)
-
-	if err := h.client.Status().Update(context.Background(), ranPlacer); err != nil {
-		return fmt.Errorf("error updating RanPlacer status: %w", err)
-	}
-
-	h.log.Info("result", "result", fmt.Sprintf("%v", output.Result))
+	h.log.Info("algorithm result", "result", fmt.Sprintf("%v", output.Result))
 
 	err = h.place(output)
 	if err != nil {
 		return err
+	}
+
+	ranPlacer.Status.State = v1alpha1.FinishedState
+	if err := h.client.Status().Update(context.Background(), ranPlacer); err != nil {
+		return fmt.Errorf("error updating RanPlacer status: %w", err)
 	}
 
 	return nil

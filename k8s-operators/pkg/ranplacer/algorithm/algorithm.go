@@ -207,7 +207,7 @@ func (h *Handler) getTopology(ranPlacer *v1alpha1.RANPlacer) (Topology, error) {
 	}
 
 	cm := &v1.ConfigMap{}
-	err := k8s.GetConfigMap(h.client, topologyNamespacedName, cm)
+	_, err := k8s.GetConfigMap(h.client, topologyNamespacedName, cm)
 	if err != nil {
 		return nil, fmt.Errorf("error getting topology config map: %w", err)
 	}
@@ -232,7 +232,7 @@ func (h *Handler) getRUsPosition(ranPlacer *v1alpha1.RANPlacer) (map[string]RUsP
 	}
 
 	cm := &v1.ConfigMap{}
-	err := k8s.GetConfigMap(h.client, topologyNamespacedName, cm)
+	_, err := k8s.GetConfigMap(h.client, topologyNamespacedName, cm)
 	if err != nil {
 		return nil, fmt.Errorf("error getting rus config map: %w", err)
 	}

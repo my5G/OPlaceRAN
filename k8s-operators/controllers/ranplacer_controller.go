@@ -39,9 +39,11 @@ type RANPlacerReconciler struct {
 
 const requeueAfter = 30 * time.Second
 
+// TODO: prune authorizations
 // +kubebuilder:rbac:groups=ran.unisinos,resources=ranplacers,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=ran.unisinos,resources=ranplacers/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups="",resources=configmaps,verbs=get
+// +kubebuilder:rbac:groups=batch,resources=jobs,verbs=get;update;patch;create;watch;delete
 // +kubebuilder:rbac:groups="",resources=nodes,verbs=get;list;watch
 
 func (r *RANPlacerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {

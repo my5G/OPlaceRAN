@@ -23,22 +23,57 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
+type RanDeployerState string
+
+const (
+	RanDeployerStateRunning RanDeployerState = "Running"
+	RanDeployerStateError   RanDeployerState = "Error"
+)
+
 // RANDeployerSpec defines the desired state of RANDeployer
 type RANDeployerSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of RANDeployer. Edit RANDeployer_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// CoreIP refers to the IP to establish communications with the Core
+	// +kubebuilder:validation:Required
+	CoreIP string `json:"coreIP,omitempty"`
+
+	// RUNode refers to the node where the RU should be placed
+	RUNode string `json:"ruNode,omitempty"`
+	// DUNode refers to the node where the DU should be placed
+	DUNode string `json:"duNode,omitempty"`
+	// CUNode refers to the node where the CU should be placed
+	CUNode string `json:"cuNode,omitempty"`
 }
 
 // RANDeployerStatus defines the observed state of RANDeployer
 type RANDeployerStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+
+	// CUNode refers to the node where the CU is placed
+	CUNode string `json:"cuNode,omitempty"`
+	// CUIP refers to the IP of the CU pod
+	CUIP string `json:"cuIP,omitempty"`
+	// DUNode refers to the node where the DU is placed
+	DUNode string `json:"duNode,omitempty"`
+	// DUIP refers to the IP of the DU pod
+	DUIP string `json:"duIP,omitempty"`
+	// RUNode refers to the node where the RU is placed
+	RUNode string `json:"ruNode,omitempty"`
+	// RUIP refers to the IP of the RU pod
+	RUIP string `json:"ruIP,omitempty"`
+	// State shows the current state of the split according to the pods state
+	State RanDeployerState `json:"state,omitempty"`
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="CU NODE",type=string,JSONPath=`.status.cuNode`
+// +kubebuilder:printcolumn:name="DU NODE",type=string,JSONPath=`.status.duNode`
+// +kubebuilder:printcolumn:name="RU NODE",type=string,JSONPath=`.status.ruNode`
+// +kubebuilder:printcolumn:name="STATUS",type=string,JSONPath=`.status.state`
 
 // RANDeployer is the Schema for the randeployers API
 type RANDeployer struct {
