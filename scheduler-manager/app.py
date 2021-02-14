@@ -16,7 +16,7 @@ schedule_schema = {
     'type': 'object',
     'properties': {
         'topology': {
-            'type': 'object',
+            'type': 'array',
         },
         'nodes': {
             'type': 'array',
