@@ -7,3 +7,5 @@ if [ -z "$DOCKER_REPOSITORY" ]; then
 fi
 
 docker build -t ${DOCKER_REPOSITORY}/ng-ran-model:latest .
+
+docker push ${DOCKER_REPOSITORY}/example:latest
