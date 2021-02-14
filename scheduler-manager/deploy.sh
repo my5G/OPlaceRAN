@@ -8,5 +8,7 @@ fi
 
 docker build . -t ${DOCKER_REPOSITORY}/algorithm-scheduler:1
 
+docker push ${DOCKER_REPOSITORY}/algorithm-scheduler:1
+
 kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/rbac.yaml

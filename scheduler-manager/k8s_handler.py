@@ -118,12 +118,12 @@ class JobHandler:
             "nodes": nodes
         }
 
-        topology_value = []
-        for v in topology:
-            topology_value.append(topology[v])
+        # topology_value = []
+        # for v in topology:
+        #     topology_value.append(topology[v])
 
         t = {
-            "links": topology_value
+            "links": topology
         }
 
         return {
