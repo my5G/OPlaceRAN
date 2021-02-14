@@ -5,5 +5,5 @@ metadata:
   namespace: default
 spec:
   coreIP: 10.233.105.56
-  ruNode: docker-desktop
-
+  # ruNode: docker-desktop
+  ruNode: node4
