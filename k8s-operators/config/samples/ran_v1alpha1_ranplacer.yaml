@@ -5,6 +5,7 @@ metadata:
   namespace: default
 spec:
   # Add fields here
+  coreIP: 1.1.1.1
   algorithm: example
   ruConfigMap: rus
   topologyConfigMap: topology
