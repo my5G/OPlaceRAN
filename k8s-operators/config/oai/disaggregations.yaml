@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: disaggregations
+  labels:
+    "disaggregation": "true"
+data:
+  disaggregations: |
+    {
+        "1": {
+            "protocolStack": {
+                "cu": ["RRC", "PDCP"],
+                "du": ["RLCH", "RLCL", "MACH", "MACL"],
+                "ru": ["PHYH", "PHYL", "RF"]
+            },
+            "splitOptions": {
+                "cu-du": "O2",
+                "du-ru": "O6"
+            },
+            "backhaul": {
+                "bandwidth": 151
+            },
+            "midhaul": {
+                "latency": 30,
+                "bandwidth": 151
+            },
+            "fronthaul": {
+                "latency": 2,
+                "bandwidth": 152
+            },
+            "crosshaul": {
+                "latency": 30
+            }
+        },
+        "2": {
+            "protocolStack": {
+                "cu": ["RRC", "PDCP"],
+                "du": [],
+                "ru": ["RLCH", "RLCL", "MACH", "MACL", "PHYH", "PHYL", "RF"]
+            },
+            "backhaul": {
+                "bandwidth": 151
+            },
+            "midhaul": {},
+            "fronthaul": {
+                "bandwidth": 151
+            },
+            "crosshaul": {
+                "latency": 30
+            }
+        },
+        "3": {
+            "protocolStack": {
+                "cu": ["RRC", "PDCP", "RLCH", "RLCL", "MACH", "MACL"],
+                "du": [],
+                "ru": ["PHYH", "PHYL", "RF"]
+            },
+            "backhaul": {
+                "bandwidth": 151
+            },
+            "midhaul": {},
+            "fronthaul": {
+                "latency": 2,
+                "bandwidth": 152
+            },
+            "crosshaul": {
+                "latency": 30
+            }
+        },
+        "4": {
+            "protocolStack": {
+                "cu": ["RRC", "PDCP", "RLCH", "RLCL", "MACH", "MACL", "PHYH", "PHYL", "RF"],
+                "du": [],
+                "ru": []
+            },
+            "backhaul": {},
+            "midhaul": {},
+            "fronthaul": {},
+            "crosshaul": {
+                "latency": 30
+            }
+        }
+    }

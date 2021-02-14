@@ -1,0 +1,5 @@
+resources:
+- cu-template.yaml
+- du-template.yaml
+- ru-template.yaml
+- disaggregations.yaml
