@@ -1,3 +1,4 @@
+import json
 import os
 
 from kubernetes import client, config
@@ -7,11 +8,13 @@ ENV_VAR_JOB_NAME = "JOB_NAME"
 CONFIG_MAP_KEY_RESULT = "result"
 
 required_files = ["/etc/config/nodes.json",
-                  "/etc/config/topology.json"]
+                  "/etc/config/topology.json",
+                #   "/etc/config/rus.json"
+                  ]
 
 
 def output_result(data, namespace="default"):
-    
+
     config.load_incluster_config()
 
     v1_client = client.CoreV1Api()
@@ -29,7 +32,7 @@ def output_result(data, namespace="default"):
         namespace=namespace, name=cm_name)
 
     cm.data = dict()
-    cm.data[CONFIG_MAP_KEY_RESULT] = str(data)
+    cm.data[CONFIG_MAP_KEY_RESULT] = json.dumps(data)
 
     v1_client.create_namespaced_config_map(
         namespace=namespace, body=cm)
