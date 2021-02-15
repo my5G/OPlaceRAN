@@ -867,11 +867,11 @@ def run_phase_3(FO_fase_1, FO_fase_2):
                 elif cu_loc == 0 and it[1] < 9:
                     cu_loc = du_loc
                     du_loc = ru_loc
-                result[RU_ID] = ru_id
-                result[DRC] = sol_dsg
-                result[CU_POS] = cu_loc
-                result[DU_POS] = du_loc
-                result[RU_POS] = ru_loc
+                result[RU_ID] = str(ru_id)
+                result[DRC] = str(sol_dsg)
+                result[CU_POS] = str(cu_loc)
+                result[DU_POS] = str(du_loc)
+                result[RU_POS] = str(ru_loc)
                 result[PATH] = path_sol
 
                 result_list["Solution"].append(result)
