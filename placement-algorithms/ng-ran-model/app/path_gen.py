@@ -62,8 +62,8 @@ def path_gen():
 
         for item in json_links:
             link = item
-            source_node = link["fromNode"]
-            destination_node = link["toNode"]
+            source_node = int(link["fromNode"])
+            destination_node = int(link["toNode"])
 
             if source_node < destination_node:
                 g.addEdge(source_node, destination_node)
