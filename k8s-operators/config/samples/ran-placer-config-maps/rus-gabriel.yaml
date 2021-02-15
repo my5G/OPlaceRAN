@@ -9,10 +9,10 @@ data:
   rus: |
     {
       "node1": {
-        "RU": 1
+        "RU": 0
       },
       "node2": {
-        "RU": 1
+        "RU": 0
       },
       "node3": {
         "RU": 1
