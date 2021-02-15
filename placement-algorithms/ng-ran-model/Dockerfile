@@ -8,4 +8,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 WORKDIR /usr/src/app
 
-ENTRYPOINT [ "python3", "./algorithm.py" ]
+COPY exec.sh /exec.sh
+
+ENTRYPOINT ["/exec.sh"]
+
+# ENTRYPOINT [ "python3", "./algorithm.py" ]
