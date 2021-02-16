@@ -15,58 +15,58 @@ data:
             "RU": 0
         },
         "node3": {
-            "RU": 1
+            "RU": 0
         },
         "node4": {
-            "RU": 1
+            "RU": 0
         },
         "node5": {
-            "RU": 1
+            "RU": 0
         },
         "node6": {
-            "RU": 1
+            "RU": 0
         },
         "node7": {
-            "RU": 1
+            "RU": 0
         },
         "node8": {
-            "RU": 1
+            "RU": 0
         },
         "node9": {
-            "RU": 1
+            "RU": 0
         },
         "node10": {
-            "RU": 1
+            "RU": 0
         },
         "node11": {
-            "RU": 1
+            "RU": 0
         },
         "node12": {
-            "RU": 1
+            "RU": 0
         },
         "node13": {
-            "RU": 1
+            "RU": 0
         },
         "node14": {
-            "RU": 1
+            "RU": 0
         },
         "node15": {
-            "RU": 1
+            "RU": 0
         },
         "node16": {
-            "RU": 1
+            "RU": 0
         },
         "node17": {
-            "RU": 1
+            "RU": 0
         },
         "node18": {
-            "RU": 1
+            "RU": 0
         },
         "node19": {
-            "RU": 1
+            "RU": 0
         },
         "node20": {
-            "RU": 1
+            "RU": 0
         },
         "node21": {
             "RU": 1
@@ -81,6 +81,6 @@ data:
             "RU": 1
         },
         "node25": {
-            "RU": 1
+            "RU": 0
         }
     }
