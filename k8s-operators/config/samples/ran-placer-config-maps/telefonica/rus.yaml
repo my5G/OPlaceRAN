@@ -8,6 +8,9 @@ metadata:
 data:
   rus: |
     {
+        "node0": {
+            "RU": 0
+        },
         "node1": {
             "RU": 0
         },
