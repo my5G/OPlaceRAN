@@ -13,21 +13,21 @@ data:
             "fromNode": "0",
             "toNode": "1",
             "delay": "0.163",
-            "capacity": 1000
+            "capacity": 2000
         },
         {
             "linkNumber": "2",
             "fromNode": "0",
             "toNode": "2",
             "delay": "0.163",
-            "capacity": 1000
+            "capacity": 10000
         },
         {
             "linkNumber": "3",
             "fromNode": "0",
             "toNode": "1",
             "delay": "0.163",
-            "capacity": 1000
+            "capacity": 10000
         },
         {
             "linkNumber": "4",
@@ -41,63 +41,63 @@ data:
             "fromNode": "1",
             "toNode": "3",
             "delay": "0.22",
-            "capacity": 2000
+            "capacity": 10000
         },
         {
             "linkNumber": "6",
             "fromNode": "1",
             "toNode": "4",
             "delay": "0.22",
-            "capacity": 2000
+            "capacity": 10000
         },
         {
             "linkNumber": "7",
             "fromNode": "1",
             "toNode": "5",
             "delay": "0.22",
-            "capacity": 2000
+            "capacity": 10000
         },
         {
             "linkNumber": "8",
             "fromNode": "1",
             "toNode": "6",
             "delay": "0.22",
-            "capacity": 2000
-        },
+            "capacity": 10000
+        }
         {
             "linkNumber": "9",
             "fromNode": "2",
             "toNode": "3",
             "delay": "0.22",
-            "capacity": 2000
+            "capacity": 1000
         },
         {
             "linkNumber": "10",
             "fromNode": "2",
             "toNode": "4",
             "delay": "0.22",
-            "capacity": 2000
+            "capacity": 1000
         },
         {
             "linkNumber": "11",
             "fromNode": "2",
             "toNode": "5",
             "delay": "0.22",
-            "capacity": 2000
+            "capacity": 1000
         },
         {
             "linkNumber": "12",
             "fromNode": "2",
             "toNode": "6",
             "delay": "0.22",
-            "capacity": 2000
+            "capacity": 1000
         },
         {
             "linkNumber": "13",
             "fromNode": "7",
             "toNode": "3",
             "delay": "0.174",
-            "capacity": 2000
+            "capacity": 1000
         },
         {
             "linkNumber": "14",
