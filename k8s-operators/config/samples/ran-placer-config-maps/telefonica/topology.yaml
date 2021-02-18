@@ -13,7 +13,7 @@ data:
             "fromNode": "0",
             "toNode": "1",
             "delay": "0.163",
-            "capacity": 2000
+            "capacity": 10000
         },
         {
             "linkNumber": "2",
@@ -34,7 +34,7 @@ data:
             "fromNode": "0",
             "toNode": "2",
             "delay": "0.163",
-            "capacity": 1000
+            "capacity": 10000
         },
         {
             "linkNumber": "5",
