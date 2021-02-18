@@ -63,7 +63,7 @@ data:
             "toNode": "6",
             "delay": "0.22",
             "capacity": 10000
-        }
+        },
         {
             "linkNumber": "9",
             "fromNode": "2",
