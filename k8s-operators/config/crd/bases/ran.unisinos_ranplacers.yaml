@@ -132,6 +132,10 @@ spec:
                     noticed that the algorithm finished
                   format: date-time
                   type: string
+                errorMessage:
+                  description: ErrorMessage shows the error message retrieved from
+                    the algorithm execution
+                  type: string
                 startTimestamp:
                   description: 'TODO: retrieve start and end time from algorithm StartTimestamp
                     represents the time that the algorithm execution was triggered
