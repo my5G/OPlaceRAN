@@ -1,8 +1,0 @@
-,NAME,CPU(cores),MEMORY(bytes)
-0,algorithm-scheduler-b945798d4-95xl4,98m,64Mi
-1,cu-ranplacer-sample-2-6ffd48fc84-czh2x,501m,10Mi
-2,cu-ranplacer-sample-3-79458fc898-spc5j,0m,2Mi
-3,du-ranplacer-sample-2-79897c8f8f-2m9bf,501m,8Mi
-4,du-ranplacer-sample-3-7dcb6b7df7-fcbx4,0m,3Mi
-5,ru-ranplacer-sample-2-78fd5fbc7b-cfb9s,0m,4Mi
-6,ru-ranplacer-sample-3-86785f45b-w8cm8,0m,3Mi
