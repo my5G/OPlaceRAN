@@ -43,7 +43,6 @@ type Handler struct {
 }
 
 func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
-
 	if ranPlacer.Status.State == v1alpha1.FinishedState || ranPlacer.Status.State == v1alpha1.ErrorState {
 		h.log.Info("current state should not be reconciled, skipping reconcile", "state", ranPlacer.Status.State)
 		return nil
@@ -91,9 +90,9 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 
 		if output.Status == algorithm.Failed || output.Status == algorithm.BadOutput {
 			ranPlacer.Status.State = v1alpha1.ErrorState
-			ranPlacer.Status.LastErrorMessage = "algorithm execution failed"
+			ranPlacer.Status.Algorithm.ErrorMessage = "algorithm execution failed"
 			if output.Status == algorithm.BadOutput {
-				ranPlacer.Status.LastErrorMessage = "algorithm output in bad format"
+				ranPlacer.Status.Algorithm.ErrorMessage = "algorithm output in bad format"
 			}
 
 			if err := h.client.Status().Update(context.Background(), ranPlacer); err != nil {

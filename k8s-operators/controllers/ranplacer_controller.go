@@ -48,7 +48,6 @@ const requeueAfter = 30 * time.Second
 // +kubebuilder:rbac:groups="",resources=nodes,verbs=get;list;watch
 
 func (r *RANPlacerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-
 	// TODO: Use context properly
 	log := r.Log.WithValues("ranplacer", req.NamespacedName)
 
@@ -61,6 +60,11 @@ func (r *RANPlacerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 	handler := ranplacer.NewHandler(ctx, r.Client, r.Scheme, log, req)
 
 	if err := handler.Sync(ranPlacer); err != nil {
+		ranPlacer.Status.LastErrorMessage = err.Error()
+		if errUpdate := r.Status().Update(context.Background(), ranPlacer); errUpdate != nil {
+			log.Error(errUpdate, "error updating RanPlacer status with last error message")
+		}
+
 		switch err.(type) {
 		case *customerrors.DoNotRequeueError:
 			log.Info("sync failed, RANPlacer will not be enqueued", "error", err.Error())
