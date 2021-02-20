@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 import numpy as np
 
-os.chdir('performance-analysis/graphics/')
+os.chdir('performance-analysis/graphics/nodes_resources/')
 
 dataframe_CPU = pd.read_csv('Node_CPU.csv',  delimiter=';', header=0)
 dataframe_MEM = pd.read_csv('Node_MEM.csv',  delimiter=';', header=0)
@@ -38,12 +38,6 @@ plt.hlines(max((dataframe_CPU['Media']).to_list()), xmin=0, xmax=25, linestyles=
 plt.text(0, max((dataframe_CPU['Media']).to_list()), 'Max CPU', ha ='left', va ='top') 
 plt.hlines(max((dataframe_MEM['Media']).to_list()), xmin=0, xmax=25, linestyles='dashed', colors='r',label='Max Memory')
 plt.text(0, max((dataframe_MEM['Media']).to_list()), 'Max MEM', ha ='left', va ='top') 
-
-#Plot standard deviation
-x = dataframe_CPU['Node Number']
-plt.errorbar(dataframe_CPU['Node Number'], y, e, linestyle='None', marker='^')
-
-
 
 fig.tight_layout()
 plt.title("Consumo de Recursos por Nó do Cluster Kubernetes")

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 import numpy as np
 
-os.chdir('performance-analysis/graphics/')
+os.chdir('performance-analysis/graphics/nodes_resources/')
 
 dataframe_CPU = pd.read_csv('Node_CPU.csv',  delimiter=';', header=0)
 dataframe_MEM = pd.read_csv('Node_MEM.csv',  delimiter=';', header=0)
@@ -20,12 +20,13 @@ lists = {'Nodes':node_numbers,'Media CPU':media_CPU,'Media MEM':media_MEM,\
 dataframe = pd.DataFrame (data=lists)
 dataframe.set_index('Nodes')
 print(dataframe)
-dataframe[['% Media CPU', '% Media MEM']]\
+dataframe[['Media CPU', 'Media MEM']]\
     .plot(kind='bar', yerr=dataframe[['Desvio CPU', 'Desvio MEM']].values.T,\
-         alpha = 0.75,error_kw=dict(ecolor='k'))
+        error_kw=dict(ecolor='k'),ylabel= '% Consumida')
 locs, labels=plt.xticks()
 x_ticks = []
 plt.xticks(locs,node_numbers, rotation=45, horizontalalignment='right')
+
 
 plt.savefig('out/Nodes_Resources_2.png')
 plt.show()
