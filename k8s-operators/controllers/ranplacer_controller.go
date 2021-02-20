@@ -74,6 +74,7 @@ func (r *RANPlacerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 		return ctrl.Result{Requeue: false}, nil
 	}
 
+	log.Info("Requeue after %s", requeueAfter.String())
 	return ctrl.Result{RequeueAfter: requeueAfter}, nil
 }
 

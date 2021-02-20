@@ -181,7 +181,7 @@ class JobHandler:
         template.template.spec = client.V1PodSpec(
             containers=[container], restart_policy='Never', volumes=volumes)
         job.spec = client.V1JobSpec(
-            ttl_seconds_after_finished=600, template=template.template)
+            ttl_seconds_after_finished=1200, template=template.template)
 
         return job
 
