@@ -1,0 +1,624 @@
+[33mcommit 639dfacec818e4dd07f91692528fb72bd8352d29[m[33m ([m[1;36mHEAD -> [m[1;32mfeat/add-ran-deployer[m[33m, [m[1;31morigin/feat/add-ran-deployer[m[33m)[m
+Author: fzmorais1984 <38887903+fzmorais1984@users.noreply.github.com>
+Date:   Tue Feb 16 22:05:30 2021 -0300
+
+    Update algorithm.py
+
+[33mcommit 0746ee08ca2cbb1ac5e10ffbf72f323a65adb1ca[m
+Author: fzmorais1984 <38887903+fzmorais1984@users.noreply.github.com>
+Date:   Tue Feb 16 21:43:19 2021 -0300
+
+    Update rus.yaml
+
+[33mcommit 52c9f110f1a1de2a5ffe8396741c9affa732b4ba[m
+Author: fzmorais1984 <38887903+fzmorais1984@users.noreply.github.com>
+Date:   Tue Feb 16 21:05:28 2021 -0300
+
+    Update rus.yaml
+
+[33mcommit 07819a5a1ddbb52b4d2983c98aee165bbd65022b[m
+Author: fzmorais1984 <38887903+fzmorais1984@users.noreply.github.com>
+Date:   Tue Feb 16 20:55:21 2021 -0300
+
+    Update rus.yaml
+
+[33mcommit ad52bddd101e2188e1d800e002a04d571fc82ec1[m
+Author: fzmorais1984 <38887903+fzmorais1984@users.noreply.github.com>
+Date:   Tue Feb 16 20:35:39 2021 -0300
+
+    Update algorithm.py
+
+[33mcommit 03bae2ea36398473c2c2e535a0dc002619948a01[m
+Author: fzmorais1984 <38887903+fzmorais1984@users.noreply.github.com>
+Date:   Tue Feb 16 20:09:31 2021 -0300
+
+    Update rus.yaml
+
+[33mcommit df1d4fb662b93915e3b981dd60f44ed40ebe221c[m
+Author: fzmorais1984 <38887903+fzmorais1984@users.noreply.github.com>
+Date:   Tue Feb 16 19:39:41 2021 -0300
+
+    Update rus.yaml
+
+[33mcommit ab96e07943ba0ea8c45ce9eb1ed611f93d282d4c[m
+Author: fzmorais1984 <38887903+fzmorais1984@users.noreply.github.com>
+Date:   Tue Feb 16 19:38:29 2021 -0300
+
+    Update topology.yaml
+
+[33mcommit eb1406e3512d037618d125f359fb6094ec15f738[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Mon Feb 15 21:27:46 2021 -0300
+
+    update RUs
+
+[33mcommit 98f0ce3667c4096efae7d25ce3fe506e7f80e113[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Mon Feb 15 21:23:42 2021 -0300
+
+    fix: update topology
+
+[33mcommit 38b0f27eda57c3cfb1c6e0a6c9c1acb064f63f87[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Mon Feb 15 21:20:28 2021 -0300
+
+    fix: topology
+
+[33mcommit 81e6258474cc5bb7684212eda8b078920caa2d3d[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Mon Feb 15 21:16:13 2021 -0300
+
+    update inputs
+
+[33mcommit 5f6bce7ee48f55e2a07e7f0543e7e5d6e7f8d065[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Mon Feb 15 20:56:17 2021 -0300
+
+    fix: ng-ran-model output format
+
+[33mcommit e8fb01084635933da75cb6a83d74f5e39f1c3078[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Mon Feb 15 20:41:46 2021 -0300
+
+    fix: utils
+
+[33mcommit 957afd62e6ecb1f235d21fbebeda21c798c23f13[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Mon Feb 15 20:38:32 2021 -0300
+
+    fix: revert algorithm changes
+
+[33mcommit 5ac6e1374150afd672df98ae3c5bc52e13cb9802[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Mon Feb 15 20:15:38 2021 -0300
+
+    sleep algorithm
+
+[33mcommit 46aeee1c538d28d9d46f4fc0688b4a8b940badac[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Mon Feb 15 13:03:09 2021 -0300
+
+    fix: ru number
+
+[33mcommit 9e3bd73acb1933336c1a38de3973b380990bcd14[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Mon Feb 15 12:40:10 2021 -0300
+
+    fix: types
+
+[33mcommit 0907d4c4b77d5c46c490469863d030641e2c2e9c[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 14:47:16 2021 -0300
+
+    reorganize
+
+[33mcommit 7471224d9c7bd1d591cad28ba8058a5b1e72652a[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 14:38:31 2021 -0300
+
+    fix: capacity type
+
+[33mcommit 646348336060e0013acdf25e85bc77dc94bca512[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 14:23:31 2021 -0300
+
+    change ran deployer
+
+[33mcommit d5912146767c9463200b1ab96b71c85a071d4fda[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 14:17:58 2021 -0300
+
+    fix: capacity type
+
+[33mcommit 0986bb56d92c056352c12e5f7f5603573cfd0f70[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 14:14:14 2021 -0300
+
+    upload values
+
+[33mcommit bc816827f98fed38753323661682e911b7f904f4[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 13:48:51 2021 -0300
+
+    undo constants change
+
+[33mcommit 97e414307de36e2c22fb1aae587874b7162c6de1[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 13:35:09 2021 -0300
+
+    fix algorithm
+
+[33mcommit 43a44192181acaea01cbf473abb269146a98d631[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 13:34:01 2021 -0300
+
+    ng-ran-model: change arguments
+
+[33mcommit 8d6d946894da5f75f9b44a94d6fc398cf5205abe[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 13:21:15 2021 -0300
+
+    fix: image pull policy
+
+[33mcommit e7dd334d4625127df9f638af4d4ba4ac10379bb3[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 13:16:10 2021 -0300
+
+    fix: docker image
+
+[33mcommit 64e41789f8b8b7404bbc784e89257c4b1adafd19[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 13:05:36 2021 -0300
+
+    fix: scheduler
+
+[33mcommit 223dfc28249b938501335a87debcf54062971c5d[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 12:58:39 2021 -0300
+
+    fix: schema validator
+
+[33mcommit fa76991d51c6629bf2c07e04f93f6d34d6fc5f18[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 12:47:53 2021 -0300
+
+    fix: capacity type
+
+[33mcommit 3c9308ef626380ce3caeaa7b8b2596f4fcd7c0d8[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 12:41:09 2021 -0300
+
+    fix: adapt for ng-ran-model
+
+[33mcommit b8b8e57c2de04bb69f8133a38fa53b6786389768[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 12:24:48 2021 -0300
+
+    fix: build.sh
+
+[33mcommit 94955f7241851c58313fe6530141a6cc18438d0c[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 12:23:21 2021 -0300
+
+    temp: chage
+
+[33mcommit 8d0d4f4df9bc433603985771dfbac1bc45378f8c[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 12:18:53 2021 -0300
+
+    fix: prepare ng-ran-model
+
+[33mcommit de687a95875e8ad5a85b8bf21ca69016b211466b[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 12:01:28 2021 -0300
+
+    fix
+
+[33mcommit 6278eec71f44024335418e52edd1159fc89dd639[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 11:34:30 2021 -0300
+
+    fix: build.sh
+
+[33mcommit c6c9d6983d5b5a46d8639860d1815847869d28b4[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 11:33:50 2021 -0300
+
+    fix: build.sh
+
+[33mcommit 925ea34b3d99c977f2550d2dfec927967cdc067b[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 11:25:00 2021 -0300
+
+    fix: image name
+
+[33mcommit dc5e4a773dfcb47f6d6feacf67f6b942c9e97321[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 11:24:10 2021 -0300
+
+    fix: image name
+
+[33mcommit d242579227a9ffcceea00f84bb50e9b601f9910c[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 11:21:08 2021 -0300
+
+    fix: deploy image pull policy
+
+[33mcommit 837528308d027238dc8ea0e964cc3c0bcf81462c[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 11:17:58 2021 -0300
+
+    fix: image pull policy
+
+[33mcommit b2e789e0c40216e653ecddfeefd74e9f6748df65[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 11:12:32 2021 -0300
+
+    fix: job image name
+
+[33mcommit c7aa4f533b5dd129f51e16f7e8a852e5bd009b5d[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 10:54:09 2021 -0300
+
+    fix: accept not provided rus
+
+[33mcommit 3a5a0dcab9b7721999ea38ab57036831f408359e[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 10:45:51 2021 -0300
+
+    add roles
+
+[33mcommit 5ed37f91d02ecdcabf2adb9c8e4cc97a4f3f4566[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 10:34:50 2021 -0300
+
+    fix: config maps
+
+[33mcommit 1a3aefdaa118d2fec757b4c61296b3d0a5e03593[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 10:27:53 2021 -0300
+
+    fix role and algorithm
+
+[33mcommit 994c88f4bfd385e126f978bf64012d617d9d3274[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 10:13:05 2021 -0300
+
+    test change role
+
+[33mcommit 19a1bcf0096de04a31bdd3826a733cc82ad354b1[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 10:03:20 2021 -0300
+
+    change image pull policy
+
+[33mcommit 3fba4d6644eebbdda362b860ab050385f8f79c9a[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 09:56:27 2021 -0300
+
+    fix: image pull policy
+
+[33mcommit b15af6c4a2417ae39de67d6ba5fd85bf9c81ad60[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 09:55:08 2021 -0300
+
+    add core ip
+
+[33mcommit 456a18fa5c2f55274179e3a75f25d7eb26500c1b[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 09:50:01 2021 -0300
+
+    update ng-ran-model image
+
+[33mcommit 13a4d9bd2196d4aebf76f3e0a96f39a2d34f594b[m[33m ([m[1;32mmaster[m[33m)[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 09:47:17 2021 -0300
+
+    fix repositories
+
+[33mcommit 4ce60b6dc17a47dba4ab9f53d230e8ecf9b04165[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 09:00:00 2021 -0300
+
+    fix deploy
+
+[33mcommit 8be73846bf4bc74e164faed420f225c4f5998a2e[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 08:58:45 2021 -0300
+
+    fix deployment
+
+[33mcommit 4e583dbeac67ec07210142e807e5fcd10c1f81c8[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 08:56:03 2021 -0300
+
+    deploy
+
+[33mcommit db12b071c2dd1eb83a04ff166f4868930a01b1df[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 08:52:24 2021 -0300
+
+    feat: add docker repository to scheduler manager
+
+[33mcommit 8bb455625384325c7a6a472b6b5f9bdc0eded6e6[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 08:33:59 2021 -0300
+
+    enable input and output ng-ran-model
+
+[33mcommit 200c7a2e0c76c9337b544de3492c995943a74408[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Feb 14 01:15:04 2021 -0300
+
+    feat: add placement
+
+[33mcommit e6aa27d66e0c8c1c777ef069f58c5dbf304c9c3f[m
+Author: root <gmfaria6@github.com>
+Date:   Sat Feb 13 22:42:43 2021 -0400
+
+    path_gen update
+
+[33mcommit 997d2ff028a14c15505a23a7ccf09d94bfa0348a[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Feb 13 22:20:36 2021 -0300
+
+    add comments to constants
+
+[33mcommit 04bb48fdb0c9d02aa9bb77835e1d9ca42b69fa82[m
+Merge: 490c028 8bd3328
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Feb 13 22:18:23 2021 -0300
+
+    Merge branch 'master' of github.com:CROSSHAUL/RANPlacer into feat/add-ran-deployer
+
+[33mcommit 490c0286ea388de891f4b1f877bc78e9c8e28cee[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Feb 13 22:13:00 2021 -0300
+
+    reorganize
+
+[33mcommit 3853b52b13cdac995bcc70ae8e0e88eb50be48b1[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Feb 13 21:43:01 2021 -0300
+
+    fixes
+
+[33mcommit 5644b0b485fb8ae765d62e470a0aefe9fcc56b33[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Feb 13 21:20:15 2021 -0300
+
+    fixes
+
+[33mcommit 7c7d5be14d66ae1e6da578c730d37afee4ef83ac[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Feb 13 21:01:44 2021 -0300
+
+    feat: add files
+
+[33mcommit f8c3afafbb4cf89a4b1be208ac0579450ec140ca[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Feb 13 21:00:53 2021 -0300
+
+    feat: issues and add randeployer
+
+[33mcommit 8bd33286630dfa87513d2876a1253c65757d3ad4[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Julio Renner <juliorenner123@gmail.com>
+Date:   Sat Feb 13 18:10:54 2021 -0300
+
+    adapt algorithm (#2)
+    
+    Co-authored-by: Julio Renner <julio.renner@sap.com>
+
+[33mcommit 0a42b07c8620ccd289bfda5840ab2582d137747d[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Feb 13 18:09:55 2021 -0300
+
+    adapt algorithm
+
+[33mcommit 5c9abef1d616a9b28b61d01262d161ec01d7deb2[m
+Merge: 2674a87 fdaa733
+Author: Julio Renner <juliorenner123@gmail.com>
+Date:   Sat Feb 13 18:09:29 2021 -0300
+
+    Merge pull request #1 from CROSSHAUL/feat/trigger-algorithm
+    
+    Feat: trigger algorithm
+
+[33mcommit fdaa7331d07e2c1514913b61ac6c2885be489761[m
+Merge: 42970f2 2674a87
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Feb 13 18:08:47 2021 -0300
+
+    Merge branch 'master' of github.com:CROSSHAUL/RANPlacer into feat/trigger-algorithm
+
+[33mcommit 42970f23a50d851728d00d9288638ed512008433[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Feb 13 01:30:12 2021 -0300
+
+    fix: issues
+
+[33mcommit 9376c93fd8db3db37febdc7ca87279f67c383d94[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Feb 13 00:11:16 2021 -0300
+
+    fix: issues
+
+[33mcommit e5d1827b08ceada451709c6e40addb64e93ee27c[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Feb 13 00:00:13 2021 -0300
+
+    fix: svc url
+
+[33mcommit fba1e0830189fa16a67ede4177e9bc19d333f653[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Fri Feb 12 23:42:26 2021 -0300
+
+    fix: svc url
+
+[33mcommit 848722d1a165e80d507624029a0b19df5b9d058e[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Fri Feb 12 23:37:33 2021 -0300
+
+    fix: error message
+
+[33mcommit 260d4ea1b531987fcff9aa98d4005be74bfd57f0[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Fri Feb 12 22:42:42 2021 -0300
+
+    fix: error message
+
+[33mcommit 758639b4daf681a5387f692ba4af6b248a151580[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Fri Feb 12 22:34:09 2021 -0300
+
+    add watchers
+
+[33mcommit eb611f1dd4ea8dd90e6667a0eae429f0275f0031[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Fri Feb 12 22:31:51 2021 -0300
+
+    fix buildgi
+
+[33mcommit 224f54664f67cbd218ecc2f70f5bc450b9f9699b[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Fri Feb 12 22:09:11 2021 -0300
+
+    changes
+
+[33mcommit fa8485e0d7ee3ce1b91db420f946d333cf97d26d[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Thu Feb 11 23:30:25 2021 -0300
+
+    fix k8s client loading
+
+[33mcommit 7bb94808ac14229ad6b62055b9c3bc36a6fabd48[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Thu Feb 11 23:29:03 2021 -0300
+
+    fix flask
+
+[33mcommit fc0ea7b6100cdf07f8b7af4c9b29d8c8cb190426[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Thu Feb 11 23:18:01 2021 -0300
+
+    fix flask
+
+[33mcommit 4ad4223a3cfe69f8f54cb0ec59c5595d177d248a[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Thu Feb 11 22:49:42 2021 -0300
+
+    fix flask
+
+[33mcommit c7f936a1d5e11fa6de2729b1900f767a71a4ae46[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Thu Feb 11 22:45:05 2021 -0300
+
+    fix flask
+
+[33mcommit d956c54ad6b04a50b5bf902e97799a1af9650c1b[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Tue Feb 9 23:00:23 2021 -0300
+
+    add deployment
+
+[33mcommit feeca160ba57c40ca4dcf499b5aba7efccfade1a[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Tue Feb 9 22:09:19 2021 -0300
+
+    trigger algorithm
+
+[33mcommit 2afff53cd3812d82f527b576a77d3d3625f0a8c0[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Tue Feb 9 22:08:49 2021 -0300
+
+    trigger algorithm
+
+[33mcommit 2674a8724fba0c52b382adcb4b78de2f4b586549[m
+Author: Gabriel <gmfaria6@github.com>
+Date:   Sun Feb 7 13:30:08 2021 -0300
+
+    place_ran_algorithm
+
+[33mcommit 0fc0111d05c310b654d60a9f1c5236ffc9a1547d[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Wed Jan 27 21:41:30 2021 -0300
+
+    feat: add kubebuilder folders
+
+[33mcommit b8be81f569350c70d1aacc06fa47b53f0d939556[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Jan 23 18:29:35 2021 -0300
+
+    feat(ranplacer): add structure to handle triggering of algorithm
+
+[33mcommit 86a1876d4d613d7f05c3d2ca0ee44d6faa653d19[m
+Author: CRISTIANO BONATO BOTH <cbboth@gmail.com>
+Date:   Sun Jan 10 16:04:01 2021 -0300
+
+    Update README.md
+
+[33mcommit 93e85956149b857db5978cad9f40e8e1fb052bc0[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Jan 10 00:35:28 2021 -0300
+
+    chore: refactor folder structure
+
+[33mcommit 2d68af70742e561add8418ba6ef838bfc272fbe6[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Jan 10 00:29:06 2021 -0300
+
+    fix: example key name
+
+[33mcommit 1f341812e13e24fa62c07a337e779f520724a368[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sun Jan 10 00:26:45 2021 -0300
+
+    feat: fix issues and add simple example algorithm
+
+[33mcommit 2500ab318bf28bfbf4016a2618d36c1e1b80c84e[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Jan 9 22:56:29 2021 -0300
+
+    feat: add print
+
+[33mcommit 63a4a5439dc1086b6f5b937620d2e44d22a19b03[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Jan 9 21:59:04 2021 -0300
+
+    feat: add dockerfile and requirements.txt
+
+[33mcommit ee7c17bb41b3444ef7966e295dd90ae1366bdd97[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Jan 9 21:50:13 2021 -0300
+
+    fix: issues
+
+[33mcommit fba343cb39e15d35356f6ac125dfe34157a6c637[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Jan 9 21:10:11 2021 -0300
+
+    fix: issues
+
+[33mcommit c0a1e4a77c4dffd46c87aab5d188aa1f6e23479b[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Jan 9 20:58:05 2021 -0300
+
+    feat: add Scheduler Manager
+
+[33mcommit 342d15637ec97867416a4d355ef79a2fed84ce4c[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Jan 9 16:53:46 2021 -0300
+
+    refactor: folder structure
+
+[33mcommit cb9b4e8b5dd1433fd06a523a4b19d2e1002cfa86[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Jan 9 16:52:51 2021 -0300
+
+    docs: add empty readmes to create folder structure
+
+[33mcommit 759de5ac1234cff168a5f648e20f9013227aaca4[m
+Author: Julio Renner <julio.renner@sap.com>
+Date:   Sat Jan 9 16:45:45 2021 -0300
+
+    docs: add initial documentation
