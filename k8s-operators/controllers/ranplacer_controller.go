@@ -24,6 +24,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
 	v1alpha1 "github.com/CROSSHAUL/RANPlacer/k8s-operators/api/v1alpha1"
 	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/ranplacer"
@@ -81,5 +82,6 @@ func (r *RANPlacerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 func (r *RANPlacerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&v1alpha1.RANPlacer{}).
+		WithEventFilter(predicate.GenerationChangedPredicate{}).
 		Complete(r)
 }
