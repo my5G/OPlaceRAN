@@ -18,16 +18,16 @@ data:
             "RU": 0
         },
         "node3": {
-            "RU": 1
+            "RU": 0
         },
         "node4": {
-            "RU": 1
+            "RU": 0
         },
         "node5": {
-            "RU": 1
+            "RU": 0
         },
         "node6": {
-            "RU": 1
+            "RU": 0
         },
         "node7": {
             "RU": 1
