@@ -94,7 +94,7 @@ type Algorithm struct {
 	// DurationInSeconds is the seconds from EndTimestamp - StartTimestamp
 	DurationInSeconds string `json:"durationInSeconds,omitempty"`
 	// ErrorMessage shows the error message retrieved from the algorithm execution
-	ErrorMessage string `json:"lastErrorMessage,omitempty"`
+	ErrorMessage string `json:"errorMessage,omitempty"`
 }
 
 // +kubebuilder:object:root=true
