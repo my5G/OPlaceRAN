@@ -20,10 +20,13 @@ lists = {'Nodes':node_numbers,'Media CPU':media_CPU,'Media MEM':media_MEM,\
 dataframe = pd.DataFrame (data=lists)
 dataframe.set_index('Nodes')
 print(dataframe)
-dataframe[['Media CPU', 'Media MEM']]\
+dataframe[['% Media CPU', '% Media MEM']]\
     .plot(kind='bar', yerr=dataframe[['Desvio CPU', 'Desvio MEM']].values.T,\
-         alpha = 0.75,error_kw=dict(ecolor='k'),xticks=dataframe['Nodes'])
-dataframe.plot
+         alpha = 0.75,error_kw=dict(ecolor='k'))
+locs, labels=plt.xticks()
+x_ticks = []
+plt.xticks(locs,node_numbers, rotation=45, horizontalalignment='right')
 
+plt.savefig('out/Nodes_Resources_2.png')
 plt.show()
 
