@@ -34,6 +34,7 @@ import (
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
 	"github.com/CROSSHAUL/RANPlacer/k8s-operators/pkg/utils"
@@ -106,6 +107,7 @@ func (r *RANDeployerReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 
 func (r *RANDeployerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
+		WithOptions(controller.Options{MaxConcurrentReconciles: 5}).
 		For(&ranv1alpha1.RANDeployer{}).
 		WithEventFilter(predicate.GenerationChangedPredicate{}).
 		Complete(r)
