@@ -1,0 +1,9 @@
+NAME                                     CPU(cores)   MEMORY(bytes)   
+algorithm-scheduler-b945798d4-95xl4      30m          64Mi            
+cu-ranplacer-sample-1-cb998cbd5-hp74j    0m           0Mi             
+cu-ranplacer-sample-2-6ffd48fc84-gft6f   0m           0Mi             
+cu-ranplacer-sample-5-654955d6c4-7rh89   0m           0Mi             
+du-ranplacer-sample-1-55764c4957-wxdl6   0m           0Mi             
+du-ranplacer-sample-2-64b956c99-5c724    0m           0Mi             
+ru-ranplacer-sample-1-98d586d8f-vmk97    0m           0Mi             
+ru-ranplacer-sample-2-8577c8d7b-x9hlh    0m           0Mi             

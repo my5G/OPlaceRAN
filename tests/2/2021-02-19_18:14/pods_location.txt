@@ -1,0 +1,24 @@
+NAMESPACE   NAME                  CU NODE   DU NODE   RU NODE   STATUS
+default     ranplacer-sample-1    node1     node5     node21    Running
+default     ranplacer-sample-10   node2     node3     node3     Running
+default     ranplacer-sample-11   node1     node3     node7     Running
+default     ranplacer-sample-12   node1     node6     node17    Running
+default     ranplacer-sample-13   node1     node3     node13    Running
+default     ranplacer-sample-14   node1     node3     node9     Running
+default     ranplacer-sample-15   node1     node3     node12    Running
+default     ranplacer-sample-16   node1     node6     node23    Running
+default     ranplacer-sample-17   node2     node3     node16    Running
+default     ranplacer-sample-18   node2     node4     node4     Running
+default     ranplacer-sample-19   node2     node6     node6     Running
+default     ranplacer-sample-2    node1     node5     node24    Running
+default     ranplacer-sample-20   node2     node6     node19    Running
+default     ranplacer-sample-21   node2     node4     node11    Running
+default     ranplacer-sample-22   node2     node4     node14    Running
+default     ranplacer-sample-23   node2     node4     node15    Running
+default     ranplacer-sample-3    node1     node5     node18    Running
+default     ranplacer-sample-4    node1     node5     node25    Running
+default     ranplacer-sample-5    node2     node5     node5     Running
+default     ranplacer-sample-6    node1     node3     node8     Running
+default     ranplacer-sample-7    node1     node5     node20    Running
+default     ranplacer-sample-8    node1     node3     node10    Running
+default     ranplacer-sample-9    node1     node5     node22    Running
