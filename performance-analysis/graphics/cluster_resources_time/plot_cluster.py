@@ -1,5 +1,4 @@
 import pandas as pd 
-import matplotlib as mlp 
 import matplotlib.pyplot as plt
 import os
 os.chdir('performance-analysis/graphics/cluster_resources_time/')
