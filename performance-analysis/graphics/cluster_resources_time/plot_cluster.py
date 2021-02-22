@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import os
 os.chdir('performance-analysis/graphics/cluster_resources_time/')
 dataframe = pd.read_csv('Cluster_Resources.csv',  delimiter=';', header=0, index_col=0)
-ax = dataframe.plot(y='CPU', color='darkred')
+ax = dataframe.plot(y='CPU', color='darkblue')
 ax.set_ylabel("Consumo dos RCs (%)")
-dataframe.plot(y='RAM', ax=ax, color='darkblue',figsize=(9,7))
+dataframe.plot(y='RAM', ax=ax, color='darkred',figsize=(9,7))
 ax.yaxis.grid(color='gray', linestyle='--', linewidth=0.5)
 ax.set_xlabel("Tempo (s)")
 plt.vlines(120, ymin=0, ymax=max(dataframe['RAM'].to_list()), linestyles='dotted',label='Início Alocação', colors='darkblue')
