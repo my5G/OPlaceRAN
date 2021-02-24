@@ -87,7 +87,7 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 
 		if ranPlacer.Status.Algorithm.EndTimestamp == nil {
 			ranPlacer.Status.Algorithm.EndTimestamp = utils.GetTimePnt(metav1.NewTime(time.Now()))
-			ranPlacer.Status.Times.AlgorithmExecution = output.ExecutionTime
+			ranPlacer.Status.Times.AlgorithmExecution = algorithm.GetDurationInSeconds(ranPlacer)
 		}
 
 		if output.Status == algorithm.Failed || output.Status == algorithm.BadOutput {
@@ -104,6 +104,8 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 			h.log.Info("algorithm error", "status", output.Status)
 			return errors.NewDoNotRequeueError("algorithm execution failed")
 		}
+
+		ranPlacer.Status.Times.AlgorithmExecution = output.ExecutionTime
 	}
 
 	if output.Status == algorithm.Running {
