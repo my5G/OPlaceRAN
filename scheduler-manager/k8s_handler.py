@@ -49,7 +49,6 @@ class JobHandler:
         self.rollback_resources = []
 
     def register(self, nodes, topology, algorithm):
-
         try:
             # Register Job Config Map
             self._register_job_configmap(nodes, topology)
@@ -85,7 +84,11 @@ class JobHandler:
 
         print(output_obj)
 
-        return {"status": STATUS_COMPLETED, "result": output_obj}
+        execution_time = job.status.completion_time - job.status.start_time
+        # Change to a string with an int value
+        execution_time = str(int(execution_time.total_seconds()))
+
+        return {"status": STATUS_COMPLETED, "result": output_obj, "executionTime": execution_time}
 
     def _register_job(self, algorithm):
         job = self._get_job_object(algorithm)

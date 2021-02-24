@@ -50,11 +50,18 @@ type NodeInput struct {
 	RU         int     `json:"RU"`
 }
 
+// Output is the interface retrieved from the algorithm scheduler
 type Output struct {
-	Status State           `json:"status"`
+	// Status contains the current state of the algorithm execution
+	Status State `json:"status"`
+	// Result contains the position of each node of the chain
 	Result []ChainPosition `json:"result,omitempty"`
+	// ExecutionTime contains the time the algorithm job took to execute in seconds
+	ExecutionTime string `json:"executionTime,omitempty"`
 }
 
+// ChainPosition defines the position returned from the algorithm containing the position
+// of the nodes of a chain
 type ChainPosition struct {
 	ID   string  `json:"id,omitempty"`
 	Drc  string  `json:"drc,omitempty"`

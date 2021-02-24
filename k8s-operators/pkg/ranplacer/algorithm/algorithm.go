@@ -169,14 +169,14 @@ func (h *Handler) Trigger(inputs *Input) (string, error) {
 }
 
 func (h *Handler) GetResult(token string) (*Output, error) {
-	algorithmSchedulerUrl := os.Getenv(common.EnvAlgorithmSchedulerURL)
-	if algorithmSchedulerUrl == "" {
+	algorithmSchedulerURL := os.Getenv(common.EnvAlgorithmSchedulerURL)
+	if algorithmSchedulerURL == "" {
 		return nil, fmt.Errorf("env var %s contains empty URL", common.EnvAlgorithmSchedulerURL)
 	}
 
-	algorithmSchedulerUrl = fmt.Sprintf("http://%s%s?job_token=%s", algorithmSchedulerUrl, scheduleEndpoint, token)
+	algorithmSchedulerURL = fmt.Sprintf("http://%s%s?job_token=%s", algorithmSchedulerURL, scheduleEndpoint, token)
 
-	res, err := http.Get(algorithmSchedulerUrl)
+	res, err := http.Get(algorithmSchedulerURL)
 	if err != nil {
 		return nil, fmt.Errorf("error executing get request to retrieve algorithm result: %w", err)
 	}

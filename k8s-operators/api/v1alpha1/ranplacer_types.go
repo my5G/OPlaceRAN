@@ -83,6 +83,7 @@ type RANPlacerStatus struct {
 	LastErrorMessage string         `json:"lastErrorMessage,omitempty"`
 	State            RANPlacerState `json:"state,omitempty"`
 	Token            string         `json:"token,omitempty"`
+	Times            Times          `json:"times,omitempty"`
 }
 
 type Algorithm struct {
@@ -91,10 +92,19 @@ type Algorithm struct {
 	StartTimestamp *metav1.Time `json:"startTimestamp,omitempty"`
 	// EndTimestamp represents the time that the RANPlacer noticed that the algorithm finished
 	EndTimestamp *metav1.Time `json:"endTimestamp,omitempty"`
-	// DurationInSeconds is the seconds from EndTimestamp - StartTimestamp
-	DurationInSeconds string `json:"durationInSeconds,omitempty"`
 	// ErrorMessage shows the error message retrieved from the algorithm execution
 	ErrorMessage string `json:"errorMessage,omitempty"`
+}
+
+type Times struct {
+	// Initialization reflects the time in seconds required to trigger the algorithm execution
+	Initialization string `json:"initialization,omitempty"`
+	// AlgorithmExecutionTime reflects the time that the algorithm took to execute, it is retrieved from the api-scheduler.
+	// While running, the duration is constantly updated getting the algorithm start time - now.
+	AlgorithmExecutionTime string `json:"algorithmExecutionTime,omitempty"`
+	// RANDeployerCreationTime reflects the time in seconds required to create the ranDeployer objects after the
+	// algorithm execution is finished. It does not include the algorithm processing time.
+	RANDeployerCreation string `json:"ranDeployerCreation"`
 }
 
 // +kubebuilder:object:root=true

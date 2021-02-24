@@ -43,6 +43,7 @@ type Handler struct {
 }
 
 func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
+	reconcileStartTime := time.Now()
 	if ranPlacer.Status.State == v1alpha1.FinishedState || ranPlacer.Status.State == v1alpha1.ErrorState {
 		h.log.Info("current state should not be reconciled, skipping reconcile", "state", ranPlacer.Status.State)
 		return nil
@@ -85,7 +86,7 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 
 		if ranPlacer.Status.Algorithm.EndTimestamp == nil {
 			ranPlacer.Status.Algorithm.EndTimestamp = utils.GetTimePnt(metav1.NewTime(time.Now()))
-			ranPlacer.Status.Algorithm.DurationInSeconds = algorithm.GetDurationInSeconds(ranPlacer)
+			ranPlacer.Status.Times.AlgorithmExecutionTime = output.ExecutionTime
 		}
 
 		if output.Status == algorithm.Failed || output.Status == algorithm.BadOutput {
@@ -108,7 +109,7 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 		h.log.Info("algorithm job not finished")
 
 		ranPlacer.Status.State = v1alpha1.AlgorithmRunningState
-		ranPlacer.Status.Algorithm.DurationInSeconds = algorithm.GetDurationInSeconds(ranPlacer)
+		ranPlacer.Status.Times.AlgorithmExecutionTime = algorithm.GetDurationInSeconds(ranPlacer)
 
 		// TODO: understand if update is requeueing the ranplacer
 		if err := h.client.Status().Update(context.Background(), ranPlacer); err != nil {
@@ -126,6 +127,7 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 	}
 
 	ranPlacer.Status.State = v1alpha1.FinishedState
+	ranPlacer.Status.Times.RANDeployerCreationTime = fmt.Sprintf("%f", time.Since(reconcileStartTime).Seconds())
 	if err := h.client.Status().Update(context.Background(), ranPlacer); err != nil {
 		return fmt.Errorf("error updating RanPlacer status: %w", err)
 	}

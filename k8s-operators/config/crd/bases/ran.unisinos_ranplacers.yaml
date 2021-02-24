@@ -123,10 +123,6 @@ spec:
                 of cluster Important: Run "make" to regenerate code after modifying
                 this file'
               properties:
-                durationInSeconds:
-                  description: DurationInSeconds is the seconds from EndTimestamp
-                    - StartTimestamp
-                  type: string
                 endTimestamp:
                   description: EndTimestamp represents the time that the RANPlacer
                     noticed that the algorithm finished
@@ -147,6 +143,27 @@ spec:
               type: string
             state:
               type: string
+            times:
+              properties:
+                algorithmExecutionTime:
+                  description: AlgorithmExecutionTime reflects the time that the algorithm
+                    took to execute, it is retrieved from the api-scheduler. While
+                    running, the duration is constantly updated getting the algorithm
+                    start time - now.
+                  type: string
+                initialization:
+                  description: Initialization reflects the time in seconds required
+                    to trigger the algorithm execution
+                  type: string
+                ranDeployerCreation:
+                  description: RANDeployerCreationTime reflects the time in seconds
+                    required to create the ranDeployer objects after the algorithm
+                    execution is finished. It does not include the algorithm processing
+                    time.
+                  type: string
+              required:
+              - ranDeployerCreation
+              type: object
             token:
               type: string
           type: object
