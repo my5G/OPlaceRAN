@@ -16,9 +16,11 @@ plt.vlines(120, ymin=0, ymax=max(dataframe['RAM Desvio Sup'].to_list()), linesty
 plt.vlines(480, ymin=0, ymax=max(dataframe['RAM Desvio Sup'].to_list()), linestyles='dashed',label='Fim Alocação', colors='darkred', alpha=0.5)
 plt.legend()
 
-plt.xlabel("Tempo")
-plt.ylabel("% Consumode Recursos")
+plt.xlabel("Tempo (s)")
+plt.ylabel("Consumode Recursos (%)")
 #plt.title("Consumo de Recursos Médio por Nó K8S em função do Tempo")
-plt.savefig('out/Cluster_Resources_StdError_MEM.pdf')
+%plt.gcf().subplots_adjust(bottom=0.5)
+
+plt.savefig('out/Cluster_Resources_StdError_MEMv1.pdf')
 
 plt.show()

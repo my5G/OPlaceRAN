@@ -23,9 +23,9 @@ plt.vlines(120, ymin=0, ymax=max(dataframe['CPU Desvio Sup'].to_list()), linesty
 plt.vlines(480, ymin=0, ymax=max(dataframe['CPU Desvio Sup'].to_list()), linestyles='dashed',label='Fim Alocação', colors='darkred', alpha=0.5)
 plt.legend()
 
-plt.xlabel("Tempo")
-plt.ylabel("% Consumode Recursos")
+plt.xlabel("Tempo (s)")
+plt.ylabel("Consumode Recursos (%)")
 #plt.title("Consumo de Recursos Médio por Nó K8S em função do Tempo")
-plt.savefig('out/Cluster_Resources_StdError_CPU.pdf')
+plt.savefig('out/Cluster_Resources_StdError_CPUv1.pdf')
 
 plt.show()
