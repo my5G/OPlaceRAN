@@ -24,8 +24,5 @@ dataframe[['Media CPU', 'Media MEM']]\
 locs, labels=plt.xticks()
 x_ticks = []
 plt.xticks(locs,node_numbers, rotation=45, horizontalalignment='right')
-
-plt.title("Consumo de Recursos por Nó do Cluster Kubernetes")
+plt.title("Consumo de Recursos por No do Cluster Kubernetes")
 plt.savefig('out/Nodes_Resources_2.png')
-plt.show()
-

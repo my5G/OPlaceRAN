@@ -11,5 +11,11 @@ ax.set_xlabel("Tempo (s)")
 plt.vlines(120, ymin=0, ymax=max(dataframe['RAM'].to_list()), linestyles='dotted',label='Início Alocação', colors='darkblue')
 plt.vlines(480, ymin=0, ymax=max(dataframe['RAM'].to_list()), linestyles='dotted',label='Fim Alocação', colors='darkred')
 plt.legend()
-plt.savefig('out/Cluster_Resources.pdf')
+
+#plt.savefig('out/Cluster_Resources.pdf')
+plt.xlabel("Tempo")
+plt.ylabel("% Consumode Recursos")
+plt.title("Consumo de Recursos Médio por Nó K8S em função do Tempo")
+plt.savefig('out/Cluster_Resources.png')
+
 plt.show()
