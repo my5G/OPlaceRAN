@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="27654a13-83f1-4e35-8a8b-2fd4d216b729" name="Default Changelist" comment="fix: config maps" />
+    <list default="true" id="27654a13-83f1-4e35-8a8b-2fd4d216b729" name="Default Changelist" comment="fix: status field">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s-operators/api/v1alpha1/ranplacer_types.go" beforeDir="false" afterPath="$PROJECT_DIR$/k8s-operators/api/v1alpha1/ranplacer_types.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,6 +20,14 @@
   <component name="GOROOT" url="file:///usr/local/go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
@@ -109,7 +120,17 @@
     <MESSAGE value="fix repositories" />
     <MESSAGE value="fix role and algorithm" />
     <MESSAGE value="fix: config maps" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: config maps" />
+    <MESSAGE value="fix: accept not provided rus" />
+    <MESSAGE value="fix: prepare ng-ran-model" />
+    <MESSAGE value="fix: capacity type" />
+    <MESSAGE value="fix(manager): resource requests and limits" />
+    <MESSAGE value="chore: add logs" />
+    <MESSAGE value="fix: logs" />
+    <MESSAGE value="fix: skip reconcile for update events" />
+    <MESSAGE value="feat: add max concurrent reconciles for randeployer" />
+    <MESSAGE value="feat: improve error handling" />
+    <MESSAGE value="fix: status field" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: status field" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

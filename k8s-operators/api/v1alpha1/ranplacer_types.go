@@ -99,9 +99,9 @@ type Algorithm struct {
 type Times struct {
 	// Initialization reflects the time in seconds required to trigger the algorithm execution
 	Initialization string `json:"initialization,omitempty"`
-	// AlgorithmExecutionTime reflects the time that the algorithm took to execute, it is retrieved from the api-scheduler.
+	// AlgorithmExecution reflects the time that the algorithm took to execute, it is retrieved from the api-scheduler.
 	// While running, the duration is constantly updated getting the algorithm start time - now.
-	AlgorithmExecutionTime string `json:"algorithmExecutionTime,omitempty"`
+	AlgorithmExecution string `json:"algorithmExecution,omitempty"`
 	// RANDeployerCreationTime reflects the time in seconds required to create the ranDeployer objects after the
 	// algorithm execution is finished. It does not include the algorithm processing time.
 	RANDeployerCreation string `json:"ranDeployerCreation,omitempty"`
