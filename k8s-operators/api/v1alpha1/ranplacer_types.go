@@ -104,7 +104,7 @@ type Times struct {
 	AlgorithmExecutionTime string `json:"algorithmExecutionTime,omitempty"`
 	// RANDeployerCreationTime reflects the time in seconds required to create the ranDeployer objects after the
 	// algorithm execution is finished. It does not include the algorithm processing time.
-	RANDeployerCreation string `json:"ranDeployerCreation"`
+	RANDeployerCreation string `json:"ranDeployerCreation,omitempty"`
 }
 
 // +kubebuilder:object:root=true
