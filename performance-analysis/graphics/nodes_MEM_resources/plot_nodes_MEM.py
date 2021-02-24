@@ -6,7 +6,7 @@ import os
 os.chdir('performance-analysis/graphics/nodes_MEM_resources/')
 dataframe = pd.read_csv('Node_MEM.csv',  delimiter=';', header=0, index_col=0, dtype={'RAM':float})
 print(dataframe)
-ax = dataframe.plot.bar(y='RAM', color='darkred')
+ax = dataframe.plot.bar(y='Incremento', color='darkred')
 ax.set_xlabel("Nós de Rede")
 ax.set_ylabel("Consumo CPU (%)")
 ax.yaxis.grid(color='gray', linestyle='--', linewidth=0.5)
