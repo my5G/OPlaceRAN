@@ -19,6 +19,6 @@ plt.legend()
 plt.xlabel("Tempo")
 plt.ylabel("% Consumode Recursos")
 #plt.title("Consumo de Recursos Médio por Nó K8S em função do Tempo")
-plt.savefig('out/Cluster_Resources_StdError.pdf')
+plt.savefig('out/Cluster_Resources_StdError_MEM.pdf')
 
 plt.show()
