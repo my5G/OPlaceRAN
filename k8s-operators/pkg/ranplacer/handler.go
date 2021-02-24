@@ -127,7 +127,7 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 	}
 
 	ranPlacer.Status.State = v1alpha1.FinishedState
-	ranPlacer.Status.Times.RANDeployerCreationTime = fmt.Sprintf("%f", time.Since(reconcileStartTime).Seconds())
+	ranPlacer.Status.Times.RANDeployerCreation = fmt.Sprintf("%f", time.Since(reconcileStartTime).Seconds())
 	if err := h.client.Status().Update(context.Background(), ranPlacer); err != nil {
 		return fmt.Errorf("error updating RanPlacer status: %w", err)
 	}
