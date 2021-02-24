@@ -15,7 +15,7 @@ plt.legend()
 #plt.savefig('out/Cluster_Resources.pdf')
 plt.xlabel("Tempo")
 plt.ylabel("% Consumode Recursos")
-plt.title("Consumo de Recursos Médio por Nó K8S em função do Tempo")
+#plt.title("Consumo de Recursos Médio por Nó K8S em função do Tempo")
 plt.savefig('out/Cluster_Resources.png')
 
 plt.show()
