@@ -1,0 +1,74 @@
+{
+    "links": [
+        {
+            "capacity": 10000,
+            "delay": "0.163",
+            "fromNode": "0",
+            "toNode": "1",
+            "linkNumber": "1"
+        },
+        {
+            "capacity": 10000,
+            "delay": "0.163",
+            "fromNode": "0",
+            "toNode": "2",
+            "linkNumber": "2"
+        },
+        {
+            "capacity": 1000,
+            "delay": "0.22",
+            "fromNode": "1",
+            "toNode": "3",
+            "linkNumber": "3"
+        },
+        {
+            "capacity": 1000,
+            "delay": "0.22",
+            "fromNode": "1",
+            "toNode": "4",
+            "linkNumber": "4"
+        },
+        {
+            "capacity": 1000,
+            "delay": "0.22",
+            "fromNode": "2",
+            "toNode": "3",
+            "linkNumber": "5"
+        },
+        {
+            "capacity": 1000,
+            "delay": "0.22",
+            "fromNode": "2",
+            "toNode": "4",
+            "linkNumber": "6"
+        },
+        {
+            "capacity": 500,
+            "delay": "0.22",
+            "fromNode": "3",
+            "toNode": "5",
+            "linkNumber": "7"
+        },
+        {
+            "capacity": 500,
+            "delay": "0.22",
+            "fromNode": "3",
+            "toNode": "6",
+            "linkNumber": "8"
+        },
+        {
+            "capacity": 500,
+            "delay": "0.22",
+            "fromNode": "4",
+            "toNode": "5",
+            "linkNumber": "9"
+        },
+        {
+            "capacity": 500,
+            "delay": "0.22",
+            "fromNode": "4",
+            "toNode": "6",
+            "linkNumber": "10"
+        }
+    ]
+}

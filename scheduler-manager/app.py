@@ -16,7 +16,7 @@ schedule_schema = {
     'type': 'object',
     'properties': {
         'topology': {
-            'type': 'object',
+            'type': 'array',
         },
         'nodes': {
             'type': 'array',
@@ -35,7 +35,7 @@ schedule_schema = {
 algorithm_allow_list = {
     "ubuntu": None,
     "example": None,
-    "ng_ran_model": None
+    "ng-ran-model": None
 }
 
 @app.route('/healthz', methods=['GET'])

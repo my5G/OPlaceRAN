@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rus
+  namespace: default
+  labels:
+    ran-placer: "rus"
+data:
+  rus: |
+    {
+      "node1": {
+        "RU": 0
+      },
+      "node2": {
+        "RU": 0
+      },
+      "node3": {
+        "RU": 1
+      },
+      "node4": {
+        "RU": 1
+      },
+      "node5": {
+        "RU": 1
+      }
+    }

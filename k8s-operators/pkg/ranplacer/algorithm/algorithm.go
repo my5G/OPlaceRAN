@@ -21,7 +21,7 @@ import (
 
 const (
 	// temporarily annotation, node name should be used instead
-	nodeNumberLabel = "oai.unisinos/node-number"
+	NodeNumberLabel = "oai.unisinos/node-number"
 
 	scheduleEndpoint = "/schedule"
 
@@ -81,14 +81,15 @@ func (h *Handler) GetNodesInput(nodes map[string]*k8s.Node, ruPosition map[strin
 		// TODO: Remove node number, it doesn't make sense, the node name should be used
 		nodeNumber, err := h.getNodeNumber(name)
 		if err != nil {
-			return nil, fmt.Errorf("error getting node number for node %s: %w", name, err)
+			h.log.Info("error getting node number, skipping it", "node", name, "error", err.Error())
+			continue
 		}
 
 		h.log.Info("ru position", "node_name", name)
 
 		v, ok := ruPosition[name]
 		if ok == false {
-			return nil, fmt.Errorf("error getting number of rus for node %s", name)
+			h.log.Info("no rus provided for node, will be set to 0", "name", name)
 		}
 
 		input := &NodeInput{
@@ -112,9 +113,9 @@ func (h *Handler) getNodeNumber(name string) (int, error) {
 		return 0, fmt.Errorf("error getting node %s: %w", name, err)
 	}
 
-	v, ok := node.Labels[nodeNumberLabel]
+	v, ok := node.Labels[NodeNumberLabel]
 	if ok == false {
-		return 0, fmt.Errorf("error getting node number from annotation %s: %w", nodeNumberLabel, err)
+		return 0, fmt.Errorf("error getting node number from label %s: %w", NodeNumberLabel, err)
 	}
 
 	i, err := strconv.Atoi(v)
@@ -168,18 +169,19 @@ func (h *Handler) Trigger(inputs *Input) (string, error) {
 }
 
 func (h *Handler) GetResult(token string) (*Output, error) {
-	algorithmSchedulerUrl := os.Getenv(common.EnvAlgorithmSchedulerURL)
-	if algorithmSchedulerUrl == "" {
+	algorithmSchedulerURL := os.Getenv(common.EnvAlgorithmSchedulerURL)
+	if algorithmSchedulerURL == "" {
 		return nil, fmt.Errorf("env var %s contains empty URL", common.EnvAlgorithmSchedulerURL)
 	}
 
-	algorithmSchedulerUrl = fmt.Sprintf("http://%s%s?job_token=%s", algorithmSchedulerUrl, scheduleEndpoint, token)
+	algorithmSchedulerURL = fmt.Sprintf("http://%s%s?job_token=%s", algorithmSchedulerURL, scheduleEndpoint, token)
 
-	res, err := http.Get(algorithmSchedulerUrl)
+	res, err := http.Get(algorithmSchedulerURL)
 	if err != nil {
 		return nil, fmt.Errorf("error executing get request to retrieve algorithm result: %w", err)
 	}
 
+	// TODO: Handle error response properly (unmarshal and get error message)
 	if res.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("unexpected status code %d retrieved getting algorithm result", res.StatusCode)
 	}
@@ -207,7 +209,7 @@ func (h *Handler) getTopology(ranPlacer *v1alpha1.RANPlacer) (Topology, error) {
 	}
 
 	cm := &v1.ConfigMap{}
-	err := k8s.GetConfigMap(h.client, topologyNamespacedName, cm)
+	_, err := k8s.GetConfigMap(h.client, topologyNamespacedName, cm)
 	if err != nil {
 		return nil, fmt.Errorf("error getting topology config map: %w", err)
 	}
@@ -232,7 +234,7 @@ func (h *Handler) getRUsPosition(ranPlacer *v1alpha1.RANPlacer) (map[string]RUsP
 	}
 
 	cm := &v1.ConfigMap{}
-	err := k8s.GetConfigMap(h.client, topologyNamespacedName, cm)
+	_, err := k8s.GetConfigMap(h.client, topologyNamespacedName, cm)
 	if err != nil {
 		return nil, fmt.Errorf("error getting rus config map: %w", err)
 	}

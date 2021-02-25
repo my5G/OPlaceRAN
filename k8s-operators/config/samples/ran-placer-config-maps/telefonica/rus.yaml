@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rus
+  namespace: default
+  labels:
+    ran-placer: "rus"
+data:
+  rus: |
+    {
+        "node0": {
+            "RU": 0
+        },
+        "node1": {
+            "RU": 0
+        },
+        "node2": {
+            "RU": 0
+        },
+        "node3": {
+            "RU": 0
+        },
+        "node4": {
+            "RU": 0
+        },
+        "node5": {
+            "RU": 0
+        },
+        "node6": {
+            "RU": 0
+        },
+        "node7": {
+            "RU": 1
+        },
+        "node8": {
+            "RU": 1
+        },
+        "node9": {
+            "RU": 1
+        },
+        "node10": {
+            "RU": 1
+        },
+        "node11": {
+            "RU": 1
+        },
+        "node12": {
+            "RU": 1
+        },
+        "node13": {
+            "RU": 1
+        },
+        "node14": {
+            "RU": 1
+        },
+        "node15": {
+            "RU": 1
+        },
+        "node16": {
+            "RU": 1
+        },
+        "node17": {
+            "RU": 1
+        },
+        "node18": {
+            "RU": 1
+        },
+        "node19": {
+            "RU": 1
+        },
+        "node20": {
+            "RU": 1
+        },
+        "node21": {
+            "RU": 1
+        },
+        "node22": {
+            "RU": 1
+        },
+        "node23": {
+            "RU": 1
+        },
+        "node24": {
+            "RU": 1
+        },
+        "node25": {
+            "RU": 1
+        }
+    }

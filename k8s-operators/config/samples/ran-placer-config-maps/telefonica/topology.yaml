@@ -1,0 +1,361 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: topology
+  namespace: default
+  labels:
+    ran-placer: "topology"
+data:
+  topology: |
+    [
+        {
+            "linkNumber": "1",
+            "fromNode": "0",
+            "toNode": "1",
+            "delay": "0.163",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "2",
+            "fromNode": "0",
+            "toNode": "2",
+            "delay": "0.163",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "3",
+            "fromNode": "0",
+            "toNode": "1",
+            "delay": "0.163",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "4",
+            "fromNode": "0",
+            "toNode": "2",
+            "delay": "0.163",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "5",
+            "fromNode": "1",
+            "toNode": "3",
+            "delay": "0.22",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "6",
+            "fromNode": "1",
+            "toNode": "4",
+            "delay": "0.22",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "7",
+            "fromNode": "1",
+            "toNode": "5",
+            "delay": "0.22",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "8",
+            "fromNode": "1",
+            "toNode": "6",
+            "delay": "0.22",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "9",
+            "fromNode": "2",
+            "toNode": "3",
+            "delay": "0.22",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "10",
+            "fromNode": "2",
+            "toNode": "4",
+            "delay": "0.22",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "11",
+            "fromNode": "2",
+            "toNode": "5",
+            "delay": "0.22",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "12",
+            "fromNode": "2",
+            "toNode": "6",
+            "delay": "0.22",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "13",
+            "fromNode": "7",
+            "toNode": "3",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "14",
+            "fromNode": "7",
+            "toNode": "4",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "15",
+            "fromNode": "8",
+            "toNode": "3",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "16",
+            "fromNode": "8",
+            "toNode": "4",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "17",
+            "fromNode": "9",
+            "toNode": "3",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "18",
+            "fromNode": "9",
+            "toNode": "4",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "19",
+            "fromNode": "10",
+            "toNode": "3",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "20",
+            "fromNode": "10",
+            "toNode": "4",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "21",
+            "fromNode": "11",
+            "toNode": "3",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "22",
+            "fromNode": "11",
+            "toNode": "4",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "23",
+            "fromNode": "12",
+            "toNode": "3",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "24",
+            "fromNode": "12",
+            "toNode": "4",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "25",
+            "fromNode": "13",
+            "toNode": "3",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "26",
+            "fromNode": "13",
+            "toNode": "4",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "27",
+            "fromNode": "14",
+            "toNode": "3",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "28",
+            "fromNode": "14",
+            "toNode": "4",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "29",
+            "fromNode": "15",
+            "toNode": "3",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "30",
+            "fromNode": "15",
+            "toNode": "4",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "31",
+            "fromNode": "16",
+            "toNode": "3",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "32",
+            "fromNode": "16",
+            "toNode": "4",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "33",
+            "fromNode": "17",
+            "toNode": "5",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "34",
+            "fromNode": "17",
+            "toNode": "6",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "35",
+            "fromNode": "18",
+            "toNode": "5",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "36",
+            "fromNode": "18",
+            "toNode": "6",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "37",
+            "fromNode": "19",
+            "toNode": "5",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "38",
+            "fromNode": "19",
+            "toNode": "6",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "39",
+            "fromNode": "20",
+            "toNode": "5",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "40",
+            "fromNode": "20",
+            "toNode": "6",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "41",
+            "fromNode": "21",
+            "toNode": "5",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "42",
+            "fromNode": "21",
+            "toNode": "6",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "43",
+            "fromNode": "22",
+            "toNode": "5",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "44",
+            "fromNode": "22",
+            "toNode": "6",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "45",
+            "fromNode": "23",
+            "toNode": "5",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "46",
+            "fromNode": "23",
+            "toNode": "6",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "47",
+            "fromNode": "24",
+            "toNode": "5",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "48",
+            "fromNode": "24",
+            "toNode": "6",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "49",
+            "fromNode": "25",
+            "toNode": "5",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "50",
+            "fromNode": "25",
+            "toNode": "6",
+            "delay": "0.174",
+            "capacity": 1000
+        }
+    ]
