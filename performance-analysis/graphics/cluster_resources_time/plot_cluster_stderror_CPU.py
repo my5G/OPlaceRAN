@@ -9,8 +9,8 @@ ax = plt.gca()
 
 
 #Print Lines
-dataframe.plot(kind='line', y='CPU Media',color='darkblue', ax=ax)
-dataframe.plot(kind='line', y='CPU Desvio Sup',color='darkblue', linestyle='dotted', alpha=0.5,label='Desvio CPU', ax=ax)
+dataframe.plot(kind='line', y='CPU Média',color='darkblue', ax=ax)
+dataframe.plot(kind='line', y='CPU Desvio Sup',color='darkblue', linestyle='dotted', alpha=0.5,label='Desvio Padrão CPU', ax=ax)
 dataframe.plot(kind='line', y='CPU Desvio Inf',color='darkblue', linestyle='dotted', alpha=0.5, label='_nolegend_', ax=ax)
 
 
