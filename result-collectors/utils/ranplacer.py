@@ -129,7 +129,7 @@ class RANPlacer:
         while True:
             pods = K8S.list_pods()
             ready = True
-            if len(pods.items) < ranplacer["status"]["ranDeployerCount"] * 3:
+            if len(pods.items) < int(ranplacer["status"]["ranDeployerCount"]) * 3:
                 ready = False
             else:
                 for pod in pods.items:
