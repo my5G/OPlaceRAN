@@ -141,12 +141,14 @@ spec:
               type: object
             lastErrorMessage:
               type: string
+            ranDeployerCount:
+              type: string
             state:
               type: string
             times:
               properties:
-                algorithmExecutionTime:
-                  description: AlgorithmExecutionTime reflects the time that the algorithm
+                algorithmExecution:
+                  description: AlgorithmExecution reflects the time that the algorithm
                     took to execute, it is retrieved from the api-scheduler. While
                     running, the duration is constantly updated getting the algorithm
                     start time - now.
@@ -161,8 +163,6 @@ spec:
                     execution is finished. It does not include the algorithm processing
                     time.
                   type: string
-              required:
-              - ranDeployerCreation
               type: object
             token:
               type: string
