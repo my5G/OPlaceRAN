@@ -40,7 +40,7 @@ def TestRANPlacer(exec_number: int):
             wait_cleanup_finished()
 
 def output_result(result: object, file_name: str, exec_number: int):
-    logs_file = open("{}/results/{}.txt".format(os.getcwd(),
+    logs_file = open("{}/result-collectors/results/{}.txt".format(os.getcwd(),
                                                 file_name.split(".")[0]), "a")
     logs_file.write(f"Execution {exec_number}:\n")
 
@@ -75,7 +75,7 @@ def output_result(result: object, file_name: str, exec_number: int):
 
 def output_csv(result: object, file_name: str, ran_placer: bool, exec_number: int):
     output_filename = file_name.split(".")[0]
-    output_file = "{}/results/{}.csv".format(os.getcwd(),
+    output_file = "{}/result-collectors/results/{}.csv".format(os.getcwd(),
                                              output_filename)
     with open(output_file, "a") as csv_file:
         csv_writer = csv.writer(csv_file, delimiter=';',
