@@ -49,7 +49,7 @@ class K8S:
         k8s_client = K8S.get_core_v1_client()
         try:
             return k8s_client.read_namespaced_pod_log(name=pod_name,
-                                                      namespace=constants.NAMESPACE_OAI)
+                                                      namespace=constants.NAMESPACE_DEFAULT)
         except ApiException as err:
             logging.error(f"[K8S] Error getting pod logs: {err}")
             raise TryAgain

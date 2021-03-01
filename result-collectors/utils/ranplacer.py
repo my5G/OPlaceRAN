@@ -58,7 +58,7 @@ class RANPlacer:
         try:
             ranplacer = k8s_cli.get_namespaced_custom_object(group=constants.CRD_GROUP,
                                                                 version=constants.APIVERSION_V1ALPHA1,
-                                                                namespace=constants.NAMESPACE_OAI,
+                                                                namespace=constants.NAMESPACE_DEFAULT,
                                                                 plural=constants.CRD_KIND_RANPLACER,
                                                                 name=ranplacer_name)
         except ApiException as err:
@@ -106,7 +106,7 @@ class RANPlacer:
         try:
             k8s_cli.delete_namespaced_custom_object(group=constants.CRD_GROUP,
                                                     version=constants.APIVERSION_V1ALPHA1,
-                                                    namespace=constants.NAMESPACE_OAI,
+                                                    namespace=constants.NAMESPACE_DEFAULT,
                                                     plural=constants.CRD_KIND_RANPLACER,
                                                     name=ranplacer_name,
                                                     body=client.V1DeleteOptions())
