@@ -129,6 +129,7 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 		return fmt.Errorf("error placing algorithm output: %w", err)
 	}
 
+	ranPlacer.Status.RANDeployerCount = fmt.Sprint(len(output.Result))
 	ranPlacer.Status.State = v1alpha1.FinishedState
 	ranPlacer.Status.Times.RANDeployerCreation = fmt.Sprintf("%f", time.Since(reconcileStartTime).Seconds())
 	if err := h.client.Status().Update(context.Background(), ranPlacer); err != nil {

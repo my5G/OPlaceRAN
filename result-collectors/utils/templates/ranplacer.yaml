@@ -1,0 +1,20 @@
+apiVersion: ran.unisinos/v1alpha1
+kind: RANPlacer
+metadata:
+  name: ranplacer-sample
+  namespace: default
+spec:
+  coreIP: 10.233.100.151
+  algorithm: ng-ran-model
+  ruConfigMap: rus
+  topologyConfigMap: topology
+  resources:
+    cu:
+      cpu: 1
+      memory: 2037Ki
+    du:
+      cpu: 1
+      memory: 2037Ki
+    ru:
+      cpu: 1
+      memory: 2037Ki

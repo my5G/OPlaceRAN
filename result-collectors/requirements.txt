@@ -1,0 +1,2 @@
+kubernetes~=8.0.1
+tenacity~=5.1.1

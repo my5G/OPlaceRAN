@@ -1,0 +1,10 @@
+---
+apiVersion: oai.unisinos/v1beta1
+kind: Split
+metadata:
+  name: "1"
+spec:
+  coreIP: 10.233.100.150
+  cuNode: node4
+  duNode: node5
+  ruNode: node6
