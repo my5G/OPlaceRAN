@@ -29,7 +29,7 @@ def TestRANPlacer(exec_number: int):
             result = ranplacer.collect_result()
 
             logging.info("outputing csv")
-            output_csv(result, "ranplacer_result", True, n)
+            # output_csv(result, "ranplacer_result", True, n)
 
             logging.info("outputing results")
             output_result(result, "ranplacer_result", n)
@@ -86,12 +86,8 @@ def output_csv(result: object, file_name: str, ran_placer: bool, exec_number: in
             output_line.append(result["state"])
 
         output_line.append(result["average_initialization_time"])
-        output_line.append(result["average_hops"])
-        output_line.append(result["hops_count"])
         if ran_placer:
-            output_line.append(result["allocated_rus"])
-            output_line.append(result["allocated_percentage"])
-            output_line.append(result["allocation_time"])
+            output_line.append(result["allocated_ran_deployers"])
         csv_writer.writerow(output_line)
 
 
