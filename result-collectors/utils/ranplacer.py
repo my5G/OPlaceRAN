@@ -2,6 +2,7 @@ import logging
 import os
 import yaml
 import time
+import math
 
 from datetime import datetime
 from utils.k8s import K8S
@@ -146,7 +147,7 @@ class RANPlacer:
 
         initialization_time = {"name": "", "difference": 0}
         duration = []
-        latest_initialization = {}
+        latest_initialization = {"duration": -math.inf }
         for pod in pods.items:
             logging.info(f"getting logs for pod {pod.metadata.name}")
             pod_logs = K8S.logs(pod.metadata.name).split("\n")
