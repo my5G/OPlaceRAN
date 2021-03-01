@@ -1,5 +1,5 @@
-CRD_GROUP = "ran"
-CRD_KIND_RANPLACER="ranplacer"
+CRD_GROUP = "ran.unisinos"
+CRD_KIND_RANPLACER="ranplacers"
 APIVERSION_V1ALPHA1="v1alpha1"
 NAMESPACE_OAI="oai"
 NAMESPACE_DEFAULT="default"
