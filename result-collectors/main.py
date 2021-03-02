@@ -117,8 +117,7 @@ def main():
 
     output_start_end_times("start")
 
-    for i in range(1, 7):
-        TestRANPlacer(args.number_of_executions)
+    TestRANPlacer(args.number_of_executions)
 
     output_start_end_times("end")
 

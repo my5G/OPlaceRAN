@@ -140,7 +140,6 @@ func (h *Handler) Sync(ranPlacer *v1alpha1.RANPlacer) error {
 }
 
 func (h *Handler) place(ranPlacer *v1alpha1.RANPlacer, positions []algorithm.ChainPosition) error {
-
 	for _, pos := range positions {
 		key := types.NamespacedName{
 			Namespace: ranPlacer.Namespace,
