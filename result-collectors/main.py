@@ -81,7 +81,7 @@ def output_csv(result: object, file_name: str, exec_number: int):
         csv_writer = csv.writer(csv_file, delimiter=';',
                                 quotechar='|', quoting=csv.QUOTE_MINIMAL)
         
-        header_line = ["State", "Average Initialization Time", "Allocated Ran Deployers", "Total Duration"]
+        header_line = ["Execution Number", "State", "Average Initialization Time", "Allocated Ran Deployers", "Total Duration"]
         
         output_line = []
         output_line.append(exec_number)
