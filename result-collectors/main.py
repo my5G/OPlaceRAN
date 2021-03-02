@@ -29,7 +29,7 @@ def TestRANPlacer(exec_number: int):
             result = ranplacer.collect_result()
 
             logging.info("outputing csv")
-            # output_csv(result, "ranplacer_result", True, n)
+            output_csv(result, "ranplacer_result", n)
 
             logging.info("outputing results")
             output_result(result, "ranplacer_result", n)
@@ -68,28 +68,30 @@ def output_result(result: object, file_name: str, exec_number: int):
 
     if "latest_to_init" in result:
         logs_file.write("latest_to_init: {}\n".format(
-            result["latest_to_init"]["duration"]))
+            result["latest_to_init"]))
 
     logs_file.close()
 
 
-def output_csv(result: object, file_name: str, ran_placer: bool, exec_number: int):
+def output_csv(result: object, file_name: str, exec_number: int):
     output_filename = file_name.split(".")[0]
     output_file = "{}/result-collectors/results/{}.csv".format(os.getcwd(),
                                              output_filename)
     with open(output_file, "a") as csv_file:
         csv_writer = csv.writer(csv_file, delimiter=';',
                                 quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        
+        header_line = ["State", "Average Initialization Time", "Allocated Ran Deployers", "Total Duration"]
+        
         output_line = []
         output_line.append(exec_number)
-        if ran_placer:
-            output_line.append(result["state"])
-
+        output_line.append(result["state"])
         output_line.append(result["average_initialization_time"])
-        if ran_placer:
-            output_line.append(result["allocated_ran_deployers"])
-        csv_writer.writerow(output_line)
+        output_line.append(result["allocated_ran_deployers"])
+        output_line.append(result["latest_to_init"]["duration"])
 
+        csv_writer.writerow(header_line)
+        csv_writer.writerow(output_line)
 
 def wait_cleanup_finished():
     pods = K8S.list_pods()
@@ -111,7 +113,7 @@ def output_start_end_times(prefix: str):
 def main():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--number-of-executions', type=int, default=10)
+    parser.add_argument('--number-of-executions', type=int, default=1)
 
     args = parser.parse_args()
 
