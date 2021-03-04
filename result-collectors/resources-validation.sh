@@ -1,16 +1,16 @@
 #!/bin/sh
 #vars
 PLACER="/home/vmadmin/RANPlacer/k8s-operators/config/samples/ran_v1alpha1_ranplacer.yaml"
-TEST_NUMBER="4"
+OUTPUT_FOLDER="/home/vmadmin/RANPlacer/result-collectors/resources-validation"
 COLLECT_INTERVAL=5
 EACH_TEST_DURATION=900
 NUMBER_OF_TESTS=10
-mkdir "$TEST_NUMBER"
+mkdir "$OUTPUT_FOLDER"
 i=1
 s=0
 while [ $i -le $NUMBER_OF_TESTS ]
 do
-    DIR="$TEST_NUMBER/$(date +%Y-%m-%d_%H:%M)/"
+    DIR="$OUTPUT_FOLDER/$(date +%Y-%m-%d_%H:%M)/"
     mkdir "$DIR"
     #echo "$PLACER"
     kubectl apply -f "$PLACER"
