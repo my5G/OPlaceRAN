@@ -10,6 +10,7 @@ i=1
 s=0
 while [ $i -le $NUMBER_OF_TESTS ]
 do
+    echo "Starting test execution $i..."
     DIR="$OUTPUT_FOLDER/$(date +%Y-%m-%d_%H:%M)/"
     mkdir "$DIR"
     #echo "$PLACER"
@@ -25,4 +26,5 @@ do
     i=$(( $i + 1 ))
     #echo $i
     s=0
+    echo "Finished test execution $i..."
 done
