@@ -126,7 +126,7 @@ def main():
 
     # TestRANPlacer(args.number_of_executions)
 
-    cmd = ["{}/resources-validation.sh".format(os.getcwd())]
+    cmd = ["{}/result-collectors/resources-validation.sh".format(os.getcwd())]
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     p.wait()
     print(f"shell return code is {p.returncode}")
