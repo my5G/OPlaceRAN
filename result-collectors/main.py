@@ -128,6 +128,9 @@ def main():
 
     cmd = ["{}/result-collectors/resources-validation.sh".format(os.getcwd())]
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    for line in p.stdout:
+        print(line)
+
     p.wait()
     print(f"shell return code is {p.returncode}")
 
