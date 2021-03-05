@@ -32,12 +32,19 @@ const (
 
 // RANDeployerSpec defines the desired state of RANDeployer
 type RANDeployerSpec struct {
+	// +kubebuilder:validation:MinLength=0
+
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// CoreIP refers to the IP to establish communications with the Core
 	// +kubebuilder:validation:Required
-	CoreIP string `json:"coreIP,omitempty"`
+	CoreIP string `json:"coreIP"`
+
+	// MSIN refers to the Mobile Subscription Identifier Number that will
+	// be added as an environment variable to the RU container
+	// +kubebuilder:validation:Required
+	MSIN string `json:"msin"`
 
 	// RUNode refers to the node where the RU should be placed
 	RUNode string `json:"ruNode,omitempty"`

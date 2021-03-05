@@ -4,10 +4,11 @@ go 1.14
 
 require (
 	github.com/go-logr/logr v0.3.0
-	github.com/onsi/ginkgo v1.14.1
-	github.com/onsi/gomega v1.10.2
-	github.com/sirupsen/logrus v1.6.0
-	github.com/stretchr/testify v1.6.1
+	github.com/golangci/golangci-lint v1.38.0 // indirect
+	github.com/onsi/ginkgo v1.14.2
+	github.com/onsi/gomega v1.10.4
+	github.com/sirupsen/logrus v1.8.0
+	github.com/stretchr/testify v1.7.0
 	k8s.io/api v0.20.2
 	k8s.io/apimachinery v0.20.2
 	k8s.io/client-go v0.20.2

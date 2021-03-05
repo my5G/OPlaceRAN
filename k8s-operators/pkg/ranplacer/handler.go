@@ -211,6 +211,7 @@ func (h *Handler) getRanDeployerTemplate(pos algorithm.ChainPosition, key types.
 			CUNode: cuNode,
 			DUNode: duNode,
 			RUNode: ruNode,
+			MSIN:   pos.ID,
 		},
 	}, nil
 }
