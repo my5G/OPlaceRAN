@@ -544,7 +544,7 @@ func getSplitDeployment(instance *ranv1alpha1.RANDeployer, split SplitPiece) *ap
 									Value: string(split),
 								},
 								{
-									Name: "MSIN",
+									Name:  "MSIN",
 									Value: instance.Spec.MSIN,
 								},
 							},
