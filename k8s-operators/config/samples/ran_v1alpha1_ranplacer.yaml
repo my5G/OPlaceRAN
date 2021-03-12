@@ -2,7 +2,7 @@ apiVersion: ran.unisinos/v1alpha1
 kind: RANPlacer
 metadata:
   name: ranplacer-sample
-  namespace: default
+  namespace: oai
 spec:
   # Add fields here
   coreIP: 10.233.100.151

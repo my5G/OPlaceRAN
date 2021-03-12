@@ -84,6 +84,7 @@ type RANPlacerStatus struct {
 	State            RANPlacerState `json:"state,omitempty"`
 	Token            string         `json:"token,omitempty"`
 	Times            Times          `json:"times,omitempty"`
+	RANDeployerCount string         `json:"ranDeployerCount,omitempty"`
 }
 
 type Algorithm struct {

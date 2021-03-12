@@ -59,9 +59,16 @@ spec:
             duNode:
               description: DUNode refers to the node where the DU should be placed
               type: string
+            msin:
+              description: MSIN refers to the Mobile Subscription Identifier Number
+                that will be added as an environment variable to the RU container
+              type: string
             ruNode:
               description: RUNode refers to the node where the RU should be placed
               type: string
+          required:
+          - coreIP
+          - msin
           type: object
         status:
           description: RANDeployerStatus defines the observed state of RANDeployer

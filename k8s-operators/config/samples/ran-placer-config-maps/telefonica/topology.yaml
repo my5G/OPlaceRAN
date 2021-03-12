@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: topology
-  namespace: default
+  namespace: oai
   labels:
     ran-placer: "topology"
 data:

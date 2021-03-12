@@ -543,6 +543,10 @@ func getSplitDeployment(instance *ranv1alpha1.RANDeployer, split SplitPiece) *ap
 									Name:  "SplitPiece",
 									Value: string(split),
 								},
+								{
+									Name:  "MSIN",
+									Value: instance.Spec.MSIN,
+								},
 							},
 							Resources: v1.ResourceRequirements{
 								Limits: v1.ResourceList{
