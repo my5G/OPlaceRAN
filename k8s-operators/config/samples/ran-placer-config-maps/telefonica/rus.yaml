@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: rus
-  namespace: oai
+  namespace: default
   labels:
     ran-placer: "rus"
 data:
@@ -18,16 +18,16 @@ data:
             "RU": 0
         },
         "node3": {
-            "RU": 0
+            "RU": 1
         },
         "node4": {
-            "RU": 0
+            "RU": 1
         },
         "node5": {
-            "RU": 0
+            "RU": 1
         },
         "node6": {
-            "RU": 0
+            "RU": 1
         },
         "node7": {
             "RU": 1

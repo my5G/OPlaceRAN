@@ -2,10 +2,10 @@ apiVersion: ran.unisinos/v1alpha1
 kind: RANPlacer
 metadata:
   name: ranplacer-sample
-  namespace: oai
+  namespace: default
 spec:
   # Add fields here
-  coreIP: 10.233.100.151
+  coreIP: 10.233.93.9
   algorithm: ng-ran-model
   #  algorithm: example
   ruConfigMap: rus

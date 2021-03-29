@@ -4,7 +4,7 @@ metadata:
   name: randeployer-sample
   namespace: default
 spec:
-  coreIP: 10.233.105.56
+  coreIP: 10.233.93.9
   # ruNode: docker-desktop
   ruNode: node4
   msin: "1"
