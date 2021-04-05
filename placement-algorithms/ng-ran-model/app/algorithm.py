@@ -2,17 +2,18 @@ import time
 import json
 import sys
 from docplex.mp.model import Model
+from docplex.util.environment import get_environment
 
 import constants
-from utils import initial_validation, output_result
+#from utils import initial_validation, output_result
 from path_gen import path_gen
 
 
 RU_ID = "id"
 DRC = "drc"
-RU_POS = "ru"
-DU_POS = "du"
-CU_POS = "cu"
+RU_PFs = "ru"
+DU_PFs = "du"
+CU_PFs = "cu"
 PATH = "path"
 
 
@@ -30,14 +31,11 @@ class Path:
         self.delay_p3 = delay_p3
 
     def __str__(self):
-        return "ID: {}\tSEQ: {}\t P1: {}\t P2: {}\t P3: {}\t dP1: {}\t dP2: {}\t dP3: {}".format(self.id, self.seq,
-                                                                                                 self.p1, self.p2,
-                                                                                                 self.p3, self.delay_p1,
-                                                                                                 self.delay_p2,
-                                                                                                 self.delay_p3)
+        return "ID: {}\tSEQ: {}\t P1: {}\t P2: {}\t P3: {}\t dP1: {}\t dP2: {}\t dP3: {}".format(self.id, self.seq, self.p1, self.p2, self.p3, self.delay_p1, self.delay_p2, self.delay_p3)
 
 
-class RC:
+#incluir RAM na chamada
+class CR:
     def __init__(self, id, cpu, num_BS, ram):
         self.id = id
         self.cpu = cpu
@@ -47,23 +45,22 @@ class RC:
     def __str__(self):
         return "ID: {}\tCPU: {}".format(self.id, self.cpu)
 
-
-class DSG:
-    def __init__(self, id, cpu_CU, cpu_DU, cpu_RU, ram_CU, ram_DU, ram_RU, Os_CU, Os_DU, Os_RU, delay_BH, delay_MH,
+class DRC:
+    def __init__(self, id, cpu_CU, cpu_DU, cpu_RU, ram_CU, ram_DU, ram_RU, Fs_CU, Fs_DU, Fs_RU, delay_BH, delay_MH,
                  delay_FH, bw_BH, bw_MH, bw_FH):
         self.id = id
 
         self.cpu_CU = cpu_CU
         self.ram_CU = ram_CU
-        self.Os_CU = Os_CU
+        self.Fs_CU = Fs_CU
 
         self.cpu_DU = cpu_DU
         self.ram_DU = ram_DU
-        self.Os_DU = Os_DU
+        self.Fs_DU = Fs_DU
 
         self.cpu_RU = cpu_RU
         self.ram_RU = ram_RU
-        self.Os_RU = Os_RU
+        self.Fs_RU = Fs_RU
 
         self.delay_BH = delay_BH
         self.delay_MH = delay_MH
@@ -74,28 +71,29 @@ class DSG:
         self.bw_FH = bw_FH
 
 
-class Os:
-    def __init__(self, id, O_cpu, O_ram):
+class Fs:
+    def __init__(self, id, f_cpu, f_ram):
         self.id = id
-        self.O_cpu = O_cpu
-        self.O_ram = O_ram
+        self.f_cpu = f_cpu
+        self.f_ram = f_ram
 
 
 class RU:
-    def __init__(self, id, RC):
+    def __init__(self, id, CR):
         self.id = id
-        self.RC = RC
+        self.CR = CR
 
     def __str__(self):
-        return "RU: {}\tRC: {}".format(self.id, self.RC)
+        return "RU: {}\tCR: {}".format(self.id, self.CR)
 
 
+# Global vars
 links = []
 capacity = {}
 delay = {}
-rcs = {}
+CRs = {}
 paths = {}
-conj_Os = {}
+conj_Fs = {}
 
 
 def read_topology():
@@ -128,7 +126,7 @@ def read_topology():
                 delay[(destination_node, source_node)] = float(link["delay"])
                 links.append((destination_node, source_node))
 
-        # create and store the set of RC's with RAM and CPU in a global list "rcs"-rc[0] is the core network without CR
+        # create and store the set of CR's with RAM and CPU in a global list "CRs"-CR[0] is the core network without CR
         with open(constants.NODES_PATH) as json_file:
             data = json.load(json_file)
             print("nodes:")
@@ -136,12 +134,12 @@ def read_topology():
             json_nodes = data["nodes"]
             for item in json_nodes:
                 node = item
-                RC_id = node["nodeNumber"]
+                CR_id = node["nodeNumber"]
                 node_RAM = node["RAM"]
                 node_CPU = node["cpu"]
-                rc = RC(RC_id, node_CPU, node_RAM, 0)
-                rcs[RC_id] = rc
-        rcs[0] = RC(0, 0, 0, 0)
+                cr = CR(CR_id, node_CPU, node_RAM, node_RAM)
+                CRs[CR_id] = cr
+        CRs[0] = CR(0, 0, 0, 0)
 
         # create a set of paths that are calculated previously by the algorithm implemented in "path_gen.py"
         with open('paths.json') as json_paths_file:
@@ -205,36 +203,36 @@ def read_topology():
                 paths[path_id] = p
 
 
-def dsg_structure():
-    # create the DSG's and the set of DSG's
-    # dsg5 = 8 -> NG-RAN(3) [CU]-[DU]-[RU]
-    #dsg5 = DSG(5, 0.98, 0.735, 3.185, 0, 0, 0, [1, 2], [
+def DRC_structure():
+    # create the DRC's and the set of DRC's
+    # DRC5 = 8 -> NG-RAN(3) [CU]-[DU]-[RU]
+    #DRC5 = DRC(5, 0.98, 0.735, 3.185, 0, 0, 0, [1, 2], [
        #        3, 4, 5], [6, 7, 8], 30, 30, 2, 151, 151, 152)
-    dsg5 = DSG(5, 600, 600, 600, 880, 1200, 800, [1, 2], [
+    DRC5 = DRC(5, 600, 600, 600, 880, 1200, 800, [1, 2], [
                 3, 4, 5], [6, 7, 8], 30, 30, 2, 151, 151, 152)
 
-    # dsg7 = 13 -> NG-RAN(2) [CU]-[DU+RU]
-    #dsg7 = DSG(7, 0, 3, 3.92, 0, 0, 0, [0], [1, 2], [
+    # DRC7 = 13 -> NG-RAN(2) [CU]-[DU+RU]
+    #DRC7 = DRC(7, 0, 3, 3.92, 0, 0, 0, [0], [1, 2], [
      #          3, 4, 5, 6, 7, 8], 0, 30, 30, 0, 151, 151)
-    dsg7 = DSG(7, 0, 1200, 600, 0, 2080, 800, [0], [1, 2], [
+    DRC7 = DRC(7, 0, 1200, 600, 0, 2080, 800, [0], [1, 2], [
                3, 4, 5, 6, 7, 8], 0, 30, 30, 0, 151, 151)
 
-    # dsg10 = 17 -> C-RAN [CU+DU]-[RU]
-    #dsg10 = DSG(10, 0, 1.71, 3.185, 0, 0, 0, [0], [
+    # DRC10 = 17 -> C-RAN [CU+DU]-[RU]
+    #DRC10 = DRC(10, 0, 1.71, 3.185, 0, 0, 0, [0], [
      #           1, 2, 3, 4, 5], [6, 7, 8], 0, 30, 2, 0, 151, 152)
-    dsg10 = DSG(10, 0, 1200, 600, 0, 2080, 800, [0], [
+    DRC10 = DRC(10, 0, 1200, 600, 0, 2080, 800, [0], [
                 1, 2, 3, 4, 5], [6, 7, 8], 0, 30, 2, 0, 151, 152)
 
-    # dsg8 = 19 -> D-RAN [CU+DU+RU]
-    #dsg8 = DSG(8, 0, 0, 4.9, 0, 0, 0, [0], [0], [
+    # DRC8 = 19 -> D-RAN [CU+DU+RU]
+    #DRC8 = DRC(8, 0, 0, 4.9, 0, 0, 0, [0], [0], [
      #          1, 2, 3, 4, 5, 6, 7, 8], 0, 0, 30, 0, 0, 151)
-    dsg8 = DSG(8, 0, 0, 1800, 0, 0, 2880, [0], [0], [
+    DRC8 = DRC(8, 0, 0, 1800, 0, 0, 2880, [0], [0], [
                1, 2, 3, 4, 5, 6, 7, 8], 0, 0, 30, 0, 0, 151)
 
-    # set of dsg's
-    dsgs = {5: dsg5, 7: dsg7, 8: dsg8, 10: dsg10}
+    # set of DRC's
+    DRCs = {5: DRC5, 7: DRC7, 8: DRC8, 10: DRC10}
 
-    return dsgs
+    return DRCs
 
 
 def ru_location():
@@ -247,21 +245,21 @@ def ru_location():
     with open(constants.NODES_PATH) as json_file:
         data = json.load(json_file)
 
-        json_rcs = data["nodes"]
+        json_CRs = data["nodes"]
 
-        for item in json_rcs:
+        for item in json_CRs:
             node = item
             num_rus = node["RU"]
-            num_rc = node["nodeNumber"]
+            num_CR = node["nodeNumber"]
 
             for i in range(0, num_rus):
-                rus[count] = RU(count, int(num_rc))
+                rus[count] = RU(count, int(num_CR))
                 count += 1
 
     return rus
 
 
-dsg_f1 = 0
+DRC_f1 = 0
 f1_vars = []
 f2_vars = []
 
@@ -279,49 +277,49 @@ def run_phase_1():
     # read the topology data at the json file
     read_topology()
 
-    dsgs = dsg_structure()
+    DRCs = DRC_structure()
 
     rus = ru_location()
 
     # create the set of O's (functional splits)
     # O's(id, O_cpu, O_ram)
-    # O1 = Os(1, 2, 2)
-    # O2 = Os(2, 2, 2)
-    # O3 = Os(3, 2, 2)
-    # O4 = Os(4, 2, 2)
-    # O5 = Os(5, 2, 2)
-    # O6 = Os(6, 2, 2)
-    # O7 = Os(7, 2, 2)
-    # O8 = Os(8, 2, 2)
+    # O1 = Fs(1, 2, 2)
+    # O2 = Fs(2, 2, 2)
+    # O3 = Fs(3, 2, 2)
+    # O4 = Fs(4, 2, 2)
+    # O5 = Fs(5, 2, 2)
+    # O6 = Fs(6, 2, 2)
+    # O7 = Fs(7, 2, 2)
+    # O8 = Fs(8, 2, 2)
 
-    O1 = Os(1, 1, 1)
-    O2 = Os(2, 1, 1)
-    O3 = Os(3, 1, 1)
-    O4 = Os(4, 1, 1)
-    O5 = Os(5, 1, 1)
-    O6 = Os(6, 1, 1)
-    O7 = Os(7, 1, 1)
-    O8 = Os(8, 1, 1)
+    O1 = Fs(1, 1, 1)
+    O2 = Fs(2, 1, 1)
+    O3 = Fs(3, 1, 1)
+    O4 = Fs(4, 1, 1)
+    O5 = Fs(5, 1, 1)
+    O6 = Fs(6, 1, 1)
+    O7 = Fs(7, 1, 1)
+    O8 = Fs(8, 1, 1)
 
     # set of O's
-    conj_Os = {1: O1, 2: O2, 3: O3, 4: O4, 5: O5, 6: O6}
+    conj_Fs = {1: O1, 2: O2, 3: O3, 4: O4, 5: O5, 6: O6}
 
     # create the fase 1 model
-    mdl = Model(name='NGRAN Problem', log_output=False)
+    mdl = Model(name='NGRAN Problem', log_output=True)
 
     # tuple that will be used by the decision variable
     i = [(p, d, b)
-         for p in paths for d in dsgs for b in rus if paths[p].seq[2] == rus[b].RC]
+         for p in paths for d in DRCs for b in rus if paths[p].seq[2] == rus[b].CR]
 
     # Decision variable X
     mdl.x = mdl.binary_var_dict(i, name='x')
 
     # Fase 1 - Objective Function
-    mdl.minimize(mdl.sum(mdl.min(1, mdl.sum(mdl.x[it] for it in i if c in paths[it[0]].seq)) for c in rcs
-                         if rcs[c].id != 0) - mdl.sum(mdl.sum(mdl.max(0, (mdl.sum(mdl.x[it] for it in i
-                                                                                  if ((o in dsgs[it[1]].Os_CU and paths[it[0]].seq[0] == rcs[c].id) or (o in dsgs[it[1]].Os_DU
-                                                                                                                                                        and paths[it[0]].seq[1] == rcs[c].id) or (o in dsgs[it[1]].Os_RU
-                                                                                                                                                                                                  and paths[it[0]].seq[2] == rcs[c].id))) - 1)) for o in conj_Os) for c in rcs))
+    mdl.minimize(mdl.sum(mdl.min(1, mdl.sum(mdl.x[it] for it in i if c in paths[it[0]].seq)) for c in CRs
+                         if CRs[c].id != 0) - mdl.sum(mdl.sum(mdl.max(0, (mdl.sum(mdl.x[it] for it in i
+                                                                                  if ((o in DRCs[it[1]].Fs_CU and paths[it[0]].seq[0] == CRs[c].id) or (o in DRCs[it[1]].Fs_DU
+                                                                                                                                                        and paths[it[0]].seq[1] == CRs[c].id) or (o in DRCs[it[1]].Fs_RU
+                                                                                                                                                                                                  and paths[it[0]].seq[2] == CRs[c].id))) - 1)) for o in conj_Fs) for c in CRs))
 
     # Constraint 1 (4)
     for b in rus:
@@ -330,77 +328,77 @@ def run_phase_1():
 
     # Constrains 1.1 (N)
     mdl.add_constraint(mdl.sum(
-        mdl.x[it] for it in i if paths[it[0]].target != rus[it[2]].RC) == 0, 'path')
+        mdl.x[it] for it in i if paths[it[0]].target != rus[it[2]].CR) == 0, 'path')
 
     # constraint 1.2 (N) quebras de 2 so pode escolher caminhos de 2 quebras
     mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] != 0 and (
-        it[1] == 6 or it[1] == 7 or it[1] == 8 or it[1] == 9 or it[1] == 10)) == 0, 'dsgs_path_pick')
+        it[1] == 6 or it[1] == 7 or it[1] == 8 or it[1] == 9 or it[1] == 10)) == 0, 'DRCs_path_pick')
 
     # constraint 1.3 (N) quebras de 3 so pode escolher caminhos de 3 quebras
     mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if
                                paths[it[0]].seq[0] == 0 and it[1] != 6 and it[1] != 7 and it[1] != 8 and it[1] != 9
-                               and it[1] != 10) == 0, 'dsgs_path_pick2')
+                               and it[1] != 10) == 0, 'DRCs_path_pick2')
 
     # constraint 1.4 (N) quebras de 1 so pode escolher caminhos de 1 quebras
     mdl.add_constraint(
         mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] ==
                 0 and paths[it[0]].seq[1] == 0 and it[1] != 8) == 0,
-        'dsgs_path_pick3')
+        'DRCs_path_pick3')
 
-    # constraint 1.5 (N) caminhos de 2 RC's nao podem usar D-RAN
+    # constraint 1.5 (N) caminhos de 2 CR's nao podem usar D-RAN
     mdl.add_constraint(
         mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] ==
                 0 and paths[it[0]].seq[1] != 0 and it[1] == 8) == 0,
-        'dsgs_path_pick4')
+        'DRCs_path_pick4')
 
-    # #constraint 1.6 (N) caminhos devem ir para o RC que esta posicionado o RU
+    # #constraint 1.6 (N) caminhos devem ir para o CR que esta posicionado o RU
     for ru in rus:
         mdl.add_constraint(
-            mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[2] != rus[ru].RC and it[2] == rus[ru].id) == 0)
+            mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[2] != rus[ru].CR and it[2] == rus[ru].id) == 0)
 
     # Constraint 2 (5)
     for l in links:
         for k in links:
             if l[0] == k[1] and l[1] == k[0]:
                 break
-        mdl.add_constraint(mdl.sum(mdl.x[it] * dsgs[it[1]].bw_BH for it in i if l in paths[it[0]].p1) +
-                           mdl.sum(mdl.x[it] * dsgs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) +
-                           mdl.sum(mdl.x[it] * dsgs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) +
-                           mdl.sum(mdl.x[it] * dsgs[it[1]].bw_BH for it in i if k in paths[it[0]].p1) +
-                           mdl.sum(mdl.x[it] * dsgs[it[1]].bw_MH for it in i if k in paths[it[0]].p2) +
+        mdl.add_constraint(mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if l in paths[it[0]].p1) +
+                           mdl.sum(mdl.x[it] * DRCs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) +
+                           mdl.sum(mdl.x[it] * DRCs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) +
+                           mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if k in paths[it[0]].p1) +
+                           mdl.sum(mdl.x[it] * DRCs[it[1]].bw_MH for it in i if k in paths[it[0]].p2) +
                            mdl.sum(
-                               mdl.x[it] * dsgs[it[1]].bw_FH for it in i if k in paths[it[0]].p3) <= capacity[l],
+                               mdl.x[it] * DRCs[it[1]].bw_FH for it in i if k in paths[it[0]].p3) <= capacity[l],
                            'links_bw')
 
     # Constraint 3 (6)
     for it in i:
         mdl.add_constraint(
-            (mdl.x[it] * paths[it[0]].delay_p1) <= dsgs[it[1]].delay_BH, 'delay_req_p1')
+            (mdl.x[it] * paths[it[0]].delay_p1) <= DRCs[it[1]].delay_BH, 'delay_req_p1')
 
     # Constraint 4 (7)
     for it in i:
         mdl.add_constraint(
-            (mdl.x[it] * paths[it[0]].delay_p2) <= dsgs[it[1]].delay_MH, 'delay_req_p2')
+            (mdl.x[it] * paths[it[0]].delay_p2) <= DRCs[it[1]].delay_MH, 'delay_req_p2')
 
     # Constraint 5 (8)
     for it in i:
         mdl.add_constraint(
-            (mdl.x[it] * paths[it[0]].delay_p3 <= dsgs[it[1]].delay_FH), 'delay_req_p3')
+            (mdl.x[it] * paths[it[0]].delay_p3 <= DRCs[it[1]].delay_FH), 'delay_req_p3')
 
-    # Constraint 6 (9)
-    for c in rcs:
-        mdl.add_constraint(mdl.sum(mdl.x[it] * dsgs[it[1]].cpu_CU for it in i if c == paths[it[0]].seq[0]) +
-                           mdl.sum(mdl.x[it] * dsgs[it[1]].cpu_DU for it in i if c == paths[it[0]].seq[1]) +
+    # Constraint 6 (9) CPU
+    for c in CRs:
+        mdl.add_constraint(mdl.sum(mdl.x[it] * DRCs[it[1]].cpu_CU for it in i if c == paths[it[0]].seq[0]) +
+                           mdl.sum(mdl.x[it] * DRCs[it[1]].cpu_DU for it in i if c == paths[it[0]].seq[1]) +
                            mdl.sum(
-                               mdl.x[it] * dsgs[it[1]].cpu_RU for it in i if c == paths[it[0]].seq[2]) <= rcs[c].cpu,
-                           'rcs_cpu_usage')
+                               mdl.x[it] * DRCs[it[1]].cpu_RU for it in i if c == paths[it[0]].seq[2]) <= CRs[c].cpu,
+                           'CRs_cpu_usage')
     # Constraint 7 (9) RAM
-    for c in rcs:
+    for c in CRs:
         mdl.add_constraint(
-            mdl.sum(mdl.x[it] * dsgs[it[1]].ram_CU for it in i if c == paths[it[0]].seq[0]) + mdl.sum(
-                mdl.x[it] * dsgs[it[1]].ram_DU for it in i if c == paths[it[0]].seq[1]) + mdl.sum(
-                mdl.x[it] * dsgs[it[1]].ram_RU for it in i if c == paths[it[0]].seq[2]) <= rcs[c].ram,
-            'rcs_ram_usage')
+            mdl.sum(mdl.x[it] * DRCs[it[1]].ram_CU for it in i if c == paths[it[0]].seq[0]) + mdl.sum(
+                mdl.x[it] * DRCs[it[1]].ram_DU for it in i if c == paths[it[0]].seq[1]) + mdl.sum(
+                mdl.x[it] * DRCs[it[1]].ram_RU for it in i if c == paths[it[0]].seq[2]) <= CRs[c].ram,
+            'CRs_ram_usage')
 
     alocation_time_end = time.time()
     start_time = time.time()
@@ -423,10 +421,10 @@ def run_phase_1():
         result_list = {"Solution": []}
         for it in i:
             if mdl.x[it].solution_value > 0:
-                result = {RU_ID: 0, DRC: 0, CU_POS: 0,
-                          DU_POS: 0, RU_POS: 0, PATH: []}
+                result = {RU_ID: 0, DRC: 0, CU_PFs: 0,
+                          DU_PFs: 0, RU_PFs: 0, PATH: []}
                 path_sol = []
-                sol_dsg = it[1]
+                sol_DRC = it[1]
                 ru_id = it[2]
                 if paths[it[0]].p1:
                     for item in paths[it[0]].p1:
@@ -451,10 +449,10 @@ def run_phase_1():
                     cu_loc = du_loc
                     du_loc = ru_loc
                 result[RU_ID] = ru_id
-                result[DRC] = sol_dsg
-                result[CU_POS] = cu_loc
-                result[DU_POS] = du_loc
-                result[RU_POS] = ru_loc
+                result[DRC] = sol_DRC
+                result[CU_PFs] = cu_loc
+                result[DU_PFs] = du_loc
+                result[RU_PFs] = ru_loc
                 result[PATH] = path_sol
 
                 result_list["Solution"].append(result)
@@ -475,54 +473,54 @@ def run_phase_2(FO_fase_1):
 
     # read the topology data at the json file
     read_topology()
-    dsgs = dsg_structure()
+    DRCs = DRC_structure()
     rus = ru_location()
 
     # create the set of O's (functional splits)
     # O's(id, O_cpu, O_ram)
-    # O1 = Os(1, 2, 2)
-    # O2 = Os(2, 2, 2)
-    # O3 = Os(3, 2, 2)
-    # O4 = Os(4, 2, 2)
-    # O5 = Os(5, 2, 2)
-    # O6 = Os(6, 2, 2)
-    # O7 = Os(7, 2, 2)
-    # O8 = Os(8, 2, 2)
+    # O1 = Fs(1, 2, 2)
+    # O2 = Fs(2, 2, 2)
+    # O3 = Fs(3, 2, 2)
+    # O4 = Fs(4, 2, 2)
+    # O5 = Fs(5, 2, 2)
+    # O6 = Fs(6, 2, 2)
+    # O7 = Fs(7, 2, 2)
+    # O8 = Fs(8, 2, 2)
 
-    O1 = Os(1, 1, 1)
-    O2 = Os(2, 1, 1)
-    O3 = Os(3, 1, 1)
-    O4 = Os(4, 1, 1)
-    O5 = Os(5, 1, 1)
-    O6 = Os(6, 1, 1)
-    O7 = Os(7, 1, 1)
-    O8 = Os(8, 1, 1)
+    O1 = Fs(1, 1, 1)
+    O2 = Fs(2, 1, 1)
+    O3 = Fs(3, 1, 1)
+    O4 = Fs(4, 1, 1)
+    O5 = Fs(5, 1, 1)
+    O6 = Fs(6, 1, 1)
+    O7 = Fs(7, 1, 1)
+    O8 = Fs(8, 1, 1)
 
     # set of O's
-    conj_Os = {1: O1, 2: O2, 3: O3, 4: O4, 5: O5, 6: O6}
+    conj_Fs = {1: O1, 2: O2, 3: O3, 4: O4, 5: O5, 6: O6}
 
     # create the fase 1 model
     mdl = Model(name='NGRAN Problem2', log_output=False)
 
     # tuple that will be used by the decision variable
     i = [(p, d, b)
-         for p in paths for d in dsgs for b in rus if paths[p].seq[2] == rus[b].RC]
+         for p in paths for d in DRCs for b in rus if paths[p].seq[2] == rus[b].CR]
 
     # Decision variable X
     mdl.x = mdl.binary_var_dict(i, name='x')
 
     # Fase 2 - Objective Function
     mdl.minimize(mdl.sum(
-        mdl.min(1, mdl.sum(mdl.x[it] for it in i if it[1] == dsg)) for dsg in dsgs))
+        mdl.min(1, mdl.sum(mdl.x[it] for it in i if it[1] == DRC)) for DRC in DRCs))
 
     # Constraint fase 1
     mdl.add_constraint(mdl.sum(
-        mdl.min(1, mdl.sum(mdl.x[it] for it in i if c in paths[it[0]].seq)) for c in rcs if rcs[c].id != 0) - mdl.sum(
+        mdl.min(1, mdl.sum(mdl.x[it] for it in i if c in paths[it[0]].seq)) for c in CRs if CRs[c].id != 0) - mdl.sum(
         mdl.sum(mdl.max(0, (mdl.sum(mdl.x[it] for it in i if (
-            (o in dsgs[it[1]].Os_CU and paths[it[0]].seq[0] == rcs[c].id) or (
-                o in dsgs[it[1]].Os_DU and paths[it[0]].seq[1] == rcs[c].id) or (
-                o in dsgs[it[1]].Os_RU and paths[it[0]].seq[2] == rcs[c].id))) - 1)) for o in conj_Os)
-        for c in rcs) == FO_fase_1)
+            (o in DRCs[it[1]].Fs_CU and paths[it[0]].seq[0] == CRs[c].id) or (
+                o in DRCs[it[1]].Fs_DU and paths[it[0]].seq[1] == CRs[c].id) or (
+                o in DRCs[it[1]].Fs_RU and paths[it[0]].seq[2] == CRs[c].id))) - 1)) for o in conj_Fs)
+        for c in CRs) == FO_fase_1)
 
     # Constraint 1 (4)
     for b in rus:
@@ -531,76 +529,76 @@ def run_phase_2(FO_fase_1):
 
     # Constrains 1.1 (N)
     mdl.add_constraint(mdl.sum(
-        mdl.x[it] for it in i if paths[it[0]].target != rus[it[2]].RC) == 0, 'path')
+        mdl.x[it] for it in i if paths[it[0]].target != rus[it[2]].CR) == 0, 'path')
 
     # constraint 1.2 (N) quebras de 2 so pode escolher caminhos de 2 quebras
     mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] != 0 and (
-        it[1] == 6 or it[1] == 7 or it[1] == 8 or it[1] == 9 or it[1] == 10)) == 0, 'dsgs_path_pick')
+        it[1] == 6 or it[1] == 7 or it[1] == 8 or it[1] == 9 or it[1] == 10)) == 0, 'DRCs_path_pick')
 
     # constraint 1.3 (N) quebras de 3 so pode escolher caminhos de 3 quebras
     mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if
                                paths[it[0]].seq[0] == 0 and it[1] != 6 and it[1] != 7 and it[1] != 8 and it[1] != 9 and
-                               it[1] != 10) == 0, 'dsgs_path_pick2')
+                               it[1] != 10) == 0, 'DRCs_path_pick2')
     # contraint 1.4 (N) quebras de 1 so pode escolher caminhos de 1 quebras
     mdl.add_constraint(
         mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] ==
                 0 and paths[it[0]].seq[1] == 0 and it[1] != 8) == 0,
-        'dsgs_path_pick3')
+        'DRCs_path_pick3')
 
-    # contraint 1.5 (N) caminhos de 2 RC's nao podem usar D-RAN
+    # contraint 1.5 (N) caminhos de 2 CR's nao podem usar D-RAN
     mdl.add_constraint(
         mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] ==
                 0 and paths[it[0]].seq[1] != 0 and it[1] == 8) == 0,
-        'dsgs_path_pick4')
+        'DRCs_path_pick4')
 
-    # #constraint 1.6 (N) caminhos devem ir para o RC que esta posicionado o RU
+    # #constraint 1.6 (N) caminhos devem ir para o CR que esta posicionado o RU
     for ru in rus:
         mdl.add_constraint(
-            mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[2] != rus[ru].RC and it[2] == rus[ru].id) == 0)
+            mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[2] != rus[ru].CR and it[2] == rus[ru].id) == 0)
 
     # Constraint 2 (5)
     for l in links:
         for k in links:
             if l[0] == k[1] and l[1] == k[0]:
                 break
-        mdl.add_constraint(mdl.sum(mdl.x[it] * dsgs[it[1]].bw_BH for it in i if l in paths[it[0]].p1) + mdl.sum(
-            mdl.x[it] * dsgs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) + mdl.sum(
-            mdl.x[it] * dsgs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) +
-            mdl.sum(mdl.x[it] * dsgs[it[1]].bw_BH for it in i if k in paths[it[0]].p1) + mdl.sum(
-            mdl.x[it] * dsgs[it[1]].bw_MH for it in i if k in paths[it[0]].p2) + mdl.sum(
-            mdl.x[it] * dsgs[it[1]].bw_FH for it in i if k in paths[it[0]].p3)
+        mdl.add_constraint(mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if l in paths[it[0]].p1) + mdl.sum(
+            mdl.x[it] * DRCs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) + mdl.sum(
+            mdl.x[it] * DRCs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) +
+            mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if k in paths[it[0]].p1) + mdl.sum(
+            mdl.x[it] * DRCs[it[1]].bw_MH for it in i if k in paths[it[0]].p2) + mdl.sum(
+            mdl.x[it] * DRCs[it[1]].bw_FH for it in i if k in paths[it[0]].p3)
             <= capacity[l], 'links_bw')
 
     # Constraint 3 (6)
     for it in i:
         mdl.add_constraint(
-            (mdl.x[it] * paths[it[0]].delay_p1) <= dsgs[it[1]].delay_BH, 'delay_req_p1')
+            (mdl.x[it] * paths[it[0]].delay_p1) <= DRCs[it[1]].delay_BH, 'delay_req_p1')
 
     # Constraint 4 (7)
     for it in i:
         mdl.add_constraint(
-            (mdl.x[it] * paths[it[0]].delay_p2) <= dsgs[it[1]].delay_MH, 'delay_req_p2')
+            (mdl.x[it] * paths[it[0]].delay_p2) <= DRCs[it[1]].delay_MH, 'delay_req_p2')
 
     # Constraint 5 (8)
     for it in i:
         mdl.add_constraint(
-            (mdl.x[it] * paths[it[0]].delay_p3 <= dsgs[it[1]].delay_FH), 'delay_req_p3')
+            (mdl.x[it] * paths[it[0]].delay_p3 <= DRCs[it[1]].delay_FH), 'delay_req_p3')
 
     # Constraint 6 (9)
-    for c in rcs:
+    for c in CRs:
         mdl.add_constraint(
-            mdl.sum(mdl.x[it] * dsgs[it[1]].cpu_CU for it in i if c == paths[it[0]].seq[0]) + mdl.sum(
-                mdl.x[it] * dsgs[it[1]].cpu_DU for it in i if c == paths[it[0]].seq[1]) + mdl.sum(
-                mdl.x[it] * dsgs[it[1]].cpu_RU for it in i if c == paths[it[0]].seq[2]) <= rcs[c].cpu,
-            'rcs_cpu_usage')
+            mdl.sum(mdl.x[it] * DRCs[it[1]].cpu_CU for it in i if c == paths[it[0]].seq[0]) + mdl.sum(
+                mdl.x[it] * DRCs[it[1]].cpu_DU for it in i if c == paths[it[0]].seq[1]) + mdl.sum(
+                mdl.x[it] * DRCs[it[1]].cpu_RU for it in i if c == paths[it[0]].seq[2]) <= CRs[c].cpu,
+            'CRs_cpu_usage')
 
     # Constraint 7 (9) RAM
-    for c in rcs:
+    for c in CRs:
         mdl.add_constraint(
-            mdl.sum(mdl.x[it] * dsgs[it[1]].ram_CU for it in i if c == paths[it[0]].seq[0]) + mdl.sum(
-                mdl.x[it] * dsgs[it[1]].ram_DU for it in i if c == paths[it[0]].seq[1]) + mdl.sum(
-                mdl.x[it] * dsgs[it[1]].ram_RU for it in i if c == paths[it[0]].seq[2]) <= rcs[c].ram,
-            'rcs_ram_usage')
+            mdl.sum(mdl.x[it] * DRCs[it[1]].ram_CU for it in i if c == paths[it[0]].seq[0]) + mdl.sum(
+                mdl.x[it] * DRCs[it[1]].ram_DU for it in i if c == paths[it[0]].seq[1]) + mdl.sum(
+                mdl.x[it] * DRCs[it[1]].ram_RU for it in i if c == paths[it[0]].seq[2]) <= CRs[c].ram,
+            'CRs_ram_usage')
 
     warm_start = mdl.new_solution()
 
@@ -617,16 +615,16 @@ def run_phase_2(FO_fase_1):
     print("Stage 2 - Alocation Time: {}".format(alocation_time_end - alocation_time_start))
     print("Stage 2 - Enlapsed Time: {}".format(end_time - start_time))
 
-    disp_Os = {}
+    disp_Fs = {}
 
     with open("stage_2_solution.json", "w") as stage_2_result:
         result_list = {"Solution": []}
         for it in i:
             if mdl.x[it].solution_value > 0:
-                result = {RU_ID: 0, DRC: 0, CU_POS: 0,
-                          DU_POS: 0, RU_POS: 0, PATH: []}
+                result = {RU_ID: 0, DRC: 0, CU_PFs: 0,
+                          DU_PFs: 0, RU_PFs: 0, PATH: []}
                 path_sol = []
-                sol_dsg = it[1]
+                sol_DRC = it[1]
                 ru_id = it[2]
                 if paths[it[0]].p1:
                     for item in paths[it[0]].p1:
@@ -651,10 +649,10 @@ def run_phase_2(FO_fase_1):
                     cu_loc = du_loc
                     du_loc = ru_loc
                 result[RU_ID] = ru_id
-                result[DRC] = sol_dsg
-                result[CU_POS] = cu_loc
-                result[DU_POS] = du_loc
-                result[RU_POS] = ru_loc
+                result[DRC] = sol_DRC
+                result[CU_PFs] = cu_loc
+                result[DU_PFs] = du_loc
+                result[RU_PFs] = ru_loc
                 result[PATH] = path_sol
 
                 result_list["Solution"].append(result)
@@ -685,63 +683,63 @@ def run_phase_3(FO_fase_1, FO_fase_2):
 
     # read the topology data at the json file
     read_topology()
-    dsgs = dsg_structure()
+    DRCs = DRC_structure()
     rus = ru_location()
 
     # create the set of O's (functional splits)
     # O's(id, O_cpu, O_ram)
     
     ## Original values
-    # O1 = Os(1, 2, 2)
-    # O2 = Os(2, 2, 2)
-    # O3 = Os(3, 2, 2)
-    # O4 = Os(4, 2, 2)
-    # O5 = Os(5, 2, 2)
-    # O6 = Os(6, 2, 2)
-    # O7 = Os(7, 2, 2)
-    # O8 = Os(8, 2, 2)
+    # O1 = Fs(1, 2, 2)
+    # O2 = Fs(2, 2, 2)
+    # O3 = Fs(3, 2, 2)
+    # O4 = Fs(4, 2, 2)
+    # O5 = Fs(5, 2, 2)
+    # O6 = Fs(6, 2, 2)
+    # O7 = Fs(7, 2, 2)
+    # O8 = Fs(8, 2, 2)
 
-    O1 = Os(1, 1, 1)
-    O2 = Os(2, 1, 1)
-    O3 = Os(3, 1, 1)
-    O4 = Os(4, 1, 1)
-    O5 = Os(5, 1, 1)
-    O6 = Os(6, 1, 1)
-    O7 = Os(7, 1, 1)
-    O8 = Os(8, 1, 1)
+    O1 = Fs(1, 1, 1)
+    O2 = Fs(2, 1, 1)
+    O3 = Fs(3, 1, 1)
+    O4 = Fs(4, 1, 1)
+    O5 = Fs(5, 1, 1)
+    O6 = Fs(6, 1, 1)
+    O7 = Fs(7, 1, 1)
+    O8 = Fs(8, 1, 1)
 
     # set of O's
-    conj_Os = {1: O1, 2: O2, 3: O3, 4: O4, 5: O5, 6: O6}
+    conj_Fs = {1: O1, 2: O2, 3: O3, 4: O4, 5: O5, 6: O6}
 
-    # set of DSG priority
-    dsg_p = {5: 4, 7: 10, 8: 25, 10: 8}
+    # set of DRC priority
+    DRC_p = {5: 4, 7: 10, 8: 25, 10: 8}
 
     # create the fase 1 model
     mdl = Model(name='NGRAN Problem3', log_output=False)
 
     # tuple that will be used by the decision variable
     i = [(p, d, b)
-         for p in paths for d in dsgs for b in rus if paths[p].seq[2] == rus[b].RC]
+         for p in paths for d in DRCs for b in rus if paths[p].seq[2] == rus[b].CR]
 
     # Decision variable X
     mdl.x = mdl.binary_var_dict(i, name='x')
 
     # Fase 3 Objective Function
-    mdl.minimize(mdl.sum(mdl.sum(mdl.x[it] * dsg_p[it[1]]
-                                 for it in i if it[1] == dsg) for dsg in dsgs))
+    mdl.minimize(mdl.sum(mdl.sum(mdl.x[it] * DRC_p[it[1]]
+                                 for it in i if it[1] == DRC) for DRC in DRCs))
 
     # Constraint fase 2
     mdl.add_constraint(mdl.sum(mdl.min(1, mdl.sum(
-        mdl.x[it] for it in i if it[1] == dsg)) for dsg in dsgs) == FO_fase_2)
+        mdl.x[it] for it in i if it[1] == DRC)) for DRC in DRCs) == FO_fase_2)
 
     # Constraint fase 1
     mdl.add_constraint(mdl.sum(
-        mdl.min(1, mdl.sum(mdl.x[it] for it in i if c in paths[it[0]].seq)) for c in rcs if rcs[c].id != 0) - mdl.sum(
+        mdl.min(1, mdl.sum(mdl.x[it] for it in i if c in paths[it[0]].seq)) for c in CRs if CRs[c].id != 0) - mdl.sum(
         mdl.sum(mdl.max(0, (mdl.sum(mdl.x[it] for it in i if (
-            (o in dsgs[it[1]].Os_CU and paths[it[0]].seq[0] == rcs[c].id) or (
-                o in dsgs[it[1]].Os_DU and paths[it[0]].seq[1] == rcs[c].id) or (
-                o in dsgs[it[1]].Os_RU and paths[it[0]].seq[2] == rcs[c].id))) - 1)) for o in conj_Os)
-        for c in rcs) == FO_fase_1)
+            (o in DRCs[it[1]].Fs_CU and paths[it[0]].seq[0] == CRs[c].id) or (
+                o in DRCs[it[1]].Fs_DU and paths[it[0]].seq[1] == CRs[c].id) or (
+                o in DRCs[it[1]].Fs_RU and paths[it[0]].seq[2] == CRs[c].id))) - 1)) for o in conj_Fs)
+        for c in CRs) == FO_fase_1)
 
     # Constraint 1 (4)
     for b in rus:
@@ -750,77 +748,77 @@ def run_phase_3(FO_fase_1, FO_fase_2):
 
     # Constrains 1.1 (N)
     mdl.add_constraint(mdl.sum(
-        mdl.x[it] for it in i if paths[it[0]].target != rus[it[2]].RC) == 0, 'path')
+        mdl.x[it] for it in i if paths[it[0]].target != rus[it[2]].CR) == 0, 'path')
 
     # constraint 1.2 (N) quebras de 2 so pode escolher caminhos de 2 quebras
     mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] != 0 and (
-        it[1] == 6 or it[1] == 7 or it[1] == 8 or it[1] == 9 or it[1] == 10)) == 0, 'dsgs_path_pick')
+        it[1] == 6 or it[1] == 7 or it[1] == 8 or it[1] == 9 or it[1] == 10)) == 0, 'DRCs_path_pick')
 
     # constraint 1.3 (N) quebras de 3 so pode escolher caminhos de 3 quebras
     mdl.add_constraint(mdl.sum(mdl.x[it] for it in i if
                                paths[it[0]].seq[0] == 0 and it[1] != 6 and it[1] != 7 and it[1] != 8 and it[1] != 9 and
-                               it[1] != 10) == 0, 'dsgs_path_pick2')
+                               it[1] != 10) == 0, 'DRCs_path_pick2')
 
     # contraint 1.4 (N) quebras de 1 so pode escolher caminhos de 1 quebras
     mdl.add_constraint(
         mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] ==
                 0 and paths[it[0]].seq[1] == 0 and it[1] != 8) == 0,
-        'dsgs_path_pick3')
+        'DRCs_path_pick3')
 
-    # contraint 1.5 (N) caminhos de 2 RC's nao podem usar D-RAN
+    # contraint 1.5 (N) caminhos de 2 CR's nao podem usar D-RAN
     mdl.add_constraint(
         mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[0] ==
                 0 and paths[it[0]].seq[1] != 0 and it[1] == 8) == 0,
-        'dsgs_path_pick4')
+        'DRCs_path_pick4')
 
-    # #constraint 1.6 (N) caminhos devem ir para o RC que esta posicionado o RU
+    # #constraint 1.6 (N) caminhos devem ir para o CR que esta posicionado o RU
     for ru in rus:
         mdl.add_constraint(
-            mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[2] != rus[ru].RC and it[2] == rus[ru].id) == 0)
+            mdl.sum(mdl.x[it] for it in i if paths[it[0]].seq[2] != rus[ru].CR and it[2] == rus[ru].id) == 0)
 
     # Constraint 2 (5)
     for l in links:
         for k in links:
             if l[0] == k[1] and l[1] == k[0]:
                 break
-        mdl.add_constraint(mdl.sum(mdl.x[it] * dsgs[it[1]].bw_BH for it in i if l in paths[it[0]].p1) + mdl.sum(
-            mdl.x[it] * dsgs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) + mdl.sum(
-            mdl.x[it] * dsgs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) +
-            mdl.sum(mdl.x[it] * dsgs[it[1]].bw_BH for it in i if k in paths[it[0]].p1) + mdl.sum(
-            mdl.x[it] * dsgs[it[1]].bw_MH for it in i if k in paths[it[0]].p2) + mdl.sum(
-            mdl.x[it] * dsgs[it[1]].bw_FH for it in i if k in paths[it[0]].p3)
+        mdl.add_constraint(mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if l in paths[it[0]].p1) + mdl.sum(
+            mdl.x[it] * DRCs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) + mdl.sum(
+            mdl.x[it] * DRCs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) +
+            mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if k in paths[it[0]].p1) + mdl.sum(
+            mdl.x[it] * DRCs[it[1]].bw_MH for it in i if k in paths[it[0]].p2) + mdl.sum(
+            mdl.x[it] * DRCs[it[1]].bw_FH for it in i if k in paths[it[0]].p3)
             <= capacity[l], 'links_bw')
 
     # Constraint 3 (6)
     for it in i:
         mdl.add_constraint(
-            (mdl.x[it] * paths[it[0]].delay_p1) <= dsgs[it[1]].delay_BH, 'delay_req_p1')
+            (mdl.x[it] * paths[it[0]].delay_p1) <= DRCs[it[1]].delay_BH, 'delay_req_p1')
 
     # Constraint 4 (7)
     for it in i:
         mdl.add_constraint(
-            (mdl.x[it] * paths[it[0]].delay_p2) <= dsgs[it[1]].delay_MH, 'delay_req_p2')
+            (mdl.x[it] * paths[it[0]].delay_p2) <= DRCs[it[1]].delay_MH, 'delay_req_p2')
 
     # Constraint 5 (8)
     for it in i:
         mdl.add_constraint(
-            (mdl.x[it] * paths[it[0]].delay_p3 <= dsgs[it[1]].delay_FH), 'delay_req_p3')
+            (mdl.x[it] * paths[it[0]].delay_p3 <= DRCs[it[1]].delay_FH), 'delay_req_p3')
 
     # Constraint 6 (9)
-    for c in rcs:
+    for c in CRs:
         mdl.add_constraint(
-            mdl.sum(mdl.x[it] * dsgs[it[1]].cpu_CU for it in i if c == paths[it[0]].seq[0]) + mdl.sum(
-                mdl.x[it] * dsgs[it[1]].cpu_DU for it in i if c == paths[it[0]].seq[1]) + mdl.sum(
-                mdl.x[it] * dsgs[it[1]].cpu_RU for it in i if c == paths[it[0]].seq[2]) <= rcs[c].cpu,
-            'rcs_cpu_usage')
+            mdl.sum(mdl.x[it] * DRCs[it[1]].cpu_CU for it in i if c == paths[it[0]].seq[0]) + mdl.sum(
+                mdl.x[it] * DRCs[it[1]].cpu_DU for it in i if c == paths[it[0]].seq[1]) + mdl.sum(
+                mdl.x[it] * DRCs[it[1]].cpu_RU for it in i if c == paths[it[0]].seq[2]) <= CRs[c].cpu,
+            'CRs_cpu_usage')
 
     # Constraint 7 (9) RAM
-    for c in rcs:
+    for c in CRs:
         mdl.add_constraint(
-            mdl.sum(mdl.x[it] * dsgs[it[1]].ram_CU for it in i if c == paths[it[0]].seq[0]) + mdl.sum(
-                mdl.x[it] * dsgs[it[1]].ram_DU for it in i if c == paths[it[0]].seq[1]) + mdl.sum(
-                mdl.x[it] * dsgs[it[1]].ram_RU for it in i if c == paths[it[0]].seq[2]) <= rcs[c].ram,
-            'rcs_ram_usage')
+            mdl.sum(mdl.x[it] * DRCs[it[1]].ram_CU for it in i if c == paths[it[0]].seq[0]) + mdl.sum(
+                mdl.x[it] * DRCs[it[1]].ram_DU for it in i if c == paths[it[0]].seq[1]) + mdl.sum(
+                mdl.x[it] * DRCs[it[1]].ram_RU for it in i if c == paths[it[0]].seq[2]) <= CRs[c].ram,
+            'CRs_ram_usage')
 
     alocation_time_end = time.time()
     start_time = time.time()
@@ -840,10 +838,10 @@ def run_phase_3(FO_fase_1, FO_fase_2):
         result_list = {"Solution": []}
         for it in i:
             if mdl.x[it].solution_value > 0:
-                result = {RU_ID: 0, DRC: 0, CU_POS: 0,
-                          DU_POS: 0, RU_POS: 0, PATH: []}
+                result = {RU_ID: 0, DRC: 0, CU_PFs: 0,
+                          DU_PFs: 0, RU_PFs: 0, PATH: []}
                 path_sol = []
-                sol_dsg = it[1]
+                sol_DRC = it[1]
                 ru_id = it[2]
                 if paths[it[0]].p1:
                     for item in paths[it[0]].p1:
@@ -868,10 +866,10 @@ def run_phase_3(FO_fase_1, FO_fase_2):
                     cu_loc = du_loc
                     du_loc = ru_loc
                 result[RU_ID] = str(ru_id)
-                result[DRC] = str(sol_dsg)
-                result[CU_POS] = str(cu_loc)
-                result[DU_POS] = str(du_loc)
-                result[RU_POS] = str(ru_loc)
+                result[DRC] = str(sol_DRC)
+                result[CU_PFs] = str(cu_loc)
+                result[DU_PFs] = str(du_loc)
+                result[RU_PFs] = str(ru_loc)
                 result[PATH] = path_sol
 
                 result_list["Solution"].append(result)
@@ -884,7 +882,7 @@ def run_phase_3(FO_fase_1, FO_fase_2):
 
 
 if __name__ == '__main__':
-    initial_validation()
+    #initial_validation()
 
     print("starting paths generation")
     path_gen()
