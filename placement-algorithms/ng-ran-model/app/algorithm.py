@@ -5,7 +5,7 @@ from docplex.mp.model import Model
 from docplex.util.environment import get_environment
 
 import constants
-#from utils import initial_validation, output_result
+from utils import initial_validation, output_result
 from path_gen import path_gen
 
 
@@ -208,26 +208,22 @@ def DRC_structure():
     # DRC5 = 8 -> NG-RAN(3) [CU]-[DU]-[RU]
     #DRC5 = DRC(5, 0.98, 0.735, 3.185, 0, 0, 0, [1, 2], [
        #        3, 4, 5], [6, 7, 8], 30, 30, 2, 151, 151, 152)
-    DRC5 = DRC(5, 600, 600, 600, 880, 1200, 800, [1, 2], [
-                3, 4, 5], [6, 7, 8], 30, 30, 2, 151, 151, 152)
+    DRC5 = DRC(5, 600, 600, 600, 880, 1200, 800, ['f8', 'f7'], ['f6', 'f5', 'f4', 'f3'], ['f2', 'f1', 'f0'], 30, 30, 2, 151, 151, 152)
 
     # DRC7 = 13 -> NG-RAN(2) [CU]-[DU+RU]
     #DRC7 = DRC(7, 0, 3, 3.92, 0, 0, 0, [0], [1, 2], [
      #          3, 4, 5, 6, 7, 8], 0, 30, 30, 0, 151, 151)
-    DRC7 = DRC(7, 0, 1200, 600, 0, 2080, 800, [0], [1, 2], [
-               3, 4, 5, 6, 7, 8], 0, 30, 30, 0, 151, 151)
+    DRC7 = DRC(7, 0, 1200, 600, 0, 2080, 800, [0], ['f8', 'f7'], ['f6', 'f5', 'f4', 'f3', 'f2', 'f1', 'f0'], 0, 30, 30, 0, 151, 151)
 
     # DRC10 = 17 -> C-RAN [CU+DU]-[RU]
     #DRC10 = DRC(10, 0, 1.71, 3.185, 0, 0, 0, [0], [
      #           1, 2, 3, 4, 5], [6, 7, 8], 0, 30, 2, 0, 151, 152)
-    DRC10 = DRC(10, 0, 1200, 600, 0, 2080, 800, [0], [
-                1, 2, 3, 4, 5], [6, 7, 8], 0, 30, 2, 0, 151, 152)
+    DRC10 = DRC(10, 0, 1200, 600, 0, 2080, 800, [0], ['f8', 'f7', 'f6', 'f5', 'f4', 'f3'], ['f2', 'f1', 'f0'], 0, 30, 2, 0, 151, 152)
 
     # DRC8 = 19 -> D-RAN [CU+DU+RU]
     #DRC8 = DRC(8, 0, 0, 4.9, 0, 0, 0, [0], [0], [
      #          1, 2, 3, 4, 5, 6, 7, 8], 0, 0, 30, 0, 0, 151)
-    DRC8 = DRC(8, 0, 0, 1800, 0, 0, 2880, [0], [0], [
-               1, 2, 3, 4, 5, 6, 7, 8], 0, 0, 30, 0, 0, 151)
+    DRC8 = DRC(8, 0, 0, 1800, 0, 0, 2880, [0], [0], ['f8', 'f7', 'f6', 'f5', 'f4', 'f3', 'f2', 'f1', 'f0'], 0, 0, 30, 0, 0, 151)
 
     # set of DRC's
     DRCs = {5: DRC5, 7: DRC7, 8: DRC8, 10: DRC10}
@@ -281,28 +277,18 @@ def run_phase_1():
 
     rus = ru_location()
 
-    # create the set of O's (functional splits)
-    # O's(id, O_cpu, O_ram)
-    # O1 = Fs(1, 2, 2)
-    # O2 = Fs(2, 2, 2)
-    # O3 = Fs(3, 2, 2)
-    # O4 = Fs(4, 2, 2)
-    # O5 = Fs(5, 2, 2)
-    # O6 = Fs(6, 2, 2)
-    # O7 = Fs(7, 2, 2)
-    # O8 = Fs(8, 2, 2)
-
-    O1 = Fs(1, 1, 1)
-    O2 = Fs(2, 1, 1)
-    O3 = Fs(3, 1, 1)
-    O4 = Fs(4, 1, 1)
-    O5 = Fs(5, 1, 1)
-    O6 = Fs(6, 1, 1)
-    O7 = Fs(7, 1, 1)
-    O8 = Fs(8, 1, 1)
-
-    # set of O's
-    conj_Fs = {1: O1, 2: O2, 3: O3, 4: O4, 5: O5, 6: O6}
+    # Creates the set of Fs (functional splits)
+    # Fs(id, f_cpu, f_ram)
+    F1 = Fs('f8', 2, 2)
+    F2 = Fs('f7', 2, 2)
+    F3 = Fs('f6', 2, 2)
+    F4 = Fs('f5', 2, 2)
+    F5 = Fs('f4', 2, 2)
+    F6 = Fs('f3', 2, 2)
+    F7 = Fs('f2', 2, 2)
+    F8 = Fs('f1', 2, 2)
+    F9 = Fs('f0', 2, 2)
+    conj_Fs = {'f8': F1, 'f7': F2, 'f6': F3, 'f5': F4, 'f4': F5, 'f3': F6, 'f2': F7}
 
     # create the fase 1 model
     mdl = Model(name='NGRAN Problem', log_output=True)
@@ -476,28 +462,18 @@ def run_phase_2(FO_fase_1):
     DRCs = DRC_structure()
     rus = ru_location()
 
-    # create the set of O's (functional splits)
-    # O's(id, O_cpu, O_ram)
-    # O1 = Fs(1, 2, 2)
-    # O2 = Fs(2, 2, 2)
-    # O3 = Fs(3, 2, 2)
-    # O4 = Fs(4, 2, 2)
-    # O5 = Fs(5, 2, 2)
-    # O6 = Fs(6, 2, 2)
-    # O7 = Fs(7, 2, 2)
-    # O8 = Fs(8, 2, 2)
-
-    O1 = Fs(1, 1, 1)
-    O2 = Fs(2, 1, 1)
-    O3 = Fs(3, 1, 1)
-    O4 = Fs(4, 1, 1)
-    O5 = Fs(5, 1, 1)
-    O6 = Fs(6, 1, 1)
-    O7 = Fs(7, 1, 1)
-    O8 = Fs(8, 1, 1)
-
-    # set of O's
-    conj_Fs = {1: O1, 2: O2, 3: O3, 4: O4, 5: O5, 6: O6}
+    # Creates the set of Fs (functional splits)
+    # Fs(id, f_cpu, f_ram)
+    F1 = Fs('f8', 2, 2)
+    F2 = Fs('f7', 2, 2)
+    F3 = Fs('f6', 2, 2)
+    F4 = Fs('f5', 2, 2)
+    F5 = Fs('f4', 2, 2)
+    F6 = Fs('f3', 2, 2)
+    F7 = Fs('f2', 2, 2)
+    F8 = Fs('f1', 2, 2)
+    F9 = Fs('f0', 2, 2)
+    conj_Fs = {'f8': F1, 'f7': F2, 'f6': F3, 'f5': F4, 'f4': F5, 'f3': F6, 'f2': F7}
 
     # create the fase 1 model
     mdl = Model(name='NGRAN Problem2', log_output=False)
@@ -615,8 +591,6 @@ def run_phase_2(FO_fase_1):
     print("Stage 2 - Alocation Time: {}".format(alocation_time_end - alocation_time_start))
     print("Stage 2 - Enlapsed Time: {}".format(end_time - start_time))
 
-    disp_Fs = {}
-
     with open("stage_2_solution.json", "w") as stage_2_result:
         result_list = {"Solution": []}
         for it in i:
@@ -686,30 +660,18 @@ def run_phase_3(FO_fase_1, FO_fase_2):
     DRCs = DRC_structure()
     rus = ru_location()
 
-    # create the set of O's (functional splits)
-    # O's(id, O_cpu, O_ram)
-    
-    ## Original values
-    # O1 = Fs(1, 2, 2)
-    # O2 = Fs(2, 2, 2)
-    # O3 = Fs(3, 2, 2)
-    # O4 = Fs(4, 2, 2)
-    # O5 = Fs(5, 2, 2)
-    # O6 = Fs(6, 2, 2)
-    # O7 = Fs(7, 2, 2)
-    # O8 = Fs(8, 2, 2)
-
-    O1 = Fs(1, 1, 1)
-    O2 = Fs(2, 1, 1)
-    O3 = Fs(3, 1, 1)
-    O4 = Fs(4, 1, 1)
-    O5 = Fs(5, 1, 1)
-    O6 = Fs(6, 1, 1)
-    O7 = Fs(7, 1, 1)
-    O8 = Fs(8, 1, 1)
-
-    # set of O's
-    conj_Fs = {1: O1, 2: O2, 3: O3, 4: O4, 5: O5, 6: O6}
+    # Creates the set of Fs (functional splits)
+    # Fs(id, f_cpu, f_ram)
+    F1 = Fs('f8', 2, 2)
+    F2 = Fs('f7', 2, 2)
+    F3 = Fs('f6', 2, 2)
+    F4 = Fs('f5', 2, 2)
+    F5 = Fs('f4', 2, 2)
+    F6 = Fs('f3', 2, 2)
+    F7 = Fs('f2', 2, 2)
+    F8 = Fs('f1', 2, 2)
+    F9 = Fs('f0', 2, 2)
+    conj_Fs = {'f8': F1, 'f7': F2, 'f6': F3, 'f5': F4, 'f4': F5, 'f3': F6, 'f2': F7}
 
     # set of DRC priority
     DRC_p = {5: 4, 7: 10, 8: 25, 10: 8}
@@ -882,7 +844,7 @@ def run_phase_3(FO_fase_1, FO_fase_2):
 
 
 if __name__ == '__main__':
-    #initial_validation()
+    initial_validation()
 
     print("starting paths generation")
     path_gen()
