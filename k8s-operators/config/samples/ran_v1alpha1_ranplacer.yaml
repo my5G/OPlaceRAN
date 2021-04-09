@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   # Add fields here
-  coreIP: 10.233.93.9
+  coreIP: 10.233.93.40
   algorithm: ng-ran-model
   #  algorithm: example
   ruConfigMap: rus

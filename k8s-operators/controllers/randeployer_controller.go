@@ -107,7 +107,7 @@ func (r *RANDeployerReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 
 func (r *RANDeployerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		WithOptions(controller.Options{MaxConcurrentReconciles: 5}).
+		WithOptions(controller.Options{MaxConcurrentReconciles: 1}).
 		For(&ranv1alpha1.RANDeployer{}).
 		WithEventFilter(predicate.GenerationChangedPredicate{}).
 		Complete(r)
