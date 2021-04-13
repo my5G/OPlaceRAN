@@ -436,9 +436,9 @@ def run_phase_1():
                     du_loc = ru_loc
                 result["RU_ID"] = ru_id
                 result["DRC"] = sol_DRC
-                result["CU_PFs"] = cu_loc
-                result["DU_PFs"] = du_loc
-                result["RU_PFs"] = ru_loc
+                result["CU_POS"] = cu_loc
+                result["DU_POS"] = du_loc
+                result["RU_POS"] = ru_loc
                 result["PATH"] = path_sol
 
                 result_list["Solution"].append(result)
