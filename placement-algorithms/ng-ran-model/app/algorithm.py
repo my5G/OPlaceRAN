@@ -137,7 +137,7 @@ def read_topology():
                 CR_id = node["nodeNumber"]
                 node_RAM = node["RAM"]
                 node_CPU = node["cpu"]
-                cr = CR(CR_id, node_CPU, node_RAM, node_RAM)
+                cr = CR(CR_id, node_CPU, node_RAM, node_RAM*1024)
                 CRs[CR_id] = cr
         CRs[0] = CR(0, 0, 0, 0)
 
@@ -407,8 +407,8 @@ def run_phase_1():
         result_list = {"Solution": []}
         for it in i:
             if mdl.x[it].solution_value > 0:
-                result = {RU_ID: 0, DRC: 0, CU_PFs: 0,
-                          DU_PFs: 0, RU_PFs: 0, PATH: []}
+                result = {"RU_ID": 0, "DRC": 0, "CU_POS": 0,
+                          "DU_POS": 0, "RU_POS": 0, "PATH": []}
                 path_sol = []
                 sol_DRC = it[1]
                 ru_id = it[2]
@@ -421,11 +421,11 @@ def run_phase_1():
                 if paths[it[0]].p3:
                     for item in paths[it[0]].p3:
                         path_sol.append(item)
-                result[PATH] = path_sol
+                result["PATH"] = path_sol
                 cu_loc = paths[it[0]].seq[0]
                 du_loc = paths[it[0]].seq[1]
                 ru_loc = paths[it[0]].seq[2]
-                result[RU_ID] = ru_id
+                result["RU_ID"] = ru_id
                 if du_loc == 0:
                     du_loc = ru_loc
                     cu_loc = du_loc
@@ -434,14 +434,16 @@ def run_phase_1():
                 elif cu_loc == 0 and it[1] < 9:
                     cu_loc = du_loc
                     du_loc = ru_loc
-                result[RU_ID] = ru_id
-                result[DRC] = sol_DRC
-                result[CU_PFs] = cu_loc
-                result[DU_PFs] = du_loc
-                result[RU_PFs] = ru_loc
-                result[PATH] = path_sol
+                result["RU_ID"] = ru_id
+                result["DRC"] = sol_DRC
+                result["CU_PFs"] = cu_loc
+                result["DU_PFs"] = du_loc
+                result["RU_PFs"] = ru_loc
+                result["PATH"] = path_sol
 
                 result_list["Solution"].append(result)
+
+        print(result_list)
         json.dump(result_list, stage_1_result)
 
     return mdl.solution.get_objective_value()
@@ -595,8 +597,8 @@ def run_phase_2(FO_fase_1):
         result_list = {"Solution": []}
         for it in i:
             if mdl.x[it].solution_value > 0:
-                result = {RU_ID: 0, DRC: 0, CU_PFs: 0,
-                          DU_PFs: 0, RU_PFs: 0, PATH: []}
+                result = {"RU_ID": 0, "DRC": 0, "CU_POS": 0,
+                          "DU_POS": 0, "RU_POS": 0, "PATH": []}
                 path_sol = []
                 sol_DRC = it[1]
                 ru_id = it[2]
@@ -609,11 +611,11 @@ def run_phase_2(FO_fase_1):
                 if paths[it[0]].p3:
                     for item in paths[it[0]].p3:
                         path_sol.append(item)
-                result[PATH] = path_sol
+                result["PATH"] = path_sol
                 cu_loc = paths[it[0]].seq[0]
                 du_loc = paths[it[0]].seq[1]
                 ru_loc = paths[it[0]].seq[2]
-                result[RU_ID] = ru_id
+                result["RU_ID"] = ru_id
                 if du_loc == 0:
                     du_loc = ru_loc
                     cu_loc = du_loc
@@ -622,12 +624,12 @@ def run_phase_2(FO_fase_1):
                 elif cu_loc == 0 and it[1] < 9:
                     cu_loc = du_loc
                     du_loc = ru_loc
-                result[RU_ID] = ru_id
-                result[DRC] = sol_DRC
-                result[CU_PFs] = cu_loc
-                result[DU_PFs] = du_loc
-                result[RU_PFs] = ru_loc
-                result[PATH] = path_sol
+                result["RU_ID"] = ru_id
+                result["DRC"] = sol_DRC
+                result["CU_POS"] = cu_loc
+                result["DU_POS"] = du_loc
+                result["RU_POS"] = ru_loc
+                result["PATH"] = path_sol
 
                 result_list["Solution"].append(result)
         json.dump(result_list, stage_2_result)
@@ -800,8 +802,8 @@ def run_phase_3(FO_fase_1, FO_fase_2):
         result_list = {"Solution": []}
         for it in i:
             if mdl.x[it].solution_value > 0:
-                result = {RU_ID: 0, DRC: 0, CU_PFs: 0,
-                          DU_PFs: 0, RU_PFs: 0, PATH: []}
+                result = {"RU_ID": 0, "DRC": 0, "CU_POS": 0,
+                          "DU_POS": 0, "RU_POS": 0, "PATH": []}
                 path_sol = []
                 sol_DRC = it[1]
                 ru_id = it[2]
@@ -814,11 +816,11 @@ def run_phase_3(FO_fase_1, FO_fase_2):
                 if paths[it[0]].p3:
                     for item in paths[it[0]].p3:
                         path_sol.append(item)
-                result[PATH] = path_sol
+                result["PATH"] = path_sol
                 cu_loc = paths[it[0]].seq[0]
                 du_loc = paths[it[0]].seq[1]
                 ru_loc = paths[it[0]].seq[2]
-                result[RU_ID] = ru_id
+                result["RU_ID"] = ru_id
                 if du_loc == 0:
                     du_loc = ru_loc
                     cu_loc = du_loc
@@ -827,12 +829,12 @@ def run_phase_3(FO_fase_1, FO_fase_2):
                 elif cu_loc == 0 and it[1] < 9:
                     cu_loc = du_loc
                     du_loc = ru_loc
-                result[RU_ID] = str(ru_id)
-                result[DRC] = str(sol_DRC)
-                result[CU_PFs] = str(cu_loc)
-                result[DU_PFs] = str(du_loc)
-                result[RU_PFs] = str(ru_loc)
-                result[PATH] = path_sol
+                result["RU_ID"] = str(ru_id)
+                result["DRC"] = str(sol_DRC)
+                result["CU_POS"] = str(cu_loc)
+                result["DU_POS"] = str(du_loc)
+                result["RU_POS"] = str(ru_loc)
+                result["PATH"] = path_sol
 
                 result_list["Solution"].append(result)
         json.dump(result_list, stage_3_result)
