@@ -1,0 +1,167 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rus
+  namespace: default
+  labels:
+    ran-placer: "rus"
+data:
+  rus: |
+    {
+        "node0": {
+            "RU": 0
+        },    
+        "node1": {
+            "RU": 0
+        },
+        "node2": {
+            "RU": 0
+        },
+        "node3": {
+            "RU": 1
+        },
+        "node4": {
+            "RU": 1
+        },
+        "node5": {
+            "RU": 1
+        },
+        "node6": {
+            "RU": 1
+        },
+        "node7": {
+            "RU": 1
+        },
+        "node8": {
+            "RU": 1
+        },
+        "node9": {
+            "RU": 1
+        },
+        "node10": {
+            "RU": 1
+        },
+        "node11": {
+            "RU": 1
+        },
+        "node12": {
+            "RU": 1
+        },
+        "node13": {
+            "RU": 1
+        },
+        "node14": {
+            "RU": 1
+        },
+        "node15": {
+            "RU": 1
+        },
+        "node16": {
+            "RU": 1
+        },
+        "node17": {
+            "RU": 1
+        },
+        "node18": {
+            "RU": 1
+        },
+        "node19": {
+            "RU": 1
+        },
+        "node20": {
+            "RU": 1
+        },
+        "node21": {
+            "RU": 1
+        },
+        "node22": {
+            "RU": 1
+        },
+        "node23": {
+            "RU": 1
+        },
+        "node24": {
+            "RU": 1
+        },
+        "node25": {
+            "RU": 1
+        },
+        "node26": {
+            "RU": 1
+        },
+        "node27": {
+            "RU": 1
+        },
+        "node28": {
+            "RU": 1
+        },
+        "node29": {
+            "RU": 1
+        },
+        "node30": {
+            "RU": 1
+        },
+        "node31": {
+            "RU": 1
+        },
+        "node32": {
+            "RU": 1
+        },
+        "node33": {
+            "RU": 1
+        },
+        "node34": {
+            "RU": 1
+        },
+        "node35": {
+            "RU": 1
+        },
+        "node36": {
+            "RU": 1
+        },
+        "node37": {
+            "RU": 1
+        },
+        "node38": {
+            "RU": 1
+        },
+        "node39": {
+            "RU": 1
+        },
+        "node40": {
+            "RU": 1
+        },
+        "node41": {
+            "RU": 1
+        },
+        "node42": {
+            "RU": 1
+        },
+        "node43": {
+            "RU": 1
+        },
+        "node44": {
+            "RU": 1
+        },
+        "node45": {
+            "RU": 1
+        },
+        "node46": {
+            "RU": 1
+        },
+        "node47": {
+            "RU": 1
+        },
+        "node48": {
+            "RU": 1
+        },
+        "node49": {
+            "RU": 1
+        },
+        "node50": {
+            "RU": 1
+        },
+        "node51": {
+            "RU": 1
+        }
+    }
