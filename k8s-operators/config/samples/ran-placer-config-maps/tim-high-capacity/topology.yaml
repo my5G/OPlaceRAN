@@ -1,0 +1,466 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: topology
+  namespace: default
+  labels:
+    ran-placer: "topology"
+data:
+  topology: |
+    [
+        {
+            "linkNumber": "1",
+            "fromNode": "0",
+            "toNode": "1",
+            "delay": "0.1",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "2",
+            "fromNode": "0",
+            "toNode": "2",
+            "delay": "0.1",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "3",
+            "fromNode": "0",
+            "toNode": "1",
+            "delay": "0.1",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "4",
+            "fromNode": "0",
+            "toNode": "2",
+            "delay": "0.1",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "5",
+            "fromNode": "1",
+            "toNode": "3",
+            "delay": "0.1553",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "6",
+            "fromNode": "1",
+            "toNode": "4",
+            "delay": "0.1296",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "7",
+            "fromNode": "2",
+            "toNode": "3",
+            "delay": "0.1553",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "8",
+            "fromNode": "2",
+            "toNode": "4",
+            "delay": "0.1296",
+            "capacity": 10000
+        },
+        {
+            "linkNumber": "9",
+            "fromNode": "2",
+            "toNode": "51",
+            "delay": "0.1347",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "10",
+            "fromNode": "50",
+            "toNode": "51",
+            "delay": "0.117",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "11",
+            "fromNode": "49",
+            "toNode": "50",
+            "delay": "0.15075",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "12",
+            "fromNode": "48",
+            "toNode": "49",
+            "delay": "0.17865",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "13",
+            "fromNode": "47",
+            "toNode": "48",
+            "delay": "0.19395",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "14",
+            "fromNode": "2",
+            "toNode": "47",
+            "delay": "0.20395",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "15",
+            "fromNode": "1",
+            "toNode": "46",
+            "delay": "0.1177",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "16",
+            "fromNode": "45",
+            "toNode": "46",
+            "delay": "0.11585",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "17",
+            "fromNode": "44",
+            "toNode": "45",
+            "delay": "0.1277",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "18",
+            "fromNode": "43",
+            "toNode": "44",
+            "delay": "0.1343",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "19",
+            "fromNode": "2",
+            "toNode": "43",
+            "delay": "0.13645",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "20",
+            "fromNode": "2",
+            "toNode": "42",
+            "delay": "0.1407",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "21",
+            "fromNode": "41",
+            "toNode": "42",
+            "delay": "0.12585",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "22",
+            "fromNode": "40",
+            "toNode": "41",
+            "delay": "0.1127",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "23",
+            "fromNode": "39",
+            "toNode": "40",
+            "delay": "0.10755",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "24",
+            "fromNode": "38",
+            "toNode": "39",
+            "delay": "0.10375",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "25",
+            "fromNode": "1",
+            "toNode": "38",
+            "delay": "0.1222",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "26",
+            "fromNode": "1",
+            "toNode": "37",
+            "delay": "0.1128",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "27",
+            "fromNode": "36",
+            "toNode": "37",
+            "delay": "0.1607",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "28",
+            "fromNode": "35",
+            "toNode": "36",
+            "delay": "0.16425",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "29",
+            "fromNode": "34",
+            "toNode": "35",
+            "delay": "0.2954",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "30",
+            "fromNode": "15",
+            "toNode": "4",
+            "delay": "0.174",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "31",
+            "fromNode": "33",
+            "toNode": "34",
+            "delay": "0.38665",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "32",
+            "fromNode": "32",
+            "toNode": "33",
+            "delay": "0.1367",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "33",
+            "fromNode": "1",
+            "toNode": "32",
+            "delay": "0.10945",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "34",
+            "fromNode": "4",
+            "toNode": "31",
+            "delay": "0.4303",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "35",
+            "fromNode": "30",
+            "toNode": "31",
+            "delay": "0.3715",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "36",
+            "fromNode": "29",
+            "toNode": "30",
+            "delay": "0.24015",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "37",
+            "fromNode": "28",
+            "toNode": "29",
+            "delay": "0.2446",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "38",
+            "fromNode": "27",
+            "toNode": "28",
+            "delay": "0.2381",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "39",
+            "fromNode": "4",
+            "toNode": "27",
+            "delay": "0.2381",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "40",
+            "fromNode": "4",
+            "toNode": "26",
+            "delay": "0.1929",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "41",
+            "fromNode": "25",
+            "toNode": "26",
+            "delay": "0.20025",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "42",
+            "fromNode": "24",
+            "toNode": "25",
+            "delay": "0.13185",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "43",
+            "fromNode": "23",
+            "toNode": "24",
+            "delay": "0.1175",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "44",
+            "fromNode": "22",
+            "toNode": "23",
+            "delay": "0.11225",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "45",
+            "fromNode": "4",
+            "toNode": "22",
+            "delay": "0.1208",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "46",
+            "fromNode": "4",
+            "toNode": "21",
+            "delay": "0.1439",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "47",
+            "fromNode": "20",
+            "toNode": "21",
+            "delay": "0.1233",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "48",
+            "fromNode": "19",
+            "toNode": "20",
+            "delay": "0.1578",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "49",
+            "fromNode": "18",
+            "toNode": "19",
+            "delay": "0.22605",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "50",
+            "fromNode": "17",
+            "toNode": "18",
+            "delay": "0.50035",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "46",
+            "fromNode": "16",
+            "toNode": "17",
+            "delay": "0.30725",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "47",
+            "fromNode": "4",
+            "toNode": "16",
+            "delay": "0.39665",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "48",
+            "fromNode": "3",
+            "toNode": "9",
+            "delay": "0.12875",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "49",
+            "fromNode": "8",
+            "toNode": "9",
+            "delay": "0.11795",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "50",
+            "fromNode": "7",
+            "toNode": "8",
+            "delay": "0.12765",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "50",
+            "fromNode": "7",
+            "toNode": "6",
+            "delay": "0.21875",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "50",
+            "fromNode": "5",
+            "toNode": "6",
+            "delay": "0.1447",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "50",
+            "fromNode": "3",
+            "toNode": "5",
+            "delay": "0.1324",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "50",
+            "fromNode": "3",
+            "toNode": "15",
+            "delay": "0.1927",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "50",
+            "fromNode": "15",
+            "toNode": "14",
+            "delay": "0.21565",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "50",
+            "fromNode": "13",
+            "toNode": "14",
+            "delay": "0.23835",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "50",
+            "fromNode": "12",
+            "toNode": "13",
+            "delay": "0.35475",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "50",
+            "fromNode": "11",
+            "toNode": "12",
+            "delay": "0.2887",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "50",
+            "fromNode": "10",
+            "toNode": "11",
+            "delay": "0.6073",
+            "capacity": 1000
+        },
+        {
+            "linkNumber": "50",
+            "fromNode": "3",
+            "toNode": "10",
+            "delay": "0.16215",
+            "capacity": 1000
+        }
+    ]
