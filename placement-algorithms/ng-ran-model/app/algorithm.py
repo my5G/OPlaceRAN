@@ -204,26 +204,32 @@ def read_topology():
 
 
 def DRC_structure():
+    CU_CPU = 451
+    DU_CPU = 499
+    RU_CPU = 501
+    CU_MEM = 121
+    DU_MEM = 423
+    RU_MEM = 86
     # create the DRC's and the set of DRC's
     # DRC5 = 8 -> NG-RAN(3) [CU]-[DU]-[RU]
     #DRC5 = DRC(5, 0.98, 0.735, 3.185, 0, 0, 0, [1, 2], [
        #        3, 4, 5], [6, 7, 8], 30, 30, 2, 151, 151, 152)
-    DRC5 = DRC(5, 600, 600, 600, 880, 1200, 800, ['f8', 'f7'], ['f6', 'f5', 'f4', 'f3'], ['f2', 'f1', 'f0'], 30, 30, 2, 151, 151, 152)
+    DRC5 = DRC(5, CU_CPU, DU_CPU, RU_CPU, CU_MEM, DU_MEM, RU_MEM, ['f8', 'f7'], ['f6', 'f5', 'f4', 'f3'], ['f2', 'f1', 'f0'], 30, 30, 2, 151, 151, 152)
 
     # DRC7 = 13 -> NG-RAN(2) [CU]-[DU+RU]
     #DRC7 = DRC(7, 0, 3, 3.92, 0, 0, 0, [0], [1, 2], [
      #          3, 4, 5, 6, 7, 8], 0, 30, 30, 0, 151, 151)
-    DRC7 = DRC(7, 0, 1200, 600, 0, 2080, 800, [0], ['f8', 'f7'], ['f6', 'f5', 'f4', 'f3', 'f2', 'f1', 'f0'], 0, 30, 30, 0, 151, 151)
+    DRC7 = DRC(7, 0, CU_CPU, DU_CPU + RU_CPU, 0, CU_MEM, DU_MEM + RU_MEM, [0], ['f8', 'f7'], ['f6', 'f5', 'f4', 'f3', 'f2', 'f1', 'f0'], 0, 30, 30, 0, 151, 151)
 
     # DRC10 = 17 -> C-RAN [CU+DU]-[RU]
     #DRC10 = DRC(10, 0, 1.71, 3.185, 0, 0, 0, [0], [
      #           1, 2, 3, 4, 5], [6, 7, 8], 0, 30, 2, 0, 151, 152)
-    DRC10 = DRC(10, 0, 1200, 600, 0, 2080, 800, [0], ['f8', 'f7', 'f6', 'f5', 'f4', 'f3'], ['f2', 'f1', 'f0'], 0, 30, 2, 0, 151, 152)
+    DRC10 = DRC(10, 0, CU_CPU + DU_CPU, RU_CPU, 0, CU_MEM + DU_MEM, RU_MEM, [0], ['f8', 'f7', 'f6', 'f5', 'f4', 'f3'], ['f2', 'f1', 'f0'], 0, 30, 2, 0, 151, 152)
 
     # DRC8 = 19 -> D-RAN [CU+DU+RU]
     #DRC8 = DRC(8, 0, 0, 4.9, 0, 0, 0, [0], [0], [
      #          1, 2, 3, 4, 5, 6, 7, 8], 0, 0, 30, 0, 0, 151)
-    DRC8 = DRC(8, 0, 0, 1800, 0, 0, 2880, [0], [0], ['f8', 'f7', 'f6', 'f5', 'f4', 'f3', 'f2', 'f1', 'f0'], 0, 0, 30, 0, 0, 151)
+    DRC8 = DRC(8, 0, 0, CU_CPU + DU_CPU + RU_CPU, 0, 0, CU_MEM + DU_MEM + RU_MEM, [0], [0], ['f8', 'f7', 'f6', 'f5', 'f4', 'f3', 'f2', 'f1', 'f0'], 0, 0, 30, 0, 0, 151)
 
     # set of DRC's
     DRCs = {5: DRC5, 7: DRC7, 8: DRC8, 10: DRC10}
@@ -344,17 +350,9 @@ def run_phase_1():
 
     # Constraint 2 (5)
     for l in links:
-        for k in links:
-            if l[0] == k[1] and l[1] == k[0]:
-                break
         mdl.add_constraint(mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if l in paths[it[0]].p1) +
-                           mdl.sum(mdl.x[it] * DRCs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) +
-                           mdl.sum(mdl.x[it] * DRCs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) +
-                           mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if k in paths[it[0]].p1) +
-                           mdl.sum(mdl.x[it] * DRCs[it[1]].bw_MH for it in i if k in paths[it[0]].p2) +
-                           mdl.sum(
-                               mdl.x[it] * DRCs[it[1]].bw_FH for it in i if k in paths[it[0]].p3) <= capacity[l],
-                           'links_bw')
+                    mdl.sum(mdl.x[it] * DRCs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) +
+                    mdl.sum(mdl.x[it] * DRCs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) <= capacity[l], 'links_bw')
 
     # Constraint 3 (6)
     for it in i:
@@ -536,16 +534,10 @@ def run_phase_2(FO_fase_1):
 
     # Constraint 2 (5)
     for l in links:
-        for k in links:
-            if l[0] == k[1] and l[1] == k[0]:
-                break
-        mdl.add_constraint(mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if l in paths[it[0]].p1) + mdl.sum(
-            mdl.x[it] * DRCs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) + mdl.sum(
-            mdl.x[it] * DRCs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) +
-            mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if k in paths[it[0]].p1) + mdl.sum(
-            mdl.x[it] * DRCs[it[1]].bw_MH for it in i if k in paths[it[0]].p2) + mdl.sum(
-            mdl.x[it] * DRCs[it[1]].bw_FH for it in i if k in paths[it[0]].p3)
-            <= capacity[l], 'links_bw')
+        mdl.add_constraint(mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if l in paths[it[0]].p1) +
+                    mdl.sum(mdl.x[it] * DRCs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) +
+                    mdl.sum(mdl.x[it] * DRCs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) <= capacity[l], 'links_bw')
+
 
     # Constraint 3 (6)
     for it in i:
@@ -742,16 +734,10 @@ def run_phase_3(FO_fase_1, FO_fase_2):
 
     # Constraint 2 (5)
     for l in links:
-        for k in links:
-            if l[0] == k[1] and l[1] == k[0]:
-                break
-        mdl.add_constraint(mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if l in paths[it[0]].p1) + mdl.sum(
-            mdl.x[it] * DRCs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) + mdl.sum(
-            mdl.x[it] * DRCs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) +
-            mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if k in paths[it[0]].p1) + mdl.sum(
-            mdl.x[it] * DRCs[it[1]].bw_MH for it in i if k in paths[it[0]].p2) + mdl.sum(
-            mdl.x[it] * DRCs[it[1]].bw_FH for it in i if k in paths[it[0]].p3)
-            <= capacity[l], 'links_bw')
+        mdl.add_constraint(mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if l in paths[it[0]].p1) +
+                    mdl.sum(mdl.x[it] * DRCs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) +
+                    mdl.sum(mdl.x[it] * DRCs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) <= capacity[l], 'links_bw')
+
 
     # Constraint 3 (6)
     for it in i:
