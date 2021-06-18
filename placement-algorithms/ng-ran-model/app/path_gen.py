@@ -52,8 +52,9 @@ class Graph:
 
         self.printAllPathsUtil(s, d, visited, path)
 
+
 def path_gen():
-    with open(constants.TOPOLOGY_PATH) as json_file:
+    with open("mini_topo_links.json") as json_file:
         data = json.load(json_file)
 
         g = Graph(600)
@@ -67,13 +68,15 @@ def path_gen():
 
             if source_node < destination_node:
                 g.addEdge(source_node, destination_node)
+                g.addEdge(destination_node, source_node) # add this for Gustavo topo
 
             else:
                 g.addEdge(destination_node, source_node)
+                g.addEdge(source_node, destination_node) # add this for Gustavo topo
 
         dst = []
 
-        with open(constants.NODES_PATH) as dst_file:
+        with open("mini_topo_nodes.json") as dst_file:
             json_dst = json.load(dst_file)
             nodes = json_dst["nodes"]
 

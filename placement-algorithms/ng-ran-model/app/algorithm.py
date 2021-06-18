@@ -5,7 +5,7 @@ from docplex.mp.model import Model
 from docplex.util.environment import get_environment
 
 import constants
-from utils import initial_validation, output_result
+# from utils import initial_validation, output_result
 from path_gen import path_gen
 
 
@@ -102,7 +102,7 @@ def read_topology():
     This method read the topology json file and create the main structure that will be used in all model fases
     :rtype: insert in the globals structures the topology information. For that the method has no return
     """
-    with open(constants.TOPOLOGY_PATH) as json_file:
+    with open("mini_topo_links.json") as json_file:
         data = json.load(json_file)
         print("topology:")
         print(data)
@@ -119,15 +119,23 @@ def read_topology():
                 capacity[(source_node, destination_node)] = link["capacity"]
                 delay[(source_node, destination_node)] = float(link["delay"])
                 links.append((source_node, destination_node))
+                #add this for Gustavo topo
+                capacity[(destination_node, source_node)] = link["capacity"]
+                delay[(destination_node, source_node)] = float(link["delay"])
+                links.append((destination_node, source_node))
 
             # creating links full duplex for each link readed by the json file
             else:
                 capacity[(destination_node, source_node)] = link["capacity"]
                 delay[(destination_node, source_node)] = float(link["delay"])
                 links.append((destination_node, source_node))
+                #add this for Gustavo topo
+                capacity[(source_node, destination_node)] = link["capacity"]
+                delay[(source_node, destination_node)] = float(link["delay"])
+                links.append((source_node, destination_node))
 
         # create and store the set of CR's with RAM and CPU in a global list "CRs"-CR[0] is the core network without CR
-        with open(constants.NODES_PATH) as json_file:
+        with open("mini_topo_nodes.json") as json_file:
             data = json.load(json_file)
             print("nodes:")
             print(data)
@@ -137,7 +145,7 @@ def read_topology():
                 CR_id = node["nodeNumber"]
                 node_RAM = node["RAM"]
                 node_CPU = node["cpu"]
-                cr = CR(CR_id, node_CPU, node_RAM, node_RAM*1024)
+                cr = CR(CR_id, node_CPU*1000, node_RAM, node_RAM*1024)
                 CRs[CR_id] = cr
         CRs[0] = CR(0, 0, 0, 0)
 
@@ -204,12 +212,13 @@ def read_topology():
 
 
 def DRC_structure():
-    CU_CPU = 451
-    DU_CPU = 499
-    RU_CPU = 501
-    CU_MEM = 121
-    DU_MEM = 423
-    RU_MEM = 86
+    CU_CPU = 564
+    DU_CPU = 624
+    RU_CPU = 627
+
+    CU_MEM = 152
+    DU_MEM = 529
+    RU_MEM = 108
     # create the DRC's and the set of DRC's
     # DRC5 = 8 -> NG-RAN(3) [CU]-[DU]-[RU]
     #DRC5 = DRC(5, 0.98, 0.735, 3.185, 0, 0, 0, [1, 2], [
@@ -244,7 +253,7 @@ def ru_location():
     """
     rus = {}
     count = 1
-    with open(constants.NODES_PATH) as json_file:
+    with open("mini_topo_nodes.json") as json_file:
         data = json.load(json_file)
 
         json_CRs = data["nodes"]
@@ -350,9 +359,11 @@ def run_phase_1():
 
     # Constraint 2 (5)
     for l in links:
-        mdl.add_constraint(mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if l in paths[it[0]].p1) +
-                    mdl.sum(mdl.x[it] * DRCs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) +
-                    mdl.sum(mdl.x[it] * DRCs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) <= capacity[l], 'links_bw')
+        k = (l[1], l[0])
+        mdl.add_constraint(mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if l in paths[it[0]].p1 or k in paths[it[0]].p1)
+                            + mdl.sum(mdl.x[it] * DRCs[it[1]].bw_MH for it in i if l in paths[it[0]].p2 or k in paths[it[0]].p2)
+                            + mdl.sum(mdl.x[it] * DRCs[it[1]].bw_FH for it in i if l in paths[it[0]].p3 or k in paths[it[0]].p3)
+                            <= capacity[l], 'links_bw')
 
     # Constraint 3 (6)
     for it in i:
@@ -534,9 +545,11 @@ def run_phase_2(FO_fase_1):
 
     # Constraint 2 (5)
     for l in links:
-        mdl.add_constraint(mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if l in paths[it[0]].p1) +
-                    mdl.sum(mdl.x[it] * DRCs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) +
-                    mdl.sum(mdl.x[it] * DRCs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) <= capacity[l], 'links_bw')
+        k = (l[1], l[0])
+        mdl.add_constraint(mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if l in paths[it[0]].p1 or k in paths[it[0]].p1)
+                           + mdl.sum(mdl.x[it] * DRCs[it[1]].bw_MH for it in i if l in paths[it[0]].p2 or k in paths[it[0]].p2)
+                           + mdl.sum(mdl.x[it] * DRCs[it[1]].bw_FH for it in i if l in paths[it[0]].p3 or k in paths[it[0]].p3)
+                           <= capacity[l], 'links_bw')
 
 
     # Constraint 3 (6)
@@ -734,9 +747,11 @@ def run_phase_3(FO_fase_1, FO_fase_2):
 
     # Constraint 2 (5)
     for l in links:
-        mdl.add_constraint(mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if l in paths[it[0]].p1) +
-                    mdl.sum(mdl.x[it] * DRCs[it[1]].bw_MH for it in i if l in paths[it[0]].p2) +
-                    mdl.sum(mdl.x[it] * DRCs[it[1]].bw_FH for it in i if l in paths[it[0]].p3) <= capacity[l], 'links_bw')
+        k = (l[1], l[0])
+        mdl.add_constraint(mdl.sum(mdl.x[it] * DRCs[it[1]].bw_BH for it in i if l in paths[it[0]].p1 or k in paths[it[0]].p1)
+                           + mdl.sum(mdl.x[it] * DRCs[it[1]].bw_MH for it in i if l in paths[it[0]].p2 or k in paths[it[0]].p2)
+                           + mdl.sum(mdl.x[it] * DRCs[it[1]].bw_FH for it in i if l in paths[it[0]].p3 or k in paths[it[0]].p3)
+                           <= capacity[l], 'links_bw')
 
 
     # Constraint 3 (6)
@@ -832,7 +847,7 @@ def run_phase_3(FO_fase_1, FO_fase_2):
 
 
 if __name__ == '__main__':
-    initial_validation()
+    # initial_validation()
 
     print("starting paths generation")
     path_gen()
@@ -851,6 +866,6 @@ if __name__ == '__main__':
     res = result["Solution"]
     print(f"result: {res}")
 
-    output_result(result["Solution"])
+    # output_result(result["Solution"])
     
     print("TOTAL TIME: {}".format(end_all - start_all))
