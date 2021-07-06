@@ -5,7 +5,7 @@ from docplex.mp.model import Model
 from docplex.util.environment import get_environment
 
 import constants
-#from utils import initial_validation, output_result
+# from utils import initial_validation, output_result
 from path_gen import path_gen
 
 
@@ -308,9 +308,17 @@ def run_phase_1():
     # create the fase 1 model
     mdl = Model(name='NGRAN Problem', log_output=True)
 
+    fixed_DUs = {}
+    dus_json_file = open("DUs_location.json")
+    dus_json = json.load(dus_json_file)
+    dus = dus_json["DUs"]
+    for du in dus:
+        fixed_DUs[du["RU_node"]] = du["DU_node"]
+
+    print(fixed_DUs)
+
     # tuple that will be used by the decision variable
-    i = [(p, d, b)
-         for p in paths for d in DRCs for b in rus if paths[p].seq[2] == rus[b].CR]
+    i = [(p, d, b) for p in paths for d in DRCs for b in rus if (paths[p].seq[2] == rus[b].CR and (fixed_DUs[rus[b].CR] == paths[p].seq[1] or (fixed_DUs[rus[b].CR] == paths[p].seq[2] and 0 == paths[p].seq[1])))]
 
     # Decision variable X
     mdl.x = mdl.binary_var_dict(i, name='x')
@@ -489,9 +497,15 @@ def run_phase_2(FO_fase_1):
     # create the fase 1 model
     mdl = Model(name='NGRAN Problem2', log_output=False)
 
-    # tuple that will be used by the decision variable
-    i = [(p, d, b)
-         for p in paths for d in DRCs for b in rus if paths[p].seq[2] == rus[b].CR]
+    fixed_DUs = {}
+    dus_json_file = open("DUs_location.json")
+    dus_json = json.load(dus_json_file)
+    dus = dus_json["DUs"]
+    for du in dus:
+        fixed_DUs[du["RU_node"]] = du["DU_node"]
+
+    # Tuple used by the decision variable management
+    i = [(p, d, b) for p in paths for d in DRCs for b in rus if (paths[p].seq[2] == rus[b].CR and (fixed_DUs[rus[b].CR] == paths[p].seq[1] or (fixed_DUs[rus[b].CR] == paths[p].seq[2] and 0 == paths[p].seq[1])))]
 
     # Decision variable X
     mdl.x = mdl.binary_var_dict(i, name='x')
@@ -686,9 +700,15 @@ def run_phase_3(FO_fase_1, FO_fase_2):
     # create the fase 1 model
     mdl = Model(name='NGRAN Problem3', log_output=False)
 
-    # tuple that will be used by the decision variable
-    i = [(p, d, b)
-         for p in paths for d in DRCs for b in rus if paths[p].seq[2] == rus[b].CR]
+    fixed_DUs = {}
+    dus_json_file = open("DUs_location.json")
+    dus_json = json.load(dus_json_file)
+    dus = dus_json["DUs"]
+    for du in dus:
+        fixed_DUs[du["RU_node"]] = du["DU_node"]
+
+    # Tuple used by the decision variable management
+    i = [(p, d, b) for p in paths for d in DRCs for b in rus if (paths[p].seq[2] == rus[b].CR and (fixed_DUs[rus[b].CR] == paths[p].seq[1] or (fixed_DUs[rus[b].CR] == paths[p].seq[2] and 0 == paths[p].seq[1])))]
 
     # Decision variable X
     mdl.x = mdl.binary_var_dict(i, name='x')
@@ -866,6 +886,6 @@ if __name__ == '__main__':
     res = result["Solution"]
     print(f"result: {res}")
 
-    #output_result(result["Solution"])
+    output_result(result["Solution"])
     
     print("TOTAL TIME: {}".format(end_all - start_all))

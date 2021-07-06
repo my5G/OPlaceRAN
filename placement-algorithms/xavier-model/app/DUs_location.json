@@ -1,0 +1,24 @@
+{
+    "DUs": [
+        {
+            "RU_number": 1,
+            "DU_node": 1,
+            "RU_node": 1
+        },
+        {
+            "RU_number": 2,
+            "DU_node": 1,
+            "RU_node": 2
+        },
+        {
+            "RU_number": 3,
+            "DU_node": 1,
+            "RU_node": 3
+        },
+        {
+            "RU_number": 4,
+            "DU_node": 1,
+            "RU_node": 4
+        }
+    ]
+}

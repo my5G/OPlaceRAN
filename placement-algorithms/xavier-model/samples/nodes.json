@@ -3,36 +3,50 @@
     {
       "nodeNumber": 0,
       "nodeType": "CN",
-      "RAM": 0,
       "cpu": 0,
+      "RAM": 0,
       "RU": 0
     },
     {
       "nodeNumber": 1,
       "nodeType": "L2_aggregation",
-      "RAM": 2,
-      "cpu": 5,
-      "RU": 1
+      "cpu": 16,
+      "RAM": 128,
+      "RU": 0
     },
     {
       "nodeNumber": 2,
       "nodeType": "L2_aggregation",
-      "RAM": 0.7,
-      "cpu": 2,
-      "RU": 1
+      "cpu": 16,
+      "RAM": 128,
+      "RU": 0
     },
     {
       "nodeNumber": 3,
       "nodeType": "L1_aggregation",
-      "RAM": 1.2,
-      "cpu": 2,
+      "cpu": 8,
+      "RAM": 64,
       "RU": 1
     },
     {
       "nodeNumber": 4,
       "nodeType": "L1_aggregation",
-      "RAM": 0.7,
-      "cpu": 2,
+      "cpu": 8,
+      "RAM": 64,
+      "RU": 1
+    },
+    {
+      "nodeNumber": 5,
+      "nodeType": "L1_aggregation",
+      "cpu": 8,
+      "RAM": 64,
+      "RU": 1
+    },
+    {
+      "nodeNumber": 6,
+      "nodeType": "L1_aggregation",
+      "cpu": 8,
+      "RAM": 64,
       "RU": 1
     }
   ]
