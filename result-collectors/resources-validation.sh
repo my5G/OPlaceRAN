@@ -3,8 +3,8 @@
 PLACER="/home/vmadmin/RANPlacer/k8s-operators/config/samples/ran_v1alpha1_ranplacer.yaml"
 OUTPUT_FOLDER="/home/vmadmin/RANPlacer/result-collectors/resources-validation"
 COLLECT_INTERVAL=5
-EACH_TEST_DURATION=900
-NUMBER_OF_TESTS=10
+EACH_TEST_DURATION=450
+NUMBER_OF_TESTS=1
 mkdir "$OUTPUT_FOLDER"
 i=1
 s=0
@@ -23,8 +23,8 @@ do
     done
     kubectl get randeployer --all-namespaces > "$DIR"pods_location.txt
     kubectl delete ranplacer ranplacer-sample && sleep 180
+    echo "Finished test execution $i..."
     i=$(( $i + 1 ))
     #echo $i
     s=0
-    echo "Finished test execution $i..."
 done

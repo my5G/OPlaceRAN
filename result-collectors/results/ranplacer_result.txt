@@ -1,0 +1,7 @@
+Execution 0:
+State: Finished
+average initialization time: 31.583333333333332
+allocated ran deployers: 4
+creation timestamp: 2021-06-30T03:03:07Z
+initialization timestamp: {'name': '', 'difference': 0, 'cu-ranplacer-sample-1-6c4d45fbb9-4h47x': '2021-06-30T03:03:39', 'cu-ranplacer-sample-2-6f5b4db4db-p5zc9': '2021-06-30T03:03:38', 'cu-ranplacer-sample-3-864f45cb47-mkkbv': '2021-06-30T03:03:39', 'cu-ranplacer-sample-4-7b596cdd44-qs42d': '2021-06-30T03:03:38', 'du-ranplacer-sample-1-5b79f4db6d-bmkv6': '2021-06-30T03:03:40', 'du-ranplacer-sample-2-69744bbcb9-fbdtt': '2021-06-30T03:03:38', 'du-ranplacer-sample-3-6777c98c54-92mgq': '2021-06-30T03:03:39', 'du-ranplacer-sample-4-6897d9db47-lp4l4': '2021-06-30T03:03:38', 'ru-ranplacer-sample-1-95c7d8cc9-mxccm': '2021-06-30T03:03:39', 'ru-ranplacer-sample-2-6448794d7-djz4h': '2021-06-30T03:03:38', 'ru-ranplacer-sample-3-b7f6cbcff-dwwsr': '2021-06-30T03:03:39', 'ru-ranplacer-sample-4-78fbf66b47-nzgzg': '2021-06-30T03:03:38'}
+latest_to_init: {'duration': 33.0, 'name': 'du-ranplacer-sample-1-5b79f4db6d-bmkv6'}

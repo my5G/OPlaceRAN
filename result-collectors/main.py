@@ -42,7 +42,7 @@ def TestRANPlacer(exec_number: int):
 
 
 def output_result(result: object, file_name: str, exec_number: int):
-    logs_file = open("{}/result-collectors/results/{}.txt".format(os.getcwd(),
+    logs_file = open("{}/results/{}.txt".format(os.getcwd(),
                                                                   file_name.split(".")[0]), "a")
     logs_file.write(f"Execution {exec_number}:\n")
 
@@ -77,7 +77,7 @@ def output_result(result: object, file_name: str, exec_number: int):
 
 def output_csv(result: object, file_name: str, exec_number: int):
     output_filename = file_name.split(".")[0]
-    output_file = "{}/result-collectors/results/{}.csv".format(os.getcwd(),
+    output_file = "{}/results/{}.csv".format(os.getcwd(),
                                                                output_filename)
     with open(output_file, "a") as csv_file:
         csv_writer = csv.writer(csv_file, delimiter=';',
@@ -108,7 +108,7 @@ def wait_cleanup_finished():
 
 def output_start_end_times(prefix: str):
     o_file = open(
-        "{}/result-collectors/results/{}.txt".format(os.getcwd(), "times"), "a")
+        "{}/results/{}.txt".format(os.getcwd(), "times"), "a")
     now = datetime.now().strftime("%d/%m/%Y %H:%M:%S\n")
     o_file.write(f"{prefix}: {now}")
 
@@ -126,7 +126,7 @@ def main():
 
     TestRANPlacer(args.number_of_executions)
 
-    cmd = ["{}/result-collectors/resources-validation.sh".format(os.getcwd())]
+    cmd = ["{}/resources-validation.sh".format(os.getcwd())]
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     for line in p.stdout:
         print(line)
