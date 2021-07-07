@@ -5,7 +5,7 @@ from docplex.mp.model import Model
 from docplex.util.environment import get_environment
 
 import constants
-#from utils import initial_validation, output_result
+from utils import initial_validation, output_result
 from path_gen import path_gen
 
 
@@ -866,6 +866,6 @@ if __name__ == '__main__':
     res = result["Solution"]
     print(f"result: {res}")
 
-    #output_result(result["Solution"])
+    output_result(result["Solution"])
     
     print("TOTAL TIME: {}".format(end_all - start_all))
