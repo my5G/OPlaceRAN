@@ -848,6 +848,7 @@ def run_phase_3(FO_fase_1, FO_fase_2):
 
 if __name__ == '__main__':
     # initial_validation()
+    print("starting PlaceRAN's algorithm")
 
     print("starting paths generation")
     path_gen()
