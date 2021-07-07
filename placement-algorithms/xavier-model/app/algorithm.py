@@ -5,7 +5,7 @@ from docplex.mp.model import Model
 from docplex.util.environment import get_environment
 
 import constants
-# from utils import initial_validation, output_result
+from utils import initial_validation, output_result
 from path_gen import path_gen
 
 
