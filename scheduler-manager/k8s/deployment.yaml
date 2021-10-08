@@ -33,12 +33,12 @@ spec:
     spec:
       containers:
         - name: algorithm-scheduler
-          imagePullPolicy: Always
-          image: 10.43.0.201:5000/algorithm-scheduler:1
+          imagePullPolicy: IfNotPresent
+          image: cr.mti.mt.gov.br/oplaceran/algorithm-scheduler:1
           ports:
             - name: http
               containerPort: 5000
               protocol: TCP
           env:
             - name: "DOCKER_REPOSITORY"
-              value: "10.43.0.201:5000"
+              value: "cr.mti.mt.gov.br/oplaceran"

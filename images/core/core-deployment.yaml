@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core
+  labels:
+    app: free5gc
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: free5gc
+  template:
+    metadata:
+      labels:
+        app: free5gc
+    spec:
+      containers:
+      - name: free5gc
+        image: cr.mti.mt.gov.br/oplaceran/core:latest
+        env:
+        # In this variable insert the name of de core
+        - name: DB_IP
+          value: "10.41.101.100"
+        resources:
+          requests:
+            memory: "8Gi"
+            cpu: "4"
+        containers:
+        #args:
+        #- tail -f /dev/null
+        #command:
+        #- /bin/bash
+        #- -c
+        #- --
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+            - NET_ADMIN
+        volumeMounts:
+        - mountPath: /dev/net/tun
+          name: dev-tun
+      nodeSelector:
+        core: 'true'
+      volumes:
+        - name: dev-tun
+          hostPath:
+            path: /dev/net/tun
+            type: CharDevice
