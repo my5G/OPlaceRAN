@@ -1,6 +1,12 @@
+<img width="20%" src="https://github.com/my5G/my5G-RANTester/blob/master/docs/media/img/my5g-logo.png" alt="my5g-core"/>
+
 # RAN Placer Architecture
 
-![my5G logo](https://github.com/my5G/my5G-RANTester/blob/master/docs/media/img/my5g-logo.png)
+![GitHub](https://img.shields.io/github/license/my5G/my5G-RANTester?color=blue)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/my5G/OPlaceRAN)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/my5G/OPlaceRAN) 
+![GitHub last commit](https://img.shields.io/github/last-commit/my5G/OPlaceRAN)
+![GitHub contributors](https://img.shields.io/github/contributors/my5G/OPlaceRAN)
 
 ## Overview
 
