@@ -93,7 +93,7 @@ sudo apt-get install sudo apt-get install -y mongodb-org=3.6.8
 
 - Label node or nodes with tag core=true where core is allowed to run, in example bellow it allowed to run in node1:
 ```sh
-kubectl label nodes node 1 core=true
+kubectl label nodes node1 core=true
 ```
 
 - Start core:
