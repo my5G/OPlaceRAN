@@ -1,12 +1,14 @@
 <img width="20%" src="https://github.com/my5G/my5G-RANTester/blob/master/docs/media/img/my5g-logo.png" alt="my5g-core"/>
 
-# RAN Placer Architecture
+# OPlaceRAN
 
 ![GitHub](https://img.shields.io/github/license/my5G/my5G-RANTester?color=blue)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/my5G/OPlaceRAN)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/my5G/OPlaceRAN) 
 ![GitHub last commit](https://img.shields.io/github/last-commit/my5G/OPlaceRAN)
 ![GitHub contributors](https://img.shields.io/github/contributors/my5G/OPlaceRAN)
+
+# OPlaceRAN Architecture
 
 ## Overview
 
@@ -79,6 +81,29 @@ the complexity of managing a Database. It soon may be necessary to switch to
 a proper database.
 
 ## Deployment Steps
+
+### Setup core
+
+- First install mongo version 3.6.8 to run core database in one machine acessible by cluster:
+```sh
+sudo apt-get install sudo apt-get install -y mongodb-org=3.6.8
+```
+
+- Change core deployment [file](images/core/core-deployment.yaml) to correct database IP updating env value DB_IP to IP from machine where is running mongo from previsous step;
+
+- Label node or nodes with tag core=true where core is allowed to run, in example bellow it allowed to run in node1:
+```sh
+kubectl label nodes node 1 core=true
+```
+
+- Start core:
+```sh
+kubectl apply -f images/core/core-deployment.yaml
+```
+
+
+
+
 
 
 
