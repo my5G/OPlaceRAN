@@ -1,5 +1,7 @@
 # RAN Placer Architecture
 
+![my5G logo](https://github.com/my5G/my5G-RANTester/blob/master/docs/media/img/my5g-logo.png)
+
 ## Overview
 
 ![RAN Placer Architecture](docs/imgs/Architecture%20Overview.png)
@@ -69,3 +71,10 @@ The architecture is implemented on top of K8S, and for prototyping purposes,
 the persistence layer will take advantage of K8S config map resources, avoiding
 the complexity of managing a Database. It soon may be necessary to switch to
 a proper database.
+
+## Deployment Steps
+
+
+
+
+
