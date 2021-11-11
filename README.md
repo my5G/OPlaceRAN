@@ -56,16 +56,16 @@ The RANDeployer is responsible for managing the life cycle of a chain of VNFs. A
 
 The RANDeployer creates all the required resources for VNFs execution and cleans up the environment once deleted.
 
-### Scheduler Manager
+### Optimization Control
 
-The Scheduler Manager receives the requests from the RANPlacer with the inputs for the algorithm execution. The input is composed of the following information:
+The Optimization Control receives the requests from the RANPlacer with the inputs for the algorithm execution. The input is composed of the following information:
 
 1. Nodes Information: Contains the resources (CPU and Memory), node type (Core Network, Aggregation Layer), and links count.
 2. Network Topology: Description of the network, such as links and the link's capacity (bandwidth and latency).
 3. Algorithm: Defines the placement algorithm that should be used.
 4. RUs Position: Describes the number of RUs and where they should be placed.
 
-The Scheduler Manager accepts HTTP `POST` and `GET` requests at the `/scheduler` endpoint. Initially, a `POST` request with the inputs mentioned above should be executed. The server will then asynchronously trigger the algorithm job execution and provide the RANPlacer
+The Optimization Control accepts HTTP `POST` and `GET` requests at the `/scheduler` endpoint. Initially, a `POST` request with the inputs mentioned above should be executed. The server will then asynchronously trigger the algorithm job execution and provide the RANPlacer
 a token used to get the placement algorithm status and result through an HTTP `GET` request.
 
 In the future, more endpoints can be added, for example, to register a new algorithm, but initially, only the `scheduler` endpoint will be available.
