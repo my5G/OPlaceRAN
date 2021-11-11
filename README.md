@@ -28,7 +28,7 @@ It is a pleasure to share our knowledge and you are free to use! Please, cite ou
 
 ## Overview
 
-![RAN Placer Architecture](docs/imgs/Architecture%20Overview.png)
+![RAN Placer Architecture](docs/imgs/Prototype.png)
 
 The RANPlacer architecture is composed of the following components:
 
