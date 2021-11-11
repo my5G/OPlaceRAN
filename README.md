@@ -1,5 +1,22 @@
 <img width="20%" src="https://github.com/my5G/my5G-RANTester/blob/master/docs/media/img/my5g-logo.png" alt="my5g-core"/>
 
+# Description
+The  OrchestratorPlacement RAN (OPlaceRAN), a vNG-RAN deployment or-chestrator  framed  within  the  NFV  reference  architecture  andaligned to the O-RAN SMO framework. OPlaceRAN supportsthe  agnostic  placement  of  radio  functions,  focusing  on  theproblem  of  vNG-RAN  planning.  Moreover,  OPlaceRAN  isdesigned  following  the  functional  NFVO  sub-blocks,  consid-ering  the  RO  control  namedRANPlacer,  a  complementaryoptimization module namedRANOptimizer, the NSO controlcalledRANDeployerand, finally, a data repository referred asRANCatalogs.  RANPlacer  handles  the  whole  orchestrationprocess,  including  the  processing  of  external  input  from  theNetwork  Operator  (quantity  of  radio  units),  crosshaul  topol-ogy  capacity,  NFVI  resources,  and  the  alternative  placementsolutions  stored  in  the  RANCatalogs.  RANOptimizer  workswith  both  exact  and  heuristics  agnostic  placement  solutionsaware  of  the  functional  split  requirements.  In  this  case,  theagnostic solution is a strategy of vNG-RAN placement appliedon  the  OPlaceRAN  developed  independently  of  the  orches-trator.  RANDeployer  applies  the  virtualized  radio  functionsaddressed   by   the   placement   approaches   according   to   theRANPlacer  inputs  according  to  the  RAN  CNFs  also  storedin the RANCatalogs. All the configuration, initialization, andvalidation  processes  of  the  virtualized  radio  functions  areperformed and activated by the RANDeployer.
+If you have questions or comments, please email us: my5G team.
+
+It is a pleasure to share our knowledge and you are free to use! Please, cite our work as we can continue contributing. Thank you!
+
+@misc{lemes2021tutorial,
+    title={A Tutorial on Trusted and Untrusted non-{3GPP} Accesses in {5G} Systems - 
+    First Steps Towards a Unified Communications Infrastructure}, 
+    author={Mario Teixeira Lemes and Cristiano Bonato Both and 
+    Antonio C. de Oliveira Jr. and Kleber Vieira Cardoso},
+    year={2021},
+    archivePrefix={arXiv},
+    primaryClass={cs.NI},
+    url={https://arxiv.org/pdf/2109.08976.pdf}
+}
+
 # OPlaceRAN
 
 ![GitHub](https://img.shields.io/github/license/my5G/my5G-RANTester?color=blue)
@@ -64,13 +81,9 @@ HTTP `GET` request.
 In the future, more endpoints can be added, for example, to register a new algorithm, but
 initially, only the `scheduler` endpoint will be available.
 
-### Algorithm Jobs
+### RANOptimizer
 
-The algorithm jobs will be asynchronous tasks as they can take a considerable time to be
-finished. Also, queuing maybe consider in the future. According to the algorithm chosen
-by the network operator, a job will be triggered by the selected algorithm. Once the job
-finishes its execution, it will send the result to a persistency layer accessible by the
-Scheduler Manager.
+The RANOptimizer contain algorithm jobs will be asynchronous tasks as they can take a considerable time to be finished. Also, queuing maybe consider in the future. According to the algorithm chosen by the network operator, a job will be triggered by the selected algorithm. Once the job finishes its execution, it will send the result to a persistency layer accessible by the Scheduler Manager.
 
 ## Prototype Details
 
