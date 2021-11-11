@@ -101,7 +101,7 @@ kubectl label nodes node1 core=true
 kubectl apply -f images/core/core-deployment.yaml
 ```
 
-### Setup Scheduler
+### Setup Optimization Control
 
 - Just apply deployment and service from the scheduler [file](scheduler-manager/k8s/deployment.yaml):
 
@@ -116,7 +116,6 @@ kubectl apply -f scheduler-manager/k8s/deployment.yaml
 - Install Go Version 1.14
 
 ```sh
-kubectl apply -f scheduler-manager/k8s/deployment.yaml &&\
 rm -rf /usr/local/go && tar -C /usr/local -xzf go1.14.15.linux-amd64.tar.gz &&\
 export PATH=$PATH:/usr/local/go/bin &&\
 source $HOME/.profile
