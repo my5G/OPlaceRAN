@@ -1,5 +1,12 @@
 <img width="20%" src="https://github.com/my5G/my5G-RANTester/blob/master/docs/media/img/my5g-logo.png" alt="my5g-core"/>
 
+# OPlaceRAN
+
+![GitHub](https://img.shields.io/github/license/my5G/my5G-RANTester?color=blue)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/my5G/OPlaceRAN) 
+![GitHub last commit](https://img.shields.io/github/last-commit/my5G/OPlaceRAN)
+![GitHub contributors](https://img.shields.io/github/contributors/my5G/OPlaceRAN)
+
 # Description
 Based on the diverse presented in the literature and industry open-source projects, this article proposes the Orchestrator Placement RAN (OPlaceRAN), a vNG-RAN deployment orchestrator framed within the NFV reference architecture and aligned to the O-RAN SMO framework. OPlaceRAN supports the agnostic placement of radio functions, focusing on the problem of vNG-RAN planning. Moreover, OPlaceRAN is designed following the functional NFVO sub-blocks, considering the RO control named \textbf{RANPlacer}, a complementary optimization module named RANOptimizer, the NSO control called RANDeployer and, finally, a data repository referred as RANCatalogs. RANPlacer handles the whole orchestration process, including the processing of external input from the Network Operator (quantity of radio units), crosshaul topology capacity, NFVI  resources, %input of network data,
 and the alternative placement solutions stored in the RANCatalogs. RANOptimizer works with both exact and heuristics agnostic placement solutions aware of the functional split requirements. In this case, the agnostic solution is a strategy of vNG-RAN placement applied on the OPlaceRAN developed independently of the orchestrator. RANDeployer applies the virtualized radio functions addressed by the placement approaches according to the RANPlacer inputs according to the RAN CNFs also stored in the RANCatalogs. % Lastly, RANCatalogs storage crosshaul network capacity, NFVI  resources, RAN CNFs and Placement Solutions. All the configuration, initialization, and validation processes of the virtualized radio functions are performed and activated by the RANDeployer.
@@ -18,13 +25,6 @@ It is a pleasure to share our knowledge and you are free to use! Please, cite ou
     url={https://arxiv.org/pdf/XXXXXXX.pdf}
 }
 ````
-
-# OPlaceRAN
-
-![GitHub](https://img.shields.io/github/license/my5G/my5G-RANTester?color=blue)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/y/my5G/OPlaceRAN) 
-![GitHub last commit](https://img.shields.io/github/last-commit/my5G/OPlaceRAN)
-![GitHub contributors](https://img.shields.io/github/contributors/my5G/OPlaceRAN)
 
 # OPlaceRAN Architecture
 
