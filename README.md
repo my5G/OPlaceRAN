@@ -1,21 +1,23 @@
 <img width="20%" src="https://github.com/my5G/my5G-RANTester/blob/master/docs/media/img/my5g-logo.png" alt="my5g-core"/>
 
 # Description
-The  OrchestratorPlacement RAN (OPlaceRAN), a vNG-RAN deployment or-chestrator  framed  within  the  NFV  reference  architecture  andaligned to the O-RAN SMO framework. OPlaceRAN supportsthe  agnostic  placement  of  radio  functions,  focusing  on  theproblem  of  vNG-RAN  planning.  Moreover,  OPlaceRAN  isdesigned  following  the  functional  NFVO  sub-blocks,  consid-ering  the  RO  control  namedRANPlacer,  a  complementaryoptimization module namedRANOptimizer, the NSO controlcalledRANDeployerand, finally, a data repository referred asRANCatalogs.  RANPlacer  handles  the  whole  orchestrationprocess,  including  the  processing  of  external  input  from  theNetwork  Operator  (quantity  of  radio  units),  crosshaul  topol-ogy  capacity,  NFVI  resources,  and  the  alternative  placementsolutions  stored  in  the  RANCatalogs.  RANOptimizer  workswith  both  exact  and  heuristics  agnostic  placement  solutionsaware  of  the  functional  split  requirements.  In  this  case,  theagnostic solution is a strategy of vNG-RAN placement appliedon  the  OPlaceRAN  developed  independently  of  the  orches-trator.  RANDeployer  applies  the  virtualized  radio  functionsaddressed   by   the   placement   approaches   according   to   theRANPlacer  inputs  according  to  the  RAN  CNFs  also  storedin the RANCatalogs. All the configuration, initialization, andvalidation  processes  of  the  virtualized  radio  functions  areperformed and activated by the RANDeployer.
+Based on the diverse presented in the literature and industry open-source projects, this article proposes the Orchestrator Placement RAN (OPlaceRAN), a vNG-RAN deployment orchestrator framed within the NFV reference architecture and aligned to the O-RAN SMO framework. OPlaceRAN supports the agnostic placement of radio functions, focusing on the problem of vNG-RAN planning. Moreover, OPlaceRAN is designed following the functional NFVO sub-blocks, considering the RO control named \textbf{RANPlacer}, a complementary optimization module named RANOptimizer, the NSO control called RANDeployer and, finally, a data repository referred as RANCatalogs. RANPlacer handles the whole orchestration process, including the processing of external input from the Network Operator (quantity of radio units), crosshaul topology capacity, NFVI  resources, %input of network data,
+and the alternative placement solutions stored in the RANCatalogs. RANOptimizer works with both exact and heuristics agnostic placement solutions aware of the functional split requirements. In this case, the agnostic solution is a strategy of vNG-RAN placement applied on the OPlaceRAN developed independently of the orchestrator. RANDeployer applies the virtualized radio functions addressed by the placement approaches according to the RANPlacer inputs according to the RAN CNFs also stored in the RANCatalogs. % Lastly, RANCatalogs storage crosshaul network capacity, NFVI  resources, RAN CNFs and Placement Solutions. All the configuration, initialization, and validation processes of the virtualized radio functions are performed and activated by the RANDeployer.
+
 If you have questions or comments, please email us: my5G team.
 
 It is a pleasure to share our knowledge and you are free to use! Please, cite our work as we can continue contributing. Thank you!
 
-@misc{lemes2021tutorial,
-    title={A Tutorial on Trusted and Untrusted non-{3GPP} Accesses in {5G} Systems - 
-    First Steps Towards a Unified Communications Infrastructure}, 
-    author={Mario Teixeira Lemes and Cristiano Bonato Both and 
-    Antonio C. de Oliveira Jr. and Kleber Vieira Cardoso},
+```
+@article{morais2021oplaceran,
+    title={OPlaceRAN - a Placement Orchestrator for Virtualized Next-Generation of Radio Access Network}, 
+    author={Fernando Zanferrari Morais and Gustavo Zanatta Bruno and Julio Renner and Gabriel Matheus and Luis M. Contreras and Rodrigo da Rosa Righi and  Kleber Vieira Cardoso and Cristiano Bonato Both},
     year={2021},
     archivePrefix={arXiv},
     primaryClass={cs.NI},
-    url={https://arxiv.org/pdf/2109.08976.pdf}
+    url={https://arxiv.org/pdf/XXXXXXX.pdf}
 }
+````
 
 # OPlaceRAN
 
