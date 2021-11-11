@@ -8,11 +8,11 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/my5G/OPlaceRAN)
 
 # Description
-Based on the diverse presented in the literature and industry open-source projects, this article proposes the Orchestrator Placement RAN (OPlaceRAN), a vNG-RAN deployment orchestrator framed within the NFV reference architecture and aligned to the O-RAN SMO framework. OPlaceRAN supports the agnostic placement of radio functions, focusing on the problem of vNG-RAN planning. Moreover, OPlaceRAN is designed following the functional NFVO sub-blocks, considering the RO control named RANPlacer, a complementary optimization module named RANOptimizer, the NSO control called RANDeployer and, finally, a data repository referred as RANCatalogs. RANPlacer handles the whole orchestration process, including the processing of external input from the Network Operator (quantity of radio units), crosshaul topology capacity, NFVI  resources and the alternative placement solutions stored in the RANCatalogs. RANOptimizer works with both exact and heuristics agnostic placement solutions aware of the functional split requirements. In this case, the agnostic solution is a strategy of vNG-RAN placement applied on the OPlaceRAN developed independently of the orchestrator. RANDeployer applies the virtualized radio functions addressed by the placement approaches according to the RANPlacer inputs according to the RAN CNFs also stored in the RANCatalogs. All the configuration, initialization, and validation processes of the virtualized radio functions are performed and activated by the RANDeployer.
+Based on the diversity presented in the literature and industry open-source projects, this work proposes the Orchestrator Placement RAN (OPlaceRAN), a vNG-RAN deployment orchestrator framed within the NFV reference architecture aligned to the O-RAN SMO framework. OPlaceRAN supports the agnostic placement of radio functions, focusing on the problem of vNG-RAN planning. Moreover, OPlaceRAN is designed following the functional NFVO sub-blocks, considering the RO control named RANPlacer, a complementary optimization module named RANOptimizer, the NSO control called RANDeployer, and, finally, a data repository referred to as RANCatalogs. RANPlacer handles the whole orchestration process, including external processing input from the Network Operator (quantity of radio units), crosshaul topology capacity, NFVI resources, and the alternative placement solutions stored in the RANCatalogs. RANOptimizer works with both exact and heuristics agnostic placement solutions, aware of the functional split requirements. In this case, the agnostic solution is a strategy of vNG-RAN placement applied on the OPlaceRAN developed independently of the orchestrator. RANDeployer applies the virtualized radio functions addressed by the placement approaches according to the RANPlacer inputs and the RAN CNFs also stored in the RANCatalogs. All the configuration, initialization, and validation processes of the virtualized radio functions are performed and activated by the RANDeployer.
 
 If you have questions or comments, please email us: my5G team.
 
-It is a pleasure to share our knowledge and you are free to use! Please, cite our work as we can continue contributing. Thank you!
+It is a pleasure to share our knowledge, and you are free to use it! Please, cite our work as we can continue contributing. Thank you!
 
 ```
 @article{morais2021oplaceran,
@@ -41,69 +41,57 @@ The RANPlacer architecture is composed of the following components:
 
 ### RANPlacer
 
-The RANPlacer is responsible for handling the placement requests
-triggered by the Network Operator (NO) input. It triggers the placement algorithm
-through the Scheduler API, provides the placement result once it is finished, and
-creates the required RANDeployer resources to start the VNFs in the selected nodes.
+The RANPlacer is responsible for handling the placement requests triggered by the Network Operator (NO) input. It triggers the placement algorithm through the Scheduler API, provides the placement result once it is finished, and creates the required RANDeployer resources to start the VNFs in the selected nodes.
 
 The RANPlacer receives the following arguments:
 
 1. RAN Topology name.
 2. RUs position.
 3. Placement Algorithm.
-4. Nodes information (Optional - if not provided will be calculated).
+4. Nodes information (OOptional - if not provided, will be calculated).
 
 ### RANDeployer
 
-The RANDeployer is responsible for managing the life-cycle of a chain of
-VNFs. A chain is generally composed of a CU, DU, and RU that communicate with
-the Core Network (CN).
+The RANDeployer is responsible for managing the life cycle of a chain of VNFs. A chain is generally composed of a CU, DU, and RU that communicate with the Core Network (CN).
 
-The RANDeployer creates all the required resources for VNFs execution and cleans
-up the environment once deleted.
+The RANDeployer creates all the required resources for VNFs execution and cleans up the environment once deleted.
 
 ### Scheduler Manager
 
-The Scheduler Manager receives the requests from the RANPlacer with the inputs
-for the algorithm execution. The input is composed of the following information:
+The Scheduler Manager receives the requests from the RANPlacer with the inputs for the algorithm execution. The input is composed of the following information:
 
 1. Nodes Information: Contains the resources (CPU and Memory), node type (Core Network, Aggregation Layer), and links count.
 2. Network Topology: Description of the network, such as links and the link's capacity (bandwidth and latency).
 3. Algorithm: Defines the placement algorithm that should be used.
 4. RUs Position: Describes the number of RUs and where they should be placed.
 
-The Scheduler Manager accepts HTTP `POST` and `GET` requests at the `/scheduler` endpoint.
-Initially, a `POST` request with the inputs mentioned above should be executed. The server
-will then asynchronously trigger the algorithm job execution and provide the RANPlacer
-a token used to get the placement algorithm status and result through an
-HTTP `GET` request.
+The Scheduler Manager accepts HTTP `POST` and `GET` requests at the `/scheduler` endpoint. Initially, a `POST` request with the inputs mentioned above should be executed. The server will then asynchronously trigger the algorithm job execution and provide the RANPlacer
+a token used to get the placement algorithm status and result through an HTTP `GET` request.
 
-In the future, more endpoints can be added, for example, to register a new algorithm, but
-initially, only the `scheduler` endpoint will be available.
+In the future, more endpoints can be added, for example, to register a new algorithm, but initially, only the `scheduler` endpoint will be available.
 
 ### RANOptimizer
 
-The RANOptimizer contain algorithm jobs will be asynchronous tasks as they can take a considerable time to be finished. Also, queuing maybe consider in the future. According to the algorithm chosen by the network operator, a job will be triggered by the selected algorithm. Once the job finishes its execution, it will send the result to a persistency layer accessible by the Scheduler Manager.
+The RANOptimizer contains algorithm jobs that will be asynchronous tasks as they can take a considerable time to be finished. Also, queuing may be considered in the future. According to the algorithm chosen by the network operator, a job will be triggered by the selected algorithm. Once the job finishes its execution, it will send the result to a persistency layer accessible by the Scheduler Manager.
 
 ## Prototype Details
 
-The architecture is implemented on top of K8S, and for prototyping purposes,
-the persistence layer will take advantage of K8S config map resources, avoiding
-the complexity of managing a Database. It soon may be necessary to switch to
-a proper database.
+The architecture is implemented on top of K8S, and for prototyping purposes, the persistence layer will take advantage of K8S config map resources, avoiding the complexity of managing a Database. However, it soon may be necessary to switch to a proper database.
+
 
 ## Deployment Steps
 
 ### Setup core
 
-- First install mongo version 3.6.8 to run core database in one machine acessible by cluster:
+- First install mongo version 3.6.8 to run core database in one place acessible by cluster:
+
 ```sh
 sudo apt-get install sudo apt-get install -y mongodb-org=3.6.8
 ```
 
-- Change core deployment [file](images/core/core-deployment.yaml) to correct database IP updating env value DB_IP to IP from machine where is running mongo from previsous step;
+- Change core deployment [file](images/core/core-deployment.yaml) to correct database IP updating env value DB_IP to IP from place where is running mongo from the previsous step;
 
-- Label node or nodes with tag core=true where core is allowed to run, in example bellow it allowed to run in node1:
+- Label node or nodes with tag core=true where the core is allowed to run, in the example below, it is allowed to run in node1:
 ```sh
 kubectl label nodes node1 core=true
 ```
@@ -115,7 +103,7 @@ kubectl apply -f images/core/core-deployment.yaml
 
 ### Setup Scheduler
 
-- Just apply deployment and service from scheduler [file](scheduler-manager/k8s/deployment.yaml):
+- Just apply deployment and service from the scheduler [file](scheduler-manager/k8s/deployment.yaml):
 
 ```sh
 kubectl apply -f scheduler-manager/k8s/deployment.yaml
@@ -147,9 +135,9 @@ mv kustomize /usr/bin/
 make install && make deploy
 ```
 
-### Deploy a basic chain (CU, DU and RU)
+### Deploy an essential chain (CU, DU, and RU)
 
-- First get de IP from core pod:
+- First, get de IP from the core pod:
 
 ```sh
 kubectl get pods -o wide
@@ -157,13 +145,14 @@ kubectl get pods -o wide
 
 - Edit file [ran_v1alpha1_randeployer.yaml](k8s-operator/config/samples/ran_v1alpha1_randeployer.yaml) and change the coreIP parameter to the address we copied in the previous step:
 
-- And start chain a applying custom resource RANDeployer with command:
+- And start to chain an applying custom resource RANDeployer with the command:
 
 ```sh
 kubectl apply -f k8s-operator/config/samples/ran_v1alpha1_randeployer.yaml
 ```
 
-### Now label RAN nodes
+### Now label RAN nodes.
+
 Running more complex topologies:
 Now label the nodes that will be able to receive the VNFs from the RAN. In example bellow nodes1 and 2 are used to master. Other are used to run RAN VNFs nodes.
 
@@ -177,8 +166,8 @@ kubectl label node node6 oai.unisinos/node-number=4 --overwrite
 ```
 ### Setup Topologies:
 
-- Setup RUs locations in format of file [rus.yaml](k8s-operators/config/samples/ran-placer-config-maps/mini-topo/rus.yaml), where "RU": 0 not will tun RU and 1 will RUN. This spec is used too to define the number of the chains.
-- Setup Network links in format of file [topology.yaml](k8s-operators/config/samples/ran-placer-config-maps/mini-topo/topology.yaml). These values are used to algorithm compute teh VNFs locations.
+- Setup RUs locations in the format of file [rus.yaml](k8s-operators/config/samples/ran-placer-config-maps/mini-topo/rus.yaml), where "RU": 0 not will tun RU and 1 will RUN. This spec is used too to define the number of the chains.
+- Setup Network links in the format of file [topology.yaml](k8s-operators/config/samples/ran-placer-config-maps/mini-topo/topology.yaml). These values are used to algorithm compute teh VNFs locations.
 - Apply topology:
 ```sh
 kubectl apply -f k8s-operators/config/samples/ran-placer-config-maps/mini-topo/.
@@ -188,11 +177,8 @@ kubectl apply -f k8s-operators/config/samples/ran-placer-config-maps/mini-topo/.
 
 - Edit file [ran_v1alpha1_ranplacer.yaml](k8s-operator/config/samples/ran_v1alpha1_ranplacer.yaml) and change the coreIP parameter to the address we copied in the previous step:
 
-- And finally start chain a applying custom resource RANPlacer with command:
+- And finally, start chain an applying custom resource RANPlacer with the command:
 
 ```sh
 kubectl apply -f k8s-operator/config/samples/ran_v1alpha1_ranplacer.yaml
 ```
-
-
-
