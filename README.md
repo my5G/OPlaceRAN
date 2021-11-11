@@ -132,20 +132,20 @@ mv kustomize /usr/bin/
 - Compile and deploy Ooperator. Go inside k8s-operator/ and:
 
 ```sh
-make install
+make install && make deploy
 ```
 
+### Deploy a basic chain (CU, DU and RU)
 
+- First get de IP from core pod:
 
+```sh
+kubectl get pods -o wide
+```
 
+- Edit [file](k8s-operator/config/samples/ran_v1alpha1_randeployer.yaml) bellow and change the coreIP parameter to the address we copied in the previous step:
 
+And finally start chain a applying custom resource RANDeployer complete  with:
 
-
-
-
-
-
-
-
-
-
+```sh
+kubectl apply -f k8s-operator/config/samples/ran_v1alpha1_randeployer.yaml
