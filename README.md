@@ -101,6 +101,46 @@ kubectl label nodes node1 core=true
 kubectl apply -f images/core/core-deployment.yaml
 ```
 
+### Setup Scheduler
+
+- Just apply deployment and service from scheduler [file](scheduler-manager/k8s/deployment.yaml):
+
+```sh
+kubectl apply -f scheduler-manager/k8s/deployment.yaml
+```
+
+### Operator
+
+### Operator Dependencies
+
+- Install Go Version 1.14
+
+```sh
+kubectl apply -f scheduler-manager/k8s/deployment.yaml &&\
+rm -rf /usr/local/go && tar -C /usr/local -xzf go1.14.15.linux-amd64.tar.gz &&\
+export PATH=$PATH:/usr/local/go/bin &&\
+source $HOME/.profile
+```
+
+- Install kustomize
+
+```sh
+curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash &&\
+mv kustomize /usr/bin/
+```
+
+- Compile and deploy Ooperator. Go inside k8s-operator/ and:
+
+```sh
+make install
+```
+
+
+
+
+
+
+
 
 
 
