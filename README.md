@@ -142,10 +142,44 @@ make install && make deploy
 kubectl get pods -o wide
 ```
 
-- Edit [file](k8s-operator/config/samples/ran_v1alpha1_randeployer.yaml) bellow and change the coreIP parameter to the address we copied in the previous step:
+- Edit file [ran_v1alpha1_randeployer.yaml](k8s-operator/config/samples/ran_v1alpha1_randeployer.yaml) and change the coreIP parameter to the address we copied in the previous step:
 
-- And finally start chain a applying custom resource RANDeployer complete  with:
+- And start chain a applying custom resource RANDeployer with command:
 
 ```sh
 kubectl apply -f k8s-operator/config/samples/ran_v1alpha1_randeployer.yaml
 ```
+
+### Now label RAN nodes
+Running more complex topologies:
+Now label the nodes that will be able to receive the VNFs from the RAN. In example bellow nodes1 and 2 are used to master. Other are used to run RAN VNFs nodes.
+
+```sh
+kubectl label node node1 oai.unisinos/node-number=0 --overwrite
+kubectl label node node2 oai.unisinos/node-number=0 --overwrite
+kubectl label node node3 oai.unisinos/node-number=1 --overwrite
+kubectl label node node4 oai.unisinos/node-number=2 --overwrite
+kubectl label node node5 oai.unisinos/node-number=3 --overwrite
+kubectl label node node6 oai.unisinos/node-number=4 --overwrite
+```
+### Setup Topologies:
+
+- Setup RUs locations in format of file [rus.yaml](k8s-operators/config/samples/ran-placer-config-maps/mini-topo/rus.yaml), where "RU": 0 not will tun RU and 1 will RUN. This spec is used too to define the number of the chains.
+- Setup Network links in format of file [topology.yaml](k8s-operators/config/samples/ran-placer-config-maps/mini-topo/topology.yaml). These values are used to algorithm compute teh VNFs locations.
+- Apply topology:
+```sh
+kubectl apply -f k8s-operators/config/samples/ran-placer-config-maps/mini-topo/.
+```
+
+### Deploy a customized topology:
+
+- Edit file [ran_v1alpha1_ranplacer.yaml](k8s-operator/config/samples/ran_v1alpha1_ranplacer.yaml) and change the coreIP parameter to the address we copied in the previous step:
+
+- And finally start chain a applying custom resource RANPlacer with command:
+
+```sh
+kubectl apply -f k8s-operator/config/samples/ran_v1alpha1_ranplacer.yaml
+```
+
+
+
