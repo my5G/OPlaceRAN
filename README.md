@@ -35,8 +35,8 @@ The RANPlacer architecture is composed of the following components:
 1. RANPlacer: Orchestrates the placement execution and the RANDeployer creation.
 2. RANDeployer: Manages the life cycle of the Virtual Network Functions (VNFs).
 3. Network Topology: Describes the network topology where the VNFs will be placed.
-4. Scheduler Manager: Manages the algorithm's executions.
-5. Algorithm Jobs: Execute the placement algorithms and store the results.
+4. Optimization Control: Manages the algorithm's executions.
+5. Placement Jobs: Execute the placement algorithms and store the results.
 6. Storage: Persistence layer that keeps the algorithm required information and results.
 
 ### RANPlacer
