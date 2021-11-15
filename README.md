@@ -15,14 +15,18 @@ If you have questions or comments, please email us: my5G team.
 It is a pleasure to share our knowledge, and you are free to use it! Please, cite our work as we can continue contributing. Thank you!
 
 ```
-@article{morais2021oplaceran,
-    title={OPlaceRAN - a Placement Orchestrator for Virtualized Next-Generation of Radio Access Network}, 
-    author={Fernando Zanferrari Morais and Gustavo Zanatta Bruno and Julio Renner and Gabriel Matheus and Luis M. Contreras and Rodrigo da Rosa Righi and  Kleber Vieira Cardoso and Cristiano Bonato Both},
-    year={2021},
-    archivePrefix={arXiv},
-    primaryClass={cs.NI},
-    url={https://arxiv.org/pdf/XXXXXXX.pdf}
+@article{Morais2021,
+    archivePrefix = {arXiv},
+    arxivId = {2111.05475},
+    author = {Morais, Fernando Zanferrari and Bruno, Gustavo Zanatta and Renner, Julio and Almeida, Gabriel and Contreras, Luis M. and Righi, Rodrigo da Rosa and Cardoso, Kleber Vieira and Both, Cristiano Bonato},
+    eprint = {2111.05475},
+    pages = {1--12},
+    title = {{OPlaceRAN -- a Placement Orchestrator for Virtualized Next-Generation of Radio Access Network}},
+    url = {http://arxiv.org/abs/2111.05475},
+    volume = {XX},
+    year = {2021}
 }
+
 ````
 
 ## Documentation
@@ -32,4 +36,5 @@ https://github.com/my5G/OPlaceRAN/wiki/
 https://github.com/my5G/template/blob/main/CONTRIBUTING.md
 
 ## License
+https://github.com/my5G/OPlaceRAN/blob/master/LICENSE.txt
 
