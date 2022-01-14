@@ -1,0 +1,7 @@
+FROM oaisim_base
+
+# Freeze develop with specific commit from August 26th 2020
+RUN cd openairinterface5g && git checkout -f e31349256f8e544b12006f7e91197286f173e686
+
+COPY user_api.c /openairinterface5g/openair3/NAS/UE/API/USER/user_api.c
+RUN cd openairinterface5g/cmake_targets && sudo ./build_oai --UE -I -c

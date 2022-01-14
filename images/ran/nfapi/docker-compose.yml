@@ -1,0 +1,24 @@
+version: "2.2"
+services:
+    enb_nfapi:
+        build: enb
+        privileged: true
+        cap_add:
+            - NET_ADMIN
+        networks:
+            net1:
+                ipv4_address: 192.188.2.253
+    ue_nfapi:
+        build: ue
+        depends_on:
+            - enb_nfapi
+        privileged: true
+        cap_add:
+            - NET_ADMIN
+        networks:
+            net1:
+                ipv4_address: 192.188.2.254
+networks:
+    net1:
+      external:
+        name: core_net1

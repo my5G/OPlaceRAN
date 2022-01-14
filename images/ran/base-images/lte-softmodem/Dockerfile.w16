@@ -1,0 +1,6 @@
+FROM oaisim_base
+
+RUN cd openairinterface5g && git checkout -f 2020.w16
+
+RUN cd openairinterface5g/cmake_targets && sudo ./build_oai --eNB --mu -I -c
+

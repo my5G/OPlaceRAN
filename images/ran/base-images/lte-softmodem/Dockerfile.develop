@@ -1,0 +1,6 @@
+FROM oaisim_base
+
+# Freeze develop with specific commit from August 26th 2020
+RUN cd openairinterface5g && git checkout e31349256f8e544b12006f7e91197286f173e686
+
+RUN cd openairinterface5g/cmake_targets && sudo ./build_oai --eNB --mu -I -c
