@@ -1,71 +1,40 @@
-# RAN Placer Architecture
+<img width="20%" src="https://github.com/my5G/my5G-RANTester/blob/master/docs/media/img/my5g-logo.png" alt="my5g-core"/>
 
-## Overview
+# OPlaceRAN
 
-![RAN Placer Architecture](docs/imgs/Architecture%20Overview.png)
+![GitHub](https://img.shields.io/github/license/my5G/my5G-RANTester?color=blue)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/my5G/OPlaceRAN) 
+![GitHub last commit](https://img.shields.io/github/last-commit/my5G/OPlaceRAN)
+![GitHub contributors](https://img.shields.io/github/contributors/my5G/OPlaceRAN)
 
-The RANPlacer architecture is composed of the following components:
+## Description
+Based on the diversity presented in the literature and industry open-source projects, this work proposes the Orchestrator Placement RAN (OPlaceRAN), a vNG-RAN deployment orchestrator framed within the NFV reference architecture aligned to the O-RAN SMO framework. OPlaceRAN supports the agnostic placement of radio functions, focusing on the problem of vNG-RAN planning. Moreover, OPlaceRAN is designed following the functional NFVO sub-blocks, considering the RO control named RANPlacer, a complementary optimization module named RANOptimizer, the NSO control called RANDeployer, and, finally, a data repository referred to as RANCatalogs. RANPlacer handles the whole orchestration process, including external processing input from the Network Operator (quantity of radio units), crosshaul topology capacity, NFVI resources, and the alternative placement solutions stored in the RANCatalogs. RANOptimizer works with both exact and heuristics agnostic placement solutions, aware of the functional split requirements. In this case, the agnostic solution is a strategy of vNG-RAN placement applied on the OPlaceRAN developed independently of the orchestrator. RANDeployer applies the virtualized radio functions addressed by the placement approaches according to the RANPlacer inputs and the RAN CNFs also stored in the RANCatalogs. All the configuration, initialization, and validation processes of the virtualized radio functions are performed and activated by the RANDeployer.
 
-1. RANPlacer: Orchestrates the placement execution and the RANDeployer creation.
-2. RANDeployer: Manages the life cycle of the Virtual Network Functions (VNFs).
-3. Network Topology: Describes the network topology where the VNFs will be placed.
-4. Scheduler Manager: Manages the algorithm's executions.
-5. Algorithm Jobs: Execute the placement algorithms and store the results.
-6. Storage: Persistence layer that keeps the algorithm required information and results.
+If you have questions or comments, please email us: my5G team.
 
-### RANPlacer
+It is a pleasure to share our knowledge, and you are free to use it! Please, cite our work as we can continue contributing. Thank you!
 
-The RANPlacer is responsible for handling the placement requests
-triggered by the Network Operator (NO) input. It triggers the placement algorithm
-through the Scheduler API, provides the placement result once it is finished, and
-creates the required RANDeployer resources to start the VNFs in the selected nodes.
+```
+@article{Morais2021,
+    archivePrefix = {arXiv},
+    arxivId = {2111.05475},
+    author = {Morais, Fernando Zanferrari and Bruno, Gustavo Zanatta and Renner, Julio and Almeida, Gabriel and Contreras, Luis M. and Righi, Rodrigo da Rosa and Cardoso, Kleber Vieira and Both, Cristiano Bonato},
+    eprint = {2111.05475},
+    pages = {1--12},
+    title = {{OPlaceRAN -- a Placement Orchestrator for Virtualized Next-Generation of Radio Access Network}},
+    url = {http://arxiv.org/abs/2111.05475},
+    volume = {XX},
+    year = {2021}
+}
 
-The RANPlacer receives the following arguments:
+````
 
-1. RAN Topology name.
-2. RUs position.
-3. Placement Algorithm.
-4. Nodes information (Optional - if not provided will be calculated).
+## Documentation
+https://github.com/my5G/OPlaceRAN/wiki/
 
-### RANDeployer
+## Contributing
+https://github.com/my5G/template/blob/main/CONTRIBUTING.md
 
-The RANDeployer is responsible for managing the life-cycle of a chain of
-VNFs. A chain is generally composed of a CU, DU, and RU that communicate with
-the Core Network (CN).
+## License
+https://github.com/my5G/OPlaceRAN/blob/master/LICENSE.txt
 
-The RANDeployer creates all the required resources for VNFs execution and cleans
-up the environment once deleted.
-
-### Scheduler Manager
-
-The Scheduler Manager receives the requests from the RANPlacer with the inputs
-for the algorithm execution. The input is composed of the following information:
-
-1. Nodes Information: Contains the resources (CPU and Memory), node type (Core Network, Aggregation Layer), and links count.
-2. Network Topology: Description of the network, such as links and the link's capacity (bandwidth and latency).
-3. Algorithm: Defines the placement algorithm that should be used.
-4. RUs Position: Describes the number of RUs and where they should be placed.
-
-The Scheduler Manager accepts HTTP `POST` and `GET` requests at the `/scheduler` endpoint.
-Initially, a `POST` request with the inputs mentioned above should be executed. The server
-will then asynchronously trigger the algorithm job execution and provide the RANPlacer
-a token used to get the placement algorithm status and result through an
-HTTP `GET` request.
-
-In the future, more endpoints can be added, for example, to register a new algorithm, but
-initially, only the `scheduler` endpoint will be available.
-
-### Algorithm Jobs
-
-The algorithm jobs will be asynchronous tasks as they can take a considerable time to be
-finished. Also, queuing maybe consider in the future. According to the algorithm chosen
-by the network operator, a job will be triggered by the selected algorithm. Once the job
-finishes its execution, it will send the result to a persistency layer accessible by the
-Scheduler Manager.
-
-## Prototype Details
-
-The architecture is implemented on top of K8S, and for prototyping purposes,
-the persistence layer will take advantage of K8S config map resources, avoiding
-the complexity of managing a Database. It soon may be necessary to switch to
-a proper database.
