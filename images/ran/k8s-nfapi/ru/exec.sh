@@ -20,8 +20,8 @@ fi
 echo "Delaying RU to start to avoid race condition..."
 sleep 120
 
-#cd /
-#nohup /get_ping.sh &>/dev/stdout &
+cd /
+nohup /get_ping.sh &>/dev/stdout &
 
 echo "Starting RU..."
 cd /openairinterface5g/cmake_targets/ran_build/build/
