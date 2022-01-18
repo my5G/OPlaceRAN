@@ -16,10 +16,10 @@ const (
 	RUTemplateConfigMapName = kustomizePrefix + "ru-template"
 	operatorNamespace       = kustomizePrefix + "system"
 
-	SplitMemoryLimitValue   = "512Mi"
-	SplitMemoryRequestValue = "256Mi"
-	SplitCPULimitValue      = "500m"
-	SplitCPURequestValue    = "150m"
+	SplitMemoryLimitValue   = "1024Mi"
+	SplitMemoryRequestValue = "512Mi"
+	SplitCPULimitValue      = "1000m"
+	SplitCPURequestValue    = "500m"
 
 	cuConfigMapContentTemplate = "upfaddress: %s\nlocaladdress: %s\nsouthaddress: %s\n"
 	duConfigMapContentTemplate = "northaddress: %s\nlocaladdress: %s\nsouthaddress: %s\n"
