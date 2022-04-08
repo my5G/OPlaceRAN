@@ -1,0 +1,13 @@
+﻿Event;Description;Time 6 Nodes(s);Time 51 Nodes(s);Variation(%)
+t0;OPlaceRAN Start;0;0;0
+t0.1;RANPlacer Start;0;0;0
+t0.2;RANOptimizer Complete;2;7;250
+t0.3;RANDeployer Start;31;40;29
+t0.4;Received CNFs Allocation Plan;34;52;52
+t1;Ended OPlaceRAN, CNFs allocated;70;90;28
+t2;Configured OAI network parameters;125;140;12
+t3;OAI layer is loaded;180;200;11
+t4;OAI functional and connected to Core Network;245;260;6
+t5;Configured network tunnel between vRU and Core Network;300;315;5
+t6;Ping from simulated UE to Core Network started;360;375;4
+t7;Ping from simulated UE to Core Network terminated;415;425;2
